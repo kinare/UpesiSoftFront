@@ -1,0 +1,26 @@
+window._ = require('lodash');
+window.axios = require('axios');
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import VueBreadcrumbs from 'vue-breadcrumbs';
+
+
+Vue.config.productionTip = false
+
+Vue.use(VueBreadcrumbs, {
+  template: ' <ol class="breadcrumb" v-if="$breadcrumbs.length">' +
+      '<li v-for="(crumb, key) in $breadcrumbs">' +
+      '<small class="text-muted">' +
+      '<router-link   :to="linkProp(crumb)"  :key="key">{{ crumb | crumbText }}</router-link>' +
+      '</small>' +
+      '</li>' +
+      '</ol>'
+});
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
