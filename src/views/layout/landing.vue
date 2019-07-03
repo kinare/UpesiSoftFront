@@ -48,8 +48,17 @@
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/accounting-management')" >
                             <div class="m-b-md">
-                                <i class="fa fa-money fa-4x"></i>
+                                <i class="fa fa-file-invoice-dollar fa-4x"></i>
                                 <h3 class="p-xs">Sales & Accounting</h3>
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/pos')" >
+                            <div class="m-b-md">
+                                <i class="fa fa-cash-register fa-4x"></i>
+                                <h3 class="p-xs">Point of Sale</h3>
                                 <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
                             </div>
                         </div>
@@ -66,7 +75,7 @@
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/integration-management')">
                             <div class="m-b-md">
-                                <i class="fa fa-exchange fa-4x"></i>
+                                <i class="fa fa-plug fa-4x"></i>
                                 <h3 class="p-xs">Integration Manager</h3>
                                 <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
                             </div>
@@ -81,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

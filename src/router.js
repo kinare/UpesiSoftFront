@@ -29,6 +29,12 @@ export default new Router({
                 meta : { breadCrumb : 'home'}
             },
             {
+                path : 'pos',
+                name : 'pos',
+                component: () => import('./views/layout/point of sale/Pos'),
+                meta : { breadCrumb : 'point of sale'}
+            },
+            {
                 path: '/dashboard',
                 component : Dashboard,
                 meta : { breadCrumb : 'dashboard'},
