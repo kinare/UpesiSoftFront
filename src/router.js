@@ -32,6 +32,36 @@ export default new Router({
                 path : 'pos',
                 name : 'pos',
                 component: () => import('./views/layout/point of sale/Pos'),
+                children : [
+                    {
+                        path : '',
+                        component : () => import('./views/layout/point of sale/Register'),
+                    },
+                    {
+                        path : 'payment',
+                        component : () => import('./views/layout/point of sale/Payment'),
+                    },
+                    {
+                        path : 'receipt',
+                        component : () => import('./views/layout/point of sale/Receipt'),
+                    },
+                    {
+                        path : 'invoice',
+                        component : () => import('./views/layout/point of sale/Invoice'),
+                    },
+                    {
+                        path : 'quote',
+                        component : () => import('./views/layout/point of sale/Quote'),
+                    },
+                    {
+                        path : 'customers',
+                        component : () => import('./views/layout/point of sale/Customers'),
+                    },
+                    {
+                        path : 'payment',
+                        component : () => import('./views/layout/point of sale/Payment'),
+                    }
+                ],
                 meta : { breadCrumb : 'point of sale'}
             },
             {

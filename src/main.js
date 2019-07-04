@@ -5,10 +5,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueBreadcrumbs from 'vue-breadcrumbs';
+import fullscreen from 'vue-fullscreen'
 
 
 Vue.config.productionTip = false
-
+Vue.use(fullscreen)
 Vue.use(VueBreadcrumbs, {
   template: ' <ol class="breadcrumb" v-if="$breadcrumbs.length">' +
       '<li v-for="(crumb, key) in $breadcrumbs">' +
