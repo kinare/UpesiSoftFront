@@ -2,13 +2,19 @@
     <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
         <li>
-            <a href="layouts.html"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
+            <router-link  to="/dashboard/accounting-management/quotes"><i class="fa fa-file-invoice"></i> <span class="nav-label">Quotes</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-group"></i> <span class="nav-label">User Groups</span></a>
+            <router-link  to="/dashboard/accounting-management/invoice"><i class="fa fa-file-invoice-dollar"></i> <span class="nav-label">Invoice</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-unlock"></i> <span class="nav-label">Roles</span></a>
+            <router-link  to="/dashboard/accounting-management/receipts"><i class="fa fa-receipt"></i> <span class="nav-label">Receipts</span></router-link>
+        </li>
+        <li>
+            <router-link  to="/dashboard/accounting-management/orders"><i class="fa fa-cart-arrow-down"></i> <span class="nav-label">Orders</span></router-link>
+        </li>
+        <li>
+            <router-link  to="/dashboard/accounting-management/sales"><i class="fa fa-wallet"></i> <span class="nav-label">Sales</span></router-link>
         </li>
     </ul>
 </template>

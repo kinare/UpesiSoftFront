@@ -8575,3 +8575,8 @@ body.md-skin {
   padding-right:0;
   padding-left:0;
 }
+
+.nav > li a.router-link-active {
+  border-left: 4px solid #BF282D;
+  background: #333435;
+}

@@ -12,11 +12,10 @@ import Password from './views/auth/password/Password';
 
 
 Vue.use(Router)
-
-export default new Router({
+const  router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
+  routes : [
     // Dashboard routes
     {
       path: '/',
@@ -79,21 +78,87 @@ export default new Router({
                         components : {
                             side : () => import('./views/layout/user manager/UserMgtSide'),
                             content : () => import('./views/layout/user manager/UserManager')
-                        }
+                        },
+                        children : [
+                            {
+                                path : '',
+                                redirect : 'dashboard/user-management/users'
+                            },
+                            {
+                                path : 'users',
+                                component : () => import('./views/layout/user manager/UserManager')
+                            },
+                            {
+                                path : 'groups',
+                                component : () => import('./views/layout/user manager/Groups')
+                            },
+                            {
+                                path : 'roles',
+                                component : () => import('./views/layout/user manager/Roles')
+                            }
+                        ]
                     },
                     {
                         path : 'inventory-management',
                         components : {
                             side : () => import('./views/layout/inventory manager/InventoryMgtSide'),
                             content : () => import('./views/layout/inventory manager/InventoryManager'),
-                        }
+                        },
+                        children : [
+                            {
+                                path : '',
+                                redirect : '/dashboard/inventory-management/products'
+                            },
+                            {
+                                path : 'products',
+                                component : () => import('./views/layout/inventory manager/Products'),
+                            },
+                            {
+                                path : 'categories',
+                                component : () => import('./views/layout/inventory manager/Categories'),
+                            },
+                            {
+                                path : 'import',
+                                component : () => import('./views/layout/inventory manager/Import'),
+                            },
+                            {
+                                path : 'reports',
+                                component : () => import('./views/layout/inventory manager/Reports'),
+                            },
+                        ],
                     },
                     {
                         path : 'accounting-management',
                         components : {
                             side : () => import('./views/layout/accounting manager/AccountingMgtSide'),
                             content : () => import('./views/layout/accounting manager/AccountingManager'),
-                        }
+                        },
+                        children : [
+                            {
+                                path : '',
+                                redirect : '/dashboard/accounting-management/quotes'
+                            },
+                            {
+                                path : 'quotes',
+                                component : () => import('./views/layout/accounting manager/Quotes'),
+                            },
+                            {
+                                path : 'invoice',
+                                component : () => import('./views/layout/accounting manager/Invoice'),
+                            },
+                            {
+                                path : 'receipts',
+                                component : () => import('./views/layout/accounting manager/Receipts'),
+                            },
+                            {
+                                path : 'orders',
+                                component : () => import('./views/layout/accounting manager/Orders'),
+                            },
+                            {
+                                path : 'sales',
+                                component : () => import('./views/layout/accounting manager/Sales'),
+                            }
+                        ]
                     },
                     {
                         path : 'integration-management',
@@ -118,6 +183,7 @@ export default new Router({
                     },
                 ]
             },
+
         ],
         meta : {
             middlewareAuth : true
@@ -166,3 +232,22 @@ export default new Router({
     },
    ]
 })
+
+router.beforeEach((to, from, next) => {
+    // TODO handle multiple middleware
+    if(to.matched.some(record => record.meta.middlewareAuth)){
+        // eslint-disable-next-line no-undef
+        // if(!auth.check()){
+        //     next({
+        //         path : '/auth/login',
+        //         query : { redirect: to.fullPath }
+        //     });
+        //     return;
+        // }
+    }
+
+    next();
+
+});
+
+export default router;

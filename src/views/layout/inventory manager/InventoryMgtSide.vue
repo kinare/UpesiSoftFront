@@ -2,13 +2,16 @@
     <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
         <li>
-            <a href="layouts.html"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
+            <router-link to="/dashboard/inventory-management/products"><i class="fa fa-list"></i> <span class="nav-label">Product</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-group"></i> <span class="nav-label">User Groups</span></a>
+            <router-link to="/dashboard/inventory-management/categories"><i class="fa fa-tags"></i> <span class="nav-label">Categories</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-unlock"></i> <span class="nav-label">Roles</span></a>
+            <router-link to="/dashboard/inventory-management/import"><i class="fa fa-file-import"></i> <span class="nav-label">Import</span></router-link>
+        </li>
+        <li>
+            <router-link to="/dashboard/inventory-management/reports"><i class="fa fa-chart-line"></i> <span class="nav-label">Reports</span></router-link>
         </li>
     </ul>
 </template>

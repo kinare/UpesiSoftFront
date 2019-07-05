@@ -1,10 +1,10 @@
 <template>
-    <router-view/>
+    <h1>Roles</h1>
 </template>
 
 <script>
     export default {
-        name: "InventoryManager"
+        name: "Roles"
     }
 </script>
 

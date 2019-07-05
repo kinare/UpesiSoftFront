@@ -1,14 +1,14 @@
 <template>
     <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
-        <li class="active">
-            <a href="layouts.html"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
+        <li>
+            <router-link to="/dashboard/user-management/users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-group"></i> <span class="nav-label">User Groups</span></a>
+            <router-link to="/dashboard/user-management/groups"><i class="fa fa-users"></i> <span class="nav-label">Groups</span></router-link>
         </li>
         <li>
-            <a href="layouts.html"><i class="fa fa-unlock"></i> <span class="nav-label">Roles</span></a>
+            <router-link to="/dashboard/user-management/roles"><i class="fa fa-users"></i> <span class="nav-label">Roles</span></router-link>
         </li>
     </ul>
 </template>

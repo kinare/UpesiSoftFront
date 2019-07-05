@@ -7,8 +7,9 @@ import store from './store'
 import VueBreadcrumbs from 'vue-breadcrumbs';
 import fullscreen from 'vue-fullscreen';
 import VueHtmlToPaper from 'vue-html-to-paper';
+import Auth from './bin/Auth';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(fullscreen)
 Vue.use(VueBreadcrumbs, {
   template: ' <ol class="breadcrumb" v-if="$breadcrumbs.length">' +
@@ -19,8 +20,7 @@ Vue.use(VueBreadcrumbs, {
       '</li>' +
       '</ol>'
 });
-
-const options = {
+Vue.use(VueHtmlToPaper, {
     name: '_blank',
     specs: [
         'fullscreen=yes',
@@ -31,11 +31,24 @@ const options = {
         'http://localhost:8080/css/bootstrap.min.css',
         'http://localhost:8080/css/style.css',
     ]
-}
-Vue.use(VueHtmlToPaper, options);
+});
+window.auth = new Auth;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+    mounted() {
+        Event.$on('userLoggedIn', () => {
+            this.$router.push('/')
+        });
+
+        Event.$on('userLoggedOut', () => {
+            this.$router.push('/auth/login')
+        });
+
+        Event.$on('ApiError', () => {
+
+        });
+    }
 }).$mount('#app')
