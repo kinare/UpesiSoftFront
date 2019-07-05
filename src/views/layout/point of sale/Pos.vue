@@ -1,5 +1,5 @@
 <template>
-    <fullscreen ref="fullscreen" @change="fullscreenChange">
+    <fullscreen ref="fullscreen" @change="fullscreenChange" style="background-color: #ffffff">
         <div class="pos-container white-bg">
             <div class="pos-bar">
             <div class="row border-bottom white-bg">
@@ -66,7 +66,7 @@
             }
         },
         beforeCreate() {
-            document.body.className = 'top-navigation';
+            document.body.className = 'top-navigation white-bg';
         }
     }
 </script>

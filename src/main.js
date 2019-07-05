@@ -5,8 +5,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueBreadcrumbs from 'vue-breadcrumbs';
-import fullscreen from 'vue-fullscreen'
-
+import fullscreen from 'vue-fullscreen';
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 Vue.config.productionTip = false
 Vue.use(fullscreen)
@@ -19,6 +19,20 @@ Vue.use(VueBreadcrumbs, {
       '</li>' +
       '</ol>'
 });
+
+const options = {
+    name: '_blank',
+    specs: [
+        'fullscreen=yes',
+        'titlebar=yes',
+        'scrollbars=yes'
+    ],
+    styles: [
+        'http://localhost:8080/css/bootstrap.min.css',
+        'http://localhost:8080/css/style.css',
+    ]
+}
+Vue.use(VueHtmlToPaper, options);
 
 new Vue({
   router,
