@@ -41,6 +41,11 @@
             <div class="row">
                 <div class="ibox" style="margin-bottom: 0">
                     <div class="ibox-content pos-calc">
+                        <div class="row ">
+                            <div class="col-xs-12 p-sm">
+                                <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-4">
                                 <router-link to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
@@ -397,6 +402,7 @@
 
     .pos-calc{
         padding: 10px 20px;
+        border:  1px solid #e7eaec;
     }
     .pos-items{
         height: 40vh;
@@ -405,7 +411,7 @@
         padding: 10px;
     }
     .pos-display{
-        border: none;
+        border:  1px solid #e7eaec;
         padding: 0 20px;
         background-color: #F6F7F8;
     }
@@ -421,7 +427,7 @@
     }
 
     .search-items{
-        height: 280px;
+        height: 50vh;
         overflow-y: scroll;
     }
 

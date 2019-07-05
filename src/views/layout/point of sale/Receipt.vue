@@ -29,7 +29,7 @@
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-content">
                                             <p>Nails <span class="pull-right">500.00 &nbsp; &nbsp; Ksh 1,500.00</span></p>
-                                            <p>Pipe <span class="pull-right">700.00 &nbsp; &nbsp; Ksh1,400.00</span></p>
+                                            <p>Pipe <span class="pull-right">700.00 &nbsp; &nbsp; Ksh 1,400.00</span></p>
 
                                             <br>
                                             <p>Sub total <span class="pull-right">Ksh 2,900.00</span></p>

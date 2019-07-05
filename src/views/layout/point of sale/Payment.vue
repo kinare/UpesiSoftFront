@@ -9,7 +9,7 @@
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
                 </div>
                 <div class="col-xs-3">
-                    <router-link to="/pos/receipt" class="btn btn-white btn-lg pull-right"><i class="fa fa-arrow-right"></i> Validate </router-link>
+                    <router-link to="/pos/receipt" class="btn btn-white btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></router-link>
                 </div>
 
             </div>
@@ -25,7 +25,7 @@
                    </div>
                 </div>
                 <div class="col-xs-8 border-left">
-                    <div class="row">
+                    <div class="row well" style="margin: 0 10px; font-family:  monospace, sans-serif;">
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="due">Due</label>
@@ -53,6 +53,10 @@
                                     <option value="Card">Card</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-xs-12 text-right" style="margin-top: 20px;">
+                            <h2>Total : 2500.00 </h2>
+                            <h2>Change : 100.00 </h2>
                         </div>
                     </div>
 
@@ -97,7 +101,7 @@
                             <div class="ibox-content pos-calc" style="border: none">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <button class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> Customer</button>
+                                        <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> Customer</router-link>
                                     </div>
                                 </div>
                             </div>
