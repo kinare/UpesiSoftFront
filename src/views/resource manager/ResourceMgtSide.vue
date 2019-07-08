@@ -14,9 +14,9 @@
 </template>
 
 <script>
-    import SideHeader from "../SideHeader";
+    import SideHeader from "../layout/SideHeader";
     export default {
-        name: "IntegrationMgtSide",
+        name: "ResourceMgtSide",
         components: {SideHeader}
     }
 </script>

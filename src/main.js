@@ -7,9 +7,9 @@ import store from './store'
 import VueBreadcrumbs from 'vue-breadcrumbs';
 import fullscreen from 'vue-fullscreen';
 import VueHtmlToPaper from 'vue-html-to-paper';
-import Auth from './bin/Auth';
+import Auth from './modules/auth/Auth';
 
-Vue.config.productionTip = true
+Vue.config.productionTip = false
 Vue.use(fullscreen)
 Vue.use(VueBreadcrumbs, {
   template: ' <ol class="breadcrumb" v-if="$breadcrumbs.length">' +
@@ -33,6 +33,7 @@ Vue.use(VueHtmlToPaper, {
     ]
 });
 window.auth = new Auth;
+window.Event = new Vue;
 
 new Vue({
   router,

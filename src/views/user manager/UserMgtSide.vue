@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import SideHeader from "../SideHeader";
+    import SideHeader from "../layout/SideHeader";
     export default {
         name: "UserMgt",
         components: {SideHeader}

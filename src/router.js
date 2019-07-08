@@ -30,35 +30,35 @@ const  router = new Router({
             {
                 path : 'pos',
                 name : 'pos',
-                component: () => import('./views/layout/point of sale/Pos'),
+                component: () => import('./views/point of sale/Pos'),
                 children : [
                     {
                         path : '',
-                        component : () => import('./views/layout/point of sale/Register'),
+                        component : () => import('./views/point of sale/Register'),
                     },
                     {
                         path : 'payment',
-                        component : () => import('./views/layout/point of sale/Payment'),
+                        component : () => import('./views/point of sale/Payment'),
                     },
                     {
                         path : 'receipt',
-                        component : () => import('./views/layout/point of sale/Receipt'),
+                        component : () => import('./views/point of sale/Receipt'),
                     },
                     {
                         path : 'invoice',
-                        component : () => import('./views/layout/point of sale/Invoice'),
+                        component : () => import('./views/point of sale/Invoice'),
                     },
                     {
                         path : 'quote',
-                        component : () => import('./views/layout/point of sale/Quote'),
+                        component : () => import('./views/point of sale/Quote'),
                     },
                     {
                         path : 'customers',
-                        component : () => import('./views/layout/point of sale/Customers'),
+                        component : () => import('./views/point of sale/Customers'),
                     },
                     {
                         path : 'payment',
-                        component : () => import('./views/layout/point of sale/Payment'),
+                        component : () => import('./views/point of sale/Payment'),
                     }
                 ],
                 meta : { breadCrumb : 'point of sale'}
@@ -76,33 +76,33 @@ const  router = new Router({
                     {
                         path : 'user-management',
                         components : {
-                            side : () => import('./views/layout/user manager/UserMgtSide'),
-                            content : () => import('./views/layout/user manager/UserManager')
+                            side : () => import('./views/user manager/UserMgtSide'),
+                            content : () => import('./views/user manager/UserManager')
                         },
                         children : [
                             {
                                 path : '',
-                                redirect : 'dashboard/user-management/users'
+                                redirect : '/dashboard/user-management/users'
                             },
                             {
                                 path : 'users',
-                                component : () => import('./views/layout/user manager/UserManager')
+                                component : () => import('./views/user manager/Users')
                             },
                             {
                                 path : 'groups',
-                                component : () => import('./views/layout/user manager/Groups')
+                                component : () => import('./views/user manager/Groups')
                             },
                             {
                                 path : 'roles',
-                                component : () => import('./views/layout/user manager/Roles')
+                                component : () => import('./views/user manager/Roles')
                             }
                         ]
                     },
                     {
                         path : 'inventory-management',
                         components : {
-                            side : () => import('./views/layout/inventory manager/InventoryMgtSide'),
-                            content : () => import('./views/layout/inventory manager/InventoryManager'),
+                            side : () => import('./views/inventory manager/InventoryMgtSide'),
+                            content : () => import('./views/inventory manager/InventoryManager'),
                         },
                         children : [
                             {
@@ -111,27 +111,27 @@ const  router = new Router({
                             },
                             {
                                 path : 'products',
-                                component : () => import('./views/layout/inventory manager/Products'),
+                                component : () => import('./views/inventory manager/Products'),
                             },
                             {
                                 path : 'categories',
-                                component : () => import('./views/layout/inventory manager/Categories'),
+                                component : () => import('./views/inventory manager/Categories'),
                             },
                             {
                                 path : 'import',
-                                component : () => import('./views/layout/inventory manager/Import'),
+                                component : () => import('./views/inventory manager/Import'),
                             },
                             {
                                 path : 'reports',
-                                component : () => import('./views/layout/inventory manager/Reports'),
+                                component : () => import('./views/inventory manager/Reports'),
                             },
                         ],
                     },
                     {
                         path : 'accounting-management',
                         components : {
-                            side : () => import('./views/layout/accounting manager/AccountingMgtSide'),
-                            content : () => import('./views/layout/accounting manager/AccountingManager'),
+                            side : () => import('./views/accounting manager/AccountingMgtSide'),
+                            content : () => import('./views/accounting manager/AccountingManager'),
                         },
                         children : [
                             {
@@ -140,45 +140,45 @@ const  router = new Router({
                             },
                             {
                                 path : 'quotes',
-                                component : () => import('./views/layout/accounting manager/Quotes'),
+                                component : () => import('./views/accounting manager/Quotes'),
                             },
                             {
                                 path : 'invoice',
-                                component : () => import('./views/layout/accounting manager/Invoice'),
+                                component : () => import('./views/accounting manager/Invoice'),
                             },
                             {
                                 path : 'receipts',
-                                component : () => import('./views/layout/accounting manager/Receipts'),
+                                component : () => import('./views/accounting manager/Receipts'),
                             },
                             {
                                 path : 'orders',
-                                component : () => import('./views/layout/accounting manager/Orders'),
+                                component : () => import('./views/accounting manager/Orders'),
                             },
                             {
                                 path : 'sales',
-                                component : () => import('./views/layout/accounting manager/Sales'),
+                                component : () => import('./views/accounting manager/Sales'),
                             }
                         ]
                     },
                     {
                         path : 'integration-management',
                         components : {
-                            side : () => import('./views/layout/integration manager/IntegrationMgtSide'),
-                            content : () => import('./views/layout/integration manager/IntegrationManager'),
+                            side : () => import('./views/integration manager/IntegrationMgtSide'),
+                            content : () => import('./views/integration manager/IntegrationManager'),
                         }
                     },
                     {
                         path : 'resource-management',
                         components : {
-                            side : () => import('./views/layout/resource manager/ResourceMgtSide'),
-                            content : () => import('./views/layout/resource manager/ResourceManager'),
+                            side : () => import('./views/resource manager/ResourceMgtSide'),
+                            content : () => import('./views/resource manager/ResourceManager'),
                         }
                     },
                     {
                         path : 'supplier-management',
                         components : {
-                            side : () => import('./views/layout/supplier manager/SupplierMgtSide'),
-                            content : () => import('./views/layout/supplier manager/SupplierManager'),
+                            side : () => import('./views/supplier manager/SupplierMgtSide'),
+                            content : () => import('./views/supplier manager/SupplierManager'),
                         }
                     },
                 ]

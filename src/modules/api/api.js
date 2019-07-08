@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import * as axios from "axios/index";
 
 class Api {
     constructor () {}

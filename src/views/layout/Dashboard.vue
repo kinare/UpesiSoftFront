@@ -129,7 +129,7 @@
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2 class="text-capitalize">{{sanitizeHeaders($route.path)}}</h2>
-                   <breadcrumbs></breadcrumbs>
+<!--                   <breadcrumbs></breadcrumbs>-->
                 </div>
                 <div class="col-lg-2">
                     <router-view name="menu"></router-view>
