@@ -3,14 +3,13 @@
 </template>
 
 <script>
-    import userMgt from '../../modules/store/user manager/store'
+    import userMgt from '../../modules/store/user/store';
     export default {
         name : "UserManager",
-        beforeRouteEnter(to, from, next){
-            next(v => {
-                v.$store.registerModule('userMgt', userMgt)
-            })
+        created (){
+            this.$store.registerModule('userMgt', userMgt)
         },
+
     }
 </script>
 

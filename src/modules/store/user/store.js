@@ -4,7 +4,9 @@ export default {
         groups : [],
         roles : [],
     },
-    mutations: {},
+    mutations: {
+        REFRESH_STORE() {},
+    },
     getters : {},
     actions: {}
 }

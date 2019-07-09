@@ -12,18 +12,27 @@
 
             </div>
             <h3>Log In</h3>
-            <form class="m-t" role="form" action="#">
-                <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
+            <div v-if="message !== ''" class="alert alert-warning">
+                {{message}}
+            </div>
+            <form class="m-t text-left" >
+                <div class="form-group" :class="formDataError.email.status">
+                    <input type="email" v-model="formData.email" class="form-control" placeholder="Username" required="">
+                    <span class="help-block m-b-none">
+                        {{formDataError.email.message}}
+                    </span>
                 </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
+                <div class="form-group" :class="formDataError.password.status">
+                    <input type="password" v-model="formData.password" class="form-control" placeholder="Password" required="">
+                    <span class="help-block m-b-none">
+                        {{formDataError.password.message}}
+                    </span>
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                <button type="submit" class="btn btn-primary block full-width m-b" @click.prevent="submit">Login</button>
 
                 <router-link to="/reset"><small>Forgot password?</small></router-link>
                 <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <router-link class="btn btn-sm btn-white btn-block" to="/register">Create an account</router-link>
+                <router-link class="btn btn-sm btn-white btn-block" to="/auth/register">Create an account</router-link>
             </form>
             <p class="m-t"> <small>Focus Glass & Aluminium © 2019</small> </p>
         </div>
@@ -31,15 +40,47 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "Login",
         data : function () {
             return {
                 baseUrl: process.env.BASE_URL,
+                formData : {
+                    email : '',
+                    password : ''
+                },
+                formDataError : {
+                    email : {
+                        status : '',
+                        message : ''
+                    },
+                    password : {
+                        status : '',
+                        message : ''
+                    }
+                },
+                rules : {
+                    email : 'required|email',
+                    password : 'required|min:8'
+                }
             }
         },
-        beforeCreate() {
-            document.body.className = 'gray-bg';
+        methods : {
+            submit : function () {
+                //validate form data
+               let res =  window.validator.fields(this.formData, this.rules, this.formDataError);
+                if (res.hasErrors){
+                    this.formDataError = res.errors
+                }else {
+                    this.$store.dispatch('authModule/signIn', this.formData)
+                }
+            }
+        },
+        computed : {
+            ...mapState('authModule', {
+                message : state => state.message
+            }),
         }
 
     }

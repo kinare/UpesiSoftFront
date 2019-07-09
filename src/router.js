@@ -236,14 +236,13 @@ const  router = new Router({
 router.beforeEach((to, from, next) => {
     // TODO handle multiple middleware
     if(to.matched.some(record => record.meta.middlewareAuth)){
-        // eslint-disable-next-line no-undef
-        // if(!auth.check()){
-        //     next({
-        //         path : '/auth/login',
-        //         query : { redirect: to.fullPath }
-        //     });
-        //     return;
-        // }
+        if(!window.auth.check()){
+            next({
+                path : '/auth/login',
+                query : { redirect: to.fullPath }
+            });
+            return;
+        }
     }
 
     next();

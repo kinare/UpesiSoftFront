@@ -16,8 +16,8 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Log out
+                            <a @click="signOut">
+                                <i class="fa fa-sign-out"></i> Sign out
                             </a>
                         </li>
                     </ul>
@@ -109,6 +109,11 @@
         },
         beforeCreate() {
             document.body.className = 'top-navigation';
+        },
+        methods : {
+           signOut : function () {
+               window.auth.logout();
+           }
         }
     }
 </script>

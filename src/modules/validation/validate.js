@@ -8,7 +8,6 @@ class Validate {
     }
 
     fields (object, rules, error){
-        let res = {};
         let hasErrors = false
         for (let key in object){
             if(rules[key]){
@@ -16,8 +15,6 @@ class Validate {
                 if (result.message.length !== 0){
                     error[key] = result;
                     hasErrors = true;
-                    // console.log(key + ':: Rule: ' + rules[key] + '->' + ' Field: ' + object[key]);
-                    // console.log(result)
                 }else{
                     error[key] = {status : '', message : ''}
                 }
@@ -34,14 +31,15 @@ class Validate {
             rule = rules.split('|');
             for(let key in rule){
                 let ruleCheck = this.checkRule(rule[key],field);
-                if (!helper.isEmpty(ruleCheck)){
+                // eslint-disable-next-line no-console
+                if (!window.helper.isEmpty(ruleCheck)){
                     res.status = ruleCheck.status ? ruleCheck.status : res.type;
                     res.message = ruleCheck.message;
                 }
             }
         }else {
             let ruleCheck = this.checkRule(rules, field);
-            if (!helper.isEmpty(ruleCheck)){
+            if (!window.helper.isEmpty(ruleCheck)){
                 res.status = ruleCheck.status ? ruleCheck.status : res.type;
                 res.message = ruleCheck.message;
             }
@@ -72,7 +70,7 @@ class Validate {
                 return res;
             case  'string' :
                 if (!field) return res;
-                if (!typeof field === 'string' || !field instanceof String){
+                if (!typeof field === 'string' || !(field instanceof String)){
                     return {
                         status : 'has-error',
                         message : 'not a string',
@@ -141,6 +139,7 @@ class Validate {
 
             case 'email' :
                 if (!field) return res;
+                // eslint-disable-next-line no-useless-escape,no-case-declarations
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 if (!re.test(field)){
                     return {
@@ -163,6 +162,7 @@ class Validate {
             case 'kra' :
                 if (field === '') return res ;
 
+                // eslint-disable-next-line no-case-declarations
                 let pattern = /^[aApP].\d*.[a-zA-Z]$/;
                 if (!pattern.test(field)){
                     return {
@@ -185,7 +185,7 @@ class Validate {
                 return res;
 
             case 'object' :
-                if (helper.isEmpty(field)) {
+                if (window.helper.isEmpty(field)) {
                     return res = {
                         status: 'has-error',
                         message: 'must have a value',

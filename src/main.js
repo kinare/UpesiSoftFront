@@ -8,6 +8,9 @@ import VueBreadcrumbs from 'vue-breadcrumbs';
 import fullscreen from 'vue-fullscreen';
 import VueHtmlToPaper from 'vue-html-to-paper';
 import Auth from './modules/auth/Auth';
+import Validator from './modules/validation/validate'
+import Helper from './modules/helpers/helper'
+import Api from './modules/api/api'
 
 Vue.config.productionTip = false
 Vue.use(fullscreen)
@@ -34,6 +37,9 @@ Vue.use(VueHtmlToPaper, {
 });
 window.auth = new Auth;
 window.Event = new Vue;
+window.validator = new Validator();
+window.helper = new Helper();
+window.api = new Api();
 
 new Vue({
   router,
