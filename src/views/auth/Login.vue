@@ -12,7 +12,7 @@
 
             </div>
             <h3>Log In</h3>
-            <div v-if="message !== ''" class="alert alert-warning">
+            <div v-if="message !== ''" class="alert" :class="status">
                 {{message}}
             </div>
             <form class="m-t text-left" >
@@ -30,7 +30,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b" @click.prevent="submit">Login</button>
 
-                <router-link to="/reset"><small>Forgot password?</small></router-link>
+                <router-link to="/auth/reset"><small>Forgot password?</small></router-link>
                 <p class="text-muted text-center"><small>Do not have an account?</small></p>
                 <router-link class="btn btn-sm btn-white btn-block" to="/auth/register">Create an account</router-link>
             </form>
@@ -79,7 +79,8 @@
         },
         computed : {
             ...mapState('authModule', {
-                message : state => state.message
+                message : state => state.message,
+                status : state => state.status
             }),
         }
 

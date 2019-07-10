@@ -17,7 +17,7 @@ class Auth {
     }
 
     authToken (){
-        return this.token;
+        return this.token || null;
     }
 
     login (token){

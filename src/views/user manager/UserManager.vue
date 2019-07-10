@@ -7,7 +7,9 @@
     export default {
         name : "UserManager",
         created (){
-            this.$store.registerModule('userMgt', userMgt)
+            if (!(this.$store && this.$store.state && this.$store.state["inventory"])) {
+                this.$store.registerModule('userMgt', userMgt);
+            }
         },
 
     }

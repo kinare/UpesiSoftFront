@@ -123,15 +123,20 @@
                             </a>
                         </li>
                     </ul>
-
                 </nav>
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
+                <div class="col-lg-6">
                     <h2 class="text-capitalize">{{sanitizeHeaders($route.path)}}</h2>
-<!--                   <breadcrumbs></breadcrumbs>-->
+                    <ol class="breadcrumb" v-if="crumbs.length">
+                    <li v-for="(crumb, key) in crumbs" :key="key">
+                        <small class="text-muted">
+                            <router-link :to="crumb.to" >{{ crumb.text}}</router-link>
+                            </small>
+                        </li>
+                    </ol>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-6">
                     <router-view name="menu"></router-view>
                 </div>
             </div>
@@ -149,18 +154,37 @@
         beforeCreate() {
             document.body.className = '';
         },
+        computed : {
+            crumbs : function() {
+                let pathArray = this.$route.path.split("/")
+                pathArray.shift()
+                let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+                    breadcrumbArray.push({
+                        path: path,
+                        to: this.$route.matched[idx + 1].path,
+                        text: this.$route.matched[idx + 1].meta.breadcrumb || path,
+                    });
+                    return breadcrumbArray;
+                }, [])
+                return breadcrumbs;
+            }
+        },
         methods : {
             sanitizeHeaders : function (heading){
                 let arr =  heading.split('/');
-                return arr[1].replace('-', ' ');
+                return arr[2].replace('-', ' ');
             },
             toggle : function () {
                 document.body.classList.toggle('mini-navbar');
-            }
-        }
+            },
+
+        },
+
     }
 </script>
 
 <style scoped>
-
+ .router-link-exact-active {
+     font-weight: bold;
+}
 </style>

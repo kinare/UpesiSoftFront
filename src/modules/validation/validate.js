@@ -7,7 +7,17 @@ class Validate {
         return field ? field.length !== 0 : false
     }
 
+     isEmptyObject (obj){
+        for(let prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return true;
+    }
+
     fields (object, rules, error){
+        //todo implement same as field for passwords
         let hasErrors = false
         for (let key in object){
             if(rules[key]){

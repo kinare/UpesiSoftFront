@@ -5,7 +5,8 @@ export default {
         user : {},
         token : '',
         message : '',
-        registered : false
+        registered : false,
+        status : ''
     },
     mutations: {
         REFRESH_STORE() {},
@@ -17,6 +18,9 @@ export default {
         },
         SET_MESSAGE : (state, message) => {
             state.message = message
+        },
+        SET_STATUS : (state, status) => {
+            state.status = status
         },
         SET_SREGISTERED : (state) => {
             state.registered = true
@@ -31,6 +35,7 @@ export default {
                 window.auth.login(res.data.token);
             }).catch((error) => {
                 context.commit('SET_MESSAGE', error.message);
+                context.commit('SET_STATUS', 'alert-warning');
                 window.auth.login("thisismysampletokenfortesting");
             })
         },
@@ -39,7 +44,31 @@ export default {
             window.api.call('post',endpoints.register, data).then(() => {
                 context.commit('SET_SREGISTERED')
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message)
+                context.commit('SET_MESSAGE', error.message);
+                context.commit('SET_STATUS', 'alert-warning');            })
+        },
+        activate : (context, data) => {
+            window.api.call('post',endpoints.activate, data).then(() => {
+                Event.$emit('accountActivated');
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', error.message);
+                context.commit('SET_STATUS', 'alert-danger');            })
+        },
+        setPassword : (context, data) => {
+            window.api.call('post',endpoints.complete, data).then(() => {
+                Event.$emit('completed');
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', error.message);
+                context.commit('SET_STATUS', 'alert-warning');
+            })
+        },
+        reset : (context, data) => {
+            window.api.call('post',endpoints.reset, data).then(() => {
+                context.commit('SET_MESSAGE', "Password reset link has been sent")
+                context.commit('SET_STATUS', 'alert-info');
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', error.message);
+                context.commit('SET_STATUS', 'alert-danger');
             })
         },
 

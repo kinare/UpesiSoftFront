@@ -6,7 +6,7 @@ import Auth from './views/auth/Auth';
 import Landing from './views/layout/landing';
 import Login from './views/auth/Login';
 import Reset from './views/auth/password/Email';
-import Confirmation from './views/auth/Confirmation';
+import Activation from './views/auth/Activation';
 import Register from './views/auth/Register';
 import Password from './views/auth/password/Password';
 
@@ -25,7 +25,7 @@ const  router = new Router({
                 path : '',
                 name : 'home',
                 component: Landing,
-                meta : { breadCrumb : 'home'}
+                meta : { breadcrumb : 'home'}
             },
             {
                 path : 'pos',
@@ -61,12 +61,12 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Payment'),
                     }
                 ],
-                meta : { breadCrumb : 'point of sale'}
+                meta : { breadcrumb : 'point of sale'}
             },
             {
                 path: '/dashboard',
                 component : Dashboard,
-                meta : { breadCrumb : 'dashboard'},
+                meta : { breadcrumb : 'dashboard'},
                 children : [
                     {
                         path : '',
@@ -79,6 +79,7 @@ const  router = new Router({
                             side : () => import('./views/user manager/UserMgtSide'),
                             content : () => import('./views/user manager/UserManager')
                         },
+                        meta : { breadcrumb : 'user management'},
                         children : [
                             {
                                 path : '',
@@ -86,15 +87,18 @@ const  router = new Router({
                             },
                             {
                                 path : 'users',
-                                component : () => import('./views/user manager/Users')
+                                component : () => import('./views/user manager/Users'),
+                                meta : { breadcrumb : 'users'},
                             },
                             {
                                 path : 'groups',
-                                component : () => import('./views/user manager/Groups')
+                                component : () => import('./views/user manager/Groups'),
+                                meta : { breadcrumb : 'groups'},
                             },
                             {
                                 path : 'roles',
-                                component : () => import('./views/user manager/Roles')
+                                component : () => import('./views/user manager/Roles'),
+                                meta : { breadcrumb : 'roles'},
                             }
                         ]
                     },
@@ -103,7 +107,9 @@ const  router = new Router({
                         components : {
                             side : () => import('./views/inventory manager/InventoryMgtSide'),
                             content : () => import('./views/inventory manager/InventoryManager'),
+                            menu : () => import('./views/inventory manager/Menu'),
                         },
+                        meta : { breadcrumb : 'inventory'},
                         children : [
                             {
                                 path : '',
@@ -112,18 +118,22 @@ const  router = new Router({
                             {
                                 path : 'products',
                                 component : () => import('./views/inventory manager/Products'),
+                                meta : { breadcrumb : 'products'},
                             },
                             {
                                 path : 'categories',
                                 component : () => import('./views/inventory manager/Categories'),
+                                meta : { breadcrumb : 'categories'},
                             },
                             {
                                 path : 'import',
                                 component : () => import('./views/inventory manager/Import'),
+                                meta : { breadcrumb : 'import'},
                             },
                             {
                                 path : 'reports',
                                 component : () => import('./views/inventory manager/Reports'),
+                                meta : { breadcrumb : 'reports'},
                             },
                         ],
                     },
@@ -133,6 +143,7 @@ const  router = new Router({
                             side : () => import('./views/accounting manager/AccountingMgtSide'),
                             content : () => import('./views/accounting manager/AccountingManager'),
                         },
+                        meta : { breadcrumb : 'accounting'},
                         children : [
                             {
                                 path : '',
@@ -141,22 +152,27 @@ const  router = new Router({
                             {
                                 path : 'quotes',
                                 component : () => import('./views/accounting manager/Quotes'),
+                                meta : { breadcrumb : 'quotes'},
                             },
                             {
                                 path : 'invoice',
                                 component : () => import('./views/accounting manager/Invoice'),
+                                meta : { breadcrumb : 'invoice'},
                             },
                             {
                                 path : 'receipts',
                                 component : () => import('./views/accounting manager/Receipts'),
+                                meta : { breadcrumb : 'receipts'},
                             },
                             {
                                 path : 'orders',
                                 component : () => import('./views/accounting manager/Orders'),
+                                meta : { breadcrumb : 'orders'},
                             },
                             {
                                 path : 'sales',
                                 component : () => import('./views/accounting manager/Sales'),
+                                meta : { breadcrumb : 'sales'},
                             }
                         ]
                     },
@@ -165,21 +181,24 @@ const  router = new Router({
                         components : {
                             side : () => import('./views/integration manager/IntegrationMgtSide'),
                             content : () => import('./views/integration manager/IntegrationManager'),
-                        }
+                        },
+                        meta : { breadcrumb : 'integration'},
                     },
                     {
                         path : 'resource-management',
                         components : {
                             side : () => import('./views/resource manager/ResourceMgtSide'),
                             content : () => import('./views/resource manager/ResourceManager'),
-                        }
+                        },
+                        meta : { breadcrumb : 'resource'},
                     },
                     {
                         path : 'supplier-management',
                         components : {
                             side : () => import('./views/supplier manager/SupplierMgtSide'),
                             content : () => import('./views/supplier manager/SupplierManager'),
-                        }
+                        },
+                        meta : { breadcrumb : 'suppliers'},
                     },
                 ]
             },
@@ -199,31 +218,32 @@ const  router = new Router({
                   path: 'login',
                   name: 'login',
                   component: Login,
-                  meta : { breadCrumb : 'login'}
+                  meta : { breadcrumb : 'login'}
               },
               {
                   path: 'Register',
                   name: 'register',
                   component: Register,
-                  meta : { breadCrumb : 'register'}
+                  meta : { breadcrumb : 'register'}
               },
               {
-                  path: 'confirmation',
-                  name: 'confirmation',
-                  component: Confirmation,
-                  meta : { breadCrumb : 'confirmation'}
+                  path: 'activation/:token?',
+                  name: 'activation',
+                  component: Activation,
+                  meta : { breadcrumb : 'activation'},
+                  params : true
               },
               {
                   path: 'reset',
                   name: 'reset password',
                   component: Reset,
-                  meta : { breadCrumb : 'reset password'}
+                  meta : { breadcrumb : 'reset password'}
               },
               {
-                  path: 'password',
+                  path: 'password/:token?',
                   name: 'password',
                   component: Password,
-                  meta : { breadCrumb : 'password'}
+                  meta : { breadcrumb : 'password'}
               },
           ],
       meta : {

@@ -10,6 +10,9 @@
                 </div>
             </div>
             <h3>Sign Up</h3>
+            <div v-if="message !== ''" class="alert" :class="status">
+                {{message}}
+            </div>
             <form class="m-t text-left" role="form" action="#">
                 <div class="form-group" :class="formDataError.firstName.status">
                     <input type="text" class="form-control" placeholder="First Name" v-model="formData.firstName" required="">
@@ -70,6 +73,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "Register",
         data : function () {
@@ -130,6 +134,12 @@
                     businessTypeId : 'required',
                 }
             }
+        },
+        computed : {
+            ...mapState('authModule', {
+                message : state => state.message,
+                status : state => state.status
+            }),
         },
        methods : {
             signUp : function () {
