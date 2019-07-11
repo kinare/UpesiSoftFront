@@ -66,6 +66,11 @@
                 }
             }
         },
+        beforeRouteEnter(to, from, next){
+            next(v =>{
+                v.$store.commit('authModule/SET_MESSAGE', {message : '' , status : ''});
+            })
+        },
         methods : {
             submit : function () {
                 //validate form data

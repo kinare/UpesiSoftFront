@@ -6019,9 +6019,9 @@
       if (endStyle) fullStyle += endStyle;
       var token = elt("span", [content], fullStyle);
       if (title) token.title = title;
-      return builder.content.appendChild(token);
+      return builder.Page.appendChild(token);
     }
-    builder.content.appendChild(content);
+    builder.Page.appendChild(content);
   }
 
   function buildTokenSplitSpaces(inner) {
@@ -6061,7 +6061,7 @@
     var widget = !ignoreWidget && marker.widgetNode;
     if (widget) {
       builder.map.push(builder.pos, builder.pos + size, widget);
-      builder.content.appendChild(widget);
+      builder.Page.appendChild(widget);
     }
     builder.pos += size;
   }

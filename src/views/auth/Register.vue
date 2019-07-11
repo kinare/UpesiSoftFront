@@ -65,7 +65,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b" @click.prevent="signUp">Sign Up</button>
                 <p class="text-muted text-center"><small>Have an account?</small></p>
-                <router-link class="btn btn-sm btn-white btn-block" to="/login">Log In</router-link>
+                <router-link class="btn btn-sm btn-white btn-block" to="/auth/login">Log In</router-link>
             </form>
             <p class="m-t"> <small>Focus Glass & Aluminium © 2019</small> </p>
         </div>
@@ -134,6 +134,11 @@
                     businessTypeId : 'required',
                 }
             }
+        },
+        beforeRouteEnter(to, from, next){
+          next(v =>{
+              v.$store.commit('authModule/SET_MESSAGE', {message : '' , status : ''});
+          })
         },
         computed : {
             ...mapState('authModule', {

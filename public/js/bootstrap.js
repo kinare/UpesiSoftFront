@@ -1843,9 +1843,9 @@ if (typeof jQuery === 'undefined') {
     var o  = this.options
 
     return $e.attr('data-content')
-      || (typeof o.content == 'function' ?
-            o.content.call($e[0]) :
-            o.content)
+      || (typeof o.Page == 'function' ?
+            o.Page.call($e[0]) :
+            o.Page)
   }
 
   Popover.prototype.arrow = function () {

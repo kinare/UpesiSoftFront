@@ -87,17 +87,23 @@ const  router = new Router({
                             },
                             {
                                 path : 'users',
-                                component : () => import('./views/user manager/Users'),
+                                components : {
+                                    view : () => import('./views/user manager/Users'),
+                                },
                                 meta : { breadcrumb : 'users'},
                             },
                             {
                                 path : 'groups',
-                                component : () => import('./views/user manager/Groups'),
+                                components : {
+                                    view :  () => import('./views/user manager/Groups'),
+                                },
                                 meta : { breadcrumb : 'groups'},
                             },
                             {
                                 path : 'roles',
-                                component : () => import('./views/user manager/Roles'),
+                                components : {
+                                    view : () => import('./views/user manager/Roles'),
+                                },
                                 meta : { breadcrumb : 'roles'},
                             }
                         ]
@@ -107,7 +113,6 @@ const  router = new Router({
                         components : {
                             side : () => import('./views/inventory manager/InventoryMgtSide'),
                             content : () => import('./views/inventory manager/InventoryManager'),
-                            menu : () => import('./views/inventory manager/Menu'),
                         },
                         meta : { breadcrumb : 'inventory'},
                         children : [
@@ -117,22 +122,32 @@ const  router = new Router({
                             },
                             {
                                 path : 'products',
-                                component : () => import('./views/inventory manager/Products'),
+                                components : {
+                                    view : () => import('./views/inventory manager/Products'),
+                                    action : () => import('./views/inventory manager/ProductMenu'),
+                                } ,
                                 meta : { breadcrumb : 'products'},
                             },
                             {
                                 path : 'categories',
-                                component : () => import('./views/inventory manager/Categories'),
+                                components : {
+                                    view : () => import('./views/inventory manager/Categories'),
+                                    action : () => import('./views/inventory manager/CategoryMenu'),
+                                },
                                 meta : { breadcrumb : 'categories'},
                             },
                             {
                                 path : 'import',
-                                component : () => import('./views/inventory manager/Import'),
+                                components : {
+                                    view : () => import('./views/inventory manager/Import'),
+                                },
                                 meta : { breadcrumb : 'import'},
                             },
                             {
                                 path : 'reports',
-                                component : () => import('./views/inventory manager/Reports'),
+                                components : {
+                                    view : () => import('./views/inventory manager/Reports'),
+                                },
                                 meta : { breadcrumb : 'reports'},
                             },
                         ],

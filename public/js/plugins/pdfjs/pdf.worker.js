@@ -35805,7 +35805,7 @@ var FileSpec = (function FileSpecClosure() {
           content = fileObj.getBytes();
         } else {
           warn('Embedded file specification points to non-existing/invalid ' +
-            'content');
+            'Page.vue');
         }
       } else {
         warn('Embedded file specification does not have a content');

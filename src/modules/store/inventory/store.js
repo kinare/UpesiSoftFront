@@ -17,6 +17,7 @@ export default {
                 state : 1
             }
         ],
+        categories : {},
         message : '',
         status : '',
         loading : true,
@@ -27,17 +28,18 @@ export default {
         SET_PRODUCTS :(state, products) => {
             state.products = products
         },
-        SET_MESSAGE : (state, message) => {
+        SET_MESSAGE : (state, message, status) => {
             state.message = message
-        },
-        SET_STATUS : (state, status) => {
-            state.status = status
+            state.status = status || 'alert-warning'
         },
         SET_LOADING : (state, loading) => {
             state.loading = loading;
         },
         SET_VIEW : (state, view) => {
             state.view = view;
+        },
+        SET_CAREGORIES : (state, categories) => {
+            state.categories = categories;
         }
     },
     getters : {},
@@ -48,18 +50,29 @@ export default {
                 context.commit('SET_PRODUCTS', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-warning');
+                context.commit('SET_MESSAGE', error.message, 'alert-warning');
                 context.commit('SET_LOADING', false)
             })
         },
+
+        getCategories : (context) => {
+            context.commit('SET_LOADING', true)
+            window.api.call('get',endpoints.products).then((res)=> {
+                context.commit('SET_CAREGORIES', res.data.data);
+                context.commit('SET_LOADING', false)
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', error.message, 'alert-warning');
+                context.commit('SET_LOADING', false)
+            })
+        },
+
+
 
         newProduct : ({context, dispatch}, data) => {
             window.api.call('post',endpoints.insert, data).then(() => {
                 dispatch('getProducts');
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-warning');
+                context.commit('SET_MESSAGE', error.message, 'alert-warning');
             })
         },
     }

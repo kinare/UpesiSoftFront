@@ -39,11 +39,11 @@
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div v-if="view === 'list'" class="table-responsive">
+                    <div v-if="view === 'list'" class="table-responsive product-list">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Product</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>SKU</th>
@@ -57,7 +57,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(product, index) in products" v-bind:key="index" style="cursor: pointer">
-                                <td>{{parseInt(index) + 1}}</td>
+                                <td class="product-avatar"><img alt="image" src="/img/p1.jpg"> </td>
                                 <td>{{product.name}}</td>
                                 <td>{{product.shortDescription}}</td>
                                 <td>{{product.sku}}</td>
@@ -80,9 +80,8 @@
                                 <div class="file">
                                     <a href="#">
                                         <span class="corner" :class="product.state ? 'available': 'unavailable'"></span>
-
-                                        <div class="icon">
-                                            <i class="fa fa-file"></i>
+                                        <div class="image">
+                                            <img alt="image" class="img-responsive" src="/img/p1.jpg">
                                         </div>
                                         <div class="file-name">
                                             {{product.name}}<span class="badge badge-info pull-right">{{product.salePrice}}</span>
@@ -159,4 +158,14 @@
         right: 0em;
         bottom: 0em;
     }
+   .product-list table tr td {
+       height: 46px;
+       vertical-align: middle;
+       border: none;
+   }
+   .product-avatar img {
+       width: 28px;
+       height: 28px;
+       border-radius: 50%;
+   }
 </style>

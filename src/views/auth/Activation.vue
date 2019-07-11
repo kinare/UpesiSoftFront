@@ -18,8 +18,8 @@
             <p>Before proceeding, please check your email for a activation Code.
             If you did not receive the email, <a href="#">click here to request another</a>.</p>
             <div class="form-group" :class="formDataError.email.status">
-                <input type="email" class="form-control" placeholder="Email" v-model="formData.email" required="">
-                <span class="help-block m-b-none">
+                <input type="hidden" class="form-control" placeholder="Email" v-model="formData.email" required="">
+                <span v-show="false" class="help-block m-b-none">
                         {{formDataError.email.message}}
                 </span>
             </div>
@@ -65,6 +65,8 @@
 
         beforeRouteEnter(to, from, next){
             next(v =>{
+                v.$store.commit('authModule/SET_MESSAGE', {message : '' , status : ''});
+
                 //todo remove sample token
                 let token = /*to.params.token;*/ 'bmlja0Bkb29yc3RlcC5jby5rZSs5MTM1NjA%3D';
                 token = decodeURIComponent(token);
@@ -90,7 +92,7 @@
                 if (res.hasErrors){
                     this.formDataError = res.errors
                 }else {
-                    this.$store.dispatch('authModule/avtivate', this.formData)
+                    this.$store.dispatch('authModule/activate', this.formData)
                 }
             }
         }

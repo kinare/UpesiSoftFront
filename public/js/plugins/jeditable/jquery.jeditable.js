@@ -84,8 +84,8 @@
         var submit   = $.editable.types[settings.type].submit || function() { };
         var buttons  = $.editable.types[settings.type].buttons
             || $.editable.types['defaults'].buttons;
-        var content  = $.editable.types[settings.type].content
-            || $.editable.types['defaults'].content;
+        var content  = $.editable.types[settings.type].Page
+            || $.editable.types['defaults'].Page;
         var element  = $.editable.types[settings.type].element
             || $.editable.types['defaults'].element;
         var reset    = $.editable.types[settings.type].reset

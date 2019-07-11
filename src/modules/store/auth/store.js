@@ -16,12 +16,11 @@ export default {
         SET_TOKEN :(state, token) => {
             state.token = token
         },
-        SET_MESSAGE : (state, message) => {
-            state.message = message
+        SET_MESSAGE : (state, payload) => {
+            state.message = payload.message
+            state.status = payload.status || 'alert-warning'
         },
-        SET_STATUS : (state, status) => {
-            state.status = status
-        },
+
         SET_SREGISTERED : (state) => {
             state.registered = true
         }
@@ -34,9 +33,8 @@ export default {
                 context.commit('SET_TOKEN', res.data.token);
                 window.auth.login(res.data.token);
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-warning');
-                window.auth.login("thisismysampletokenfortesting");
+                context.commit('SET_MESSAGE', {  message : error.message, status : 'alert-warning'});
+                // window.auth.login("thisismysampletokenfortesting"); //token for local development
             })
         },
 
@@ -44,31 +42,28 @@ export default {
             window.api.call('post',endpoints.register, data).then(() => {
                 context.commit('SET_SREGISTERED')
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-warning');            })
+                context.commit('SET_MESSAGE', {  message : error.message, status : 'alert-warning'});
+            })
         },
         activate : (context, data) => {
-            window.api.call('post',endpoints.activate, data).then(() => {
+            window.api.call('post', endpoints.activate, data).then(() => {
                 Event.$emit('accountActivated');
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-danger');            })
+                context.commit('SET_MESSAGE',  {  message : error.message, status : 'alert-warning'});
+            })
         },
         setPassword : (context, data) => {
             window.api.call('post',endpoints.complete, data).then(() => {
                 Event.$emit('completed');
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-warning');
+                context.commit('SET_MESSAGE',  {  message : error.message, status : 'alert-warning'});
             })
         },
         reset : (context, data) => {
             window.api.call('post',endpoints.reset, data).then(() => {
-                context.commit('SET_MESSAGE', "Password reset link has been sent")
-                context.commit('SET_STATUS', 'alert-info');
+                context.commit('SET_MESSAGE', {message : "Password reset link has been sent", status : 'alert-info' })
             }).catch((error) => {
-                context.commit('SET_MESSAGE', error.message);
-                context.commit('SET_STATUS', 'alert-danger');
+                context.commit('SET_MESSAGE',  {  message : error.message, status : 'alert-warning'});
             })
         },
 

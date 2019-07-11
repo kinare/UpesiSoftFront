@@ -65,7 +65,7 @@
       },
       indent: function(state){
         var indentation = state.lastToken.indent;
-        if (state.lastToken.content.match(indenter)) {
+        if (state.lastToken.Page.match(indenter)) {
           indentation += 2;
         }
         return indentation;

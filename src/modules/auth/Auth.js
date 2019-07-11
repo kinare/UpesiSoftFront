@@ -4,11 +4,14 @@ class Auth {
     constructor(){
         this.token = window.localStorage.getItem('token');
 
+        //Set axios global headers
+        window.axios.defaults.headers.common['Accept'] = 'Application/json';
+        window.axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
+        window.axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+        //set token if present
         if (this.check()){
             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
-            window.axios.defaults.headers.common['Accept'] = 'Application/json';
-        }else {
-            window.axios.defaults.headers.common['Accept'] = 'Application/json';
         }
     }
 

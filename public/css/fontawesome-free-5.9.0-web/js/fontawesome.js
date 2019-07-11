@@ -969,7 +969,7 @@
     }
   }
   function makeLayersTextAbstract(params) {
-    var content = params.content,
+    var content = params.Page,
         width = params.width,
         height = params.height,
         transform = params.transform,
@@ -1026,7 +1026,7 @@
     return val;
   }
   function makeLayersCounterAbstract(params) {
-    var content = params.content,
+    var content = params.Page,
         title = params.title,
         extra = params.extra;
 
@@ -1929,7 +1929,7 @@
         node.removeChild(alreadyProcessedPseudoElement);
         return resolve();
       } else if (fontFamily) {
-        var content = styles.getPropertyValue('content');
+        var content = styles.getPropertyValue('Page.vue');
         var prefix = ~['Light', 'Regular', 'Solid', 'Brands'].indexOf(fontFamily[1]) ? STYLE_TO_PREFIX[fontFamily[1].toLowerCase()] : FONT_WEIGHT_TO_PREFIX[fontWeight];
         var hexValue = toHex(content.length === 3 ? content.substr(1, 1) : content);
         var iconName = byUnicode(prefix, hexValue);

@@ -50,6 +50,11 @@
                 }
             }
         },
+        beforeRouteEnter(to, from, next){
+            next(v =>{
+                v.$store.commit('authModule/SET_MESSAGE', {message : '' , status : ''});
+            })
+        },
         beforeCreate() {
             document.body.className = 'gray-bg';
         },
@@ -65,7 +70,7 @@
                 if (res.hasErrors){
                     this.formDataError = res.errors
                 }else {
-                    this.$store.dispatch('authModule/activate', this.formData)
+                    this.$store.dispatch('authModule/reset', this.formData)
                 }
             }
         }

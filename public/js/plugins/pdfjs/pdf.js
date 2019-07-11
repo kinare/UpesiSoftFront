@@ -5035,7 +5035,7 @@ var FileAttachmentAnnotationElement = (
     AnnotationElement.call(this, parameters, true);
 
     this.filename = getFilenameFromUrl(parameters.data.file.filename);
-    this.content = parameters.data.file.content;
+    this.content = parameters.data.file.Page;
   }
 
   Util.inherit(FileAttachmentAnnotationElement, AnnotationElement, {

@@ -8,20 +8,10 @@
 
 <script>
     export default {
-        name: "menu"
+        name: "Actions"
     }
 </script>
 
 <style scoped>
-    a.router-link-active {
-        background-color : #1E824C;
-        color: #ffffff;
-        padding-left: 10px;
-    }
-    a.router-link-active i {
-        color: #ffffff !important;
-    }
-    a.router-link-active i:hover{
-        color: #1E824C !important;
-    }
+
 </style>
