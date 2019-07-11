@@ -37,18 +37,22 @@ new Vue({
     store,
     render: h => h(App),
     mounted() {
+        //Global Event Listeners
         Event.$on('userLoggedIn', () => {
             this.$router.push('/')
         });
-
         Event.$on('userLoggedOut', () => {
             this.$router.push('/auth/login')
         });
-
-        Event.$on('completed', () => {
+        Event.$on('userSignedUp', () => {
+            this.$router.push('/auth/activation')
+        });
+        Event.$on('userActivated', () => {
             this.$router.push('/auth/login')
         });
-
+        Event.$on('userPasswordSet', () => {
+            this.$router.push('/auth/login')
+        });
         Event.$on('ApiError', () => {
 
         });

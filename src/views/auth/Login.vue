@@ -85,10 +85,9 @@
         computed : {
             ...mapState('authModule', {
                 message : state => state.message,
-                status : state => state.status
+                status : state => state.status,
             }),
-        }
-
+        },
     }
 </script>
 

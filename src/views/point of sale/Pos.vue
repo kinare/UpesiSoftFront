@@ -22,8 +22,8 @@
                             </a>
                         </li>
                         <li>
-                            <a>
-                                <i class="fa fa-sign-out-alt"></i> Log out
+                            <a @click="signOut">
+                                <i class="fa fa-sign-out"></i> Sign out
                             </a>
                         </li>
                     </ul>
@@ -62,6 +62,9 @@
             },
             fullscreenChange (fullscreen) {
                 this.fullscreen = fullscreen
+            },
+            signOut : function () {
+                window.auth.logout();
             }
         },
         beforeCreate() {

@@ -15,8 +15,6 @@
             <div v-if="message !== ''" class="alert" :class="status">
                 {{message}}
             </div>
-            <p>Before proceeding, please check your email for a activation Code.
-            If you did not receive the email, <a href="#">click here to request another</a>.</p>
             <div class="form-group" :class="formDataError.email.status">
                 <input type="hidden" class="form-control" placeholder="Email" v-model="formData.email" required="">
                 <span v-show="false" class="help-block m-b-none">
@@ -24,7 +22,7 @@
                 </span>
             </div>
             <div class="form-group" :class="formDataError.activationCode.status">
-                <input type="text" class="form-control" placeholder="Last Name" v-model="formData.activationCode" required="">
+                <input type="text" class="form-control" placeholder="Code" v-model="formData.activationCode" required="">
                 <span class="help-block m-b-none">
                         {{formDataError.activationCode.message}}
                 </span>
@@ -66,12 +64,11 @@
         beforeRouteEnter(to, from, next){
             next(v =>{
                 v.$store.commit('authModule/SET_MESSAGE', {message : '' , status : ''});
-
-                //todo remove sample token
-                let token = /*to.params.token;*/ 'bmlja0Bkb29yc3RlcC5jby5rZSs5MTM1NjA%3D';
+                let token = to.params.token;
                 token = decodeURIComponent(token);
                 token = atob(token);
-                token = token.split('+');
+                token = token.split(':');
+
 
                 v.formData.email = token[0];
                 v.formData.activationCode = token[1];

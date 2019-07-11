@@ -69,7 +69,11 @@
                                 <td>{{product.availableTo}}</td>
                             </tr>
                             <tr>
-                                <td colspan="10" v-if="validator.isEmptyObject(products)" class="text-center"><i class="text-muted">No products found</i> </td>
+                                <td colspan="10" v-if="validator.isEmptyObject(products)" >
+                                    <div class="alert" :class="status">
+                                        {{message}}
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -90,7 +94,6 @@
                                         </div>
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -122,7 +125,9 @@
             ...mapState('inventory',{
                 products : state => state.products,
                 loading : state => state.loading,
-                view : state => state.view
+                view : state => state.view,
+                message : state => state.message,
+                status : state => state.status,
             }),
         },
         methods : {

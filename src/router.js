@@ -29,7 +29,6 @@ const  router = new Router({
             },
             {
                 path : 'pos',
-                name : 'pos',
                 component: () => import('./views/point of sale/Pos'),
                 children : [
                     {
@@ -242,7 +241,7 @@ const  router = new Router({
                   meta : { breadcrumb : 'register'}
               },
               {
-                  path: 'activation/:token?',
+                  path: 'activation/:token',
                   name: 'activation',
                   component: Activation,
                   meta : { breadcrumb : 'activation'},
@@ -255,10 +254,11 @@ const  router = new Router({
                   meta : { breadcrumb : 'reset password'}
               },
               {
-                  path: 'password/:token?',
+                  path: 'password/:token',
                   name: 'password',
                   component: Password,
-                  meta : { breadcrumb : 'password'}
+                  meta : { breadcrumb : 'password'},
+                  params : true
               },
           ],
       meta : {
