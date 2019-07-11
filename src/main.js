@@ -1,5 +1,12 @@
 window._ = require('lodash');
 window.axios = require('axios');
+window.jQuery = window.$ = require('jquery');
+import "bootstrap";
+import 'metismenu'
+import 'jquery-slimscroll/jquery.slimscroll.min'
+import 'pace-js'
+import './assets/js/inspinia'
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'

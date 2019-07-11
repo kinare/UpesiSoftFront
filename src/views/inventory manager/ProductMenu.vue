@@ -1,9 +1,33 @@
 <template>
     <div class="title-action">
         <div class="btn-group">
-            <button class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> New product</button>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newProduct"><i class="fa fa-plus-circle"></i> New product</button>
         </div>
-    </div>
+
+        <div class="modal inmodal in fade" id="newProduct" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                        <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                            remaining essentially unchanged.</p>
+                        <p><strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                            remaining essentially unchanged.</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>    </div>
 </template>
 
 <script>
