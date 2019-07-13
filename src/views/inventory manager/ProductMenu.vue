@@ -1,7 +1,7 @@
 <template>
     <div class="title-action">
         <div class="btn-group">
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newProduct"><i class="fa fa-plus-circle"></i> New product</button>
+            <router-link to="new" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> New product</router-link>
         </div>
 
         <div class="modal inmodal in fade" id="newProduct" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -22,12 +22,13 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-white">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
-        </div>    </div>
+        </div>
+    </div>
 </template>
 
 <script>

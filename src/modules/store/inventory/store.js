@@ -15,7 +15,7 @@ export default {
             state.products = products
         },
         SET_MESSAGE : (state, payload) => {
-            state.message = payload.message
+            state.message = payload.message || 'Something went wrong'
             state.status = payload.status || 'alert-warning'
         },
         SET_LOADING : (state, loading) => {

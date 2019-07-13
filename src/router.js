@@ -128,6 +128,13 @@ const  router = new Router({
                                 meta : { breadcrumb : 'products'},
                             },
                             {
+                                path : 'new',
+                                components : {
+                                    view : () => import('./views/inventory manager/NewProduct'),
+                                } ,
+                                meta : { breadcrumb : 'new'},
+                            },
+                            {
                                 path : 'categories',
                                 components : {
                                     view : () => import('./views/inventory manager/Categories'),

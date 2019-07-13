@@ -30,8 +30,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Handle</th>
-                                <th>Handle</th>
+                                <th>Name</th>
+                                <th>Desc</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,9 +40,7 @@
                                 <td>{{ row.name }}</td>
                                 <td>{{ row.handle }}</td>
                             </tr>
-                            <tr v-if="opened.includes(row.id)">
-                                <td colspan="3">ON!</td>
-                            </tr>
+
 <!--                            <tr>-->
 <!--                                <td colspan="4" v-if="validator.isEmptyObject(categories)" class="text-center"><i class="text-muted">No category found</i> </td>-->
 <!--                            </tr>-->
@@ -66,10 +64,7 @@
             return {
                 opened: [],
                 rows: [
-                    { id: 1, name: 'Bill', handle: 'bill' },
-                    { id: 2, name: 'Bob', handle: 'bob' },
-                    { id: 3, name: 'Jim', handle: 'jim' },
-                    { id: 4, name: 'Leroy', handle: 'leroy' }
+                    { id: 1, name: 'Nails', handle: 'Steel Nails' },
                 ],
                 term : '',
                 validator : window.validator
