@@ -58,8 +58,8 @@
                             <tbody>
                             <tr v-for="(product, index) in products" v-bind:key="index" style="cursor: pointer">
                                 <td class="product-avatar"><img alt="image" src="/img/p1.jpg"> </td>
-                                <td>{{product.name}}</td>
-                                <td>{{product.shortDescription}}</td>
+                                <td>{{product.productName}}</td>
+                                <td>{{product.productShortDescription}}</td>
                                 <td>{{product.sku}}</td>
                                 <td>{{product.price}}</td>
                                 <td>{{product.salePrice}}</td>
@@ -88,7 +88,7 @@
                                             <img alt="image" class="img-responsive" src="/img/p1.jpg">
                                         </div>
                                         <div class="file-name">
-                                            {{product.name}}<span class="badge badge-info pull-right">{{product.salePrice}}</span>
+                                            {{product.name}}<span class="badge badge-info pull-right">{{product.price}}</span>
                                             <br>
                                             <small>{{product.shortDescription}}</small>
                                         </div>
@@ -100,7 +100,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 

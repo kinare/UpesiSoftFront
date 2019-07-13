@@ -33,7 +33,7 @@ export default {
         getProducts : (context) => {
             context.commit('SET_LOADING', true)
             window.api.call('get',endpoints.products).then((res)=> {
-                context.commit('SET_PRODUCTS', res.data.data.products);
+                context.commit('SET_PRODUCTS', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
                 context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
