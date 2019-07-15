@@ -1,105 +1,110 @@
 <template>
     <div class="container-fluid p-sm">
-        <div class="col-sm-4 border-right">
-            <div class="row">
-                <div class="ibox" style="margin-bottom: 0; ">
-                    <div class="ibox-content pos-display">
-                        <div class="row pos-items">
-                            <table class="table small table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left">Item</th>
-                                        <th class="text-left">Description</th>
-                                        <th class="text-left">Qty</th>
-                                        <th class="text-right">Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-left">Nails</td>
-                                        <td class="text-left">Steel Wall Nails</td>
-                                        <td class="text-left">2</td>
-                                        <td class="text-right">250</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">Nails</td>
-                                        <td class="text-left">Steel Wall Nails</td>
-                                        <td class="text-left">2</td>
-                                        <td class="text-right">250</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row m-r-xs">
-                            <div class="col-xs-12">
-                                <h2 class="text-right"><strong>Total : 1254.00</strong></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="ibox" style="margin-bottom: 0">
-                    <div class="ibox-content pos-calc">
-                        <div class="row ">
-                            <div class="col-xs-12 p-sm">
-                                <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <router-link to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                <router-link to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
-                                <router-link to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
-                            </div>
-                            <div class="col-xs-8">
-                                <div class="row no-pad">
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">1</button>
-                                        <button class="btn btn-lg btn-white btn-block">4</button>
-                                        <button class="btn btn-lg btn-white btn-block">7</button>
-                                        <button class="btn btn-lg btn-white btn-block">+/-</button>
+        <div class="row">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Sale 1</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-plus"></i></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="col-sm-5 border-right">
+                                <div class="row">
+                                    <div class="ibox" style="margin-bottom: 0; ">
+                                        <div class="ibox-content pos-display">
+                                            <div class="row pos-items">
+                                                <table class="table small table-condensed table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-left">Item</th>
+                                                        <th class="text-left">Qty</th>
+                                                        <th class="text-left">Measure</th>
+                                                        <th class="text-right">Price</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="(item , index) in items" :key="index"  @click="select(index)" :class="selected === index ? 'success' : ''">
+                                                        <td class="text-left">{{item.productName}} <br>
+                                                            <small>{{item.productShortDescription}}</small>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <input v-if="selected === index" type="number" min="1" v-model="item.qty" class="form-control input-sm" >
+                                                            <span v-else>{{item.qty}}</span>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <input v-if="selected === index" :disabled="item.sellAs === 'FULL'" type="number" min="1" v-model="item.measurement" class="form-control input-sm">
+                                                            <span v-else>{{item.measurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <input v-if="selected === index" type="number" min="1"  v-model="item.salePrice" class="form-control input-sm" >
+                                                            <span v-else>{{item.salePrice}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="row m-r-xs">
+                                                <div class="col-xs-12">
+                                                    <h2 class="text-right"><strong>Total : {{totalSale}}</strong></h2>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">2</button>
-                                        <button class="btn btn-lg btn-white btn-block">5</button>
-                                        <button class="btn btn-lg btn-white btn-block">8</button>
-                                        <button class="btn btn-lg btn-white btn-block">0</button>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">3</button>
-                                        <button class="btn btn-lg btn-white btn-block">6</button>
-                                        <button class="btn btn-lg btn-white btn-block">9</button>
-                                        <button class="btn btn-lg btn-white btn-block">.</button>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">Qty</button>
-                                        <button class="btn btn-lg btn-white btn-block">Disc</button>
-                                        <button class="btn btn-lg btn-white btn-block">Price</button>
-                                        <button class="btn btn-lg btn-white btn-block">Del</button>
+                                </div>
+                                <div class="row">
+                                    <div class="ibox" style="margin-bottom: 0">
+                                        <div class="ibox-content pos-calc">
+                                            <div class="row ">
+                                                <div class="col-xs-12 p-sm">
+                                                    <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <router-link to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
+                                                    <router-link to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
+                                                    <router-link to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <div class="row no-pad">
+                                                        <div class="col-xs-3">
+                                                            <button class="btn btn-lg btn-white btn-block">1</button>
+                                                            <button class="btn btn-lg btn-white btn-block">4</button>
+                                                            <button class="btn btn-lg btn-white btn-block">7</button>
+                                                            <button class="btn btn-lg btn-white btn-block">+/-</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <button class="btn btn-lg btn-white btn-block">2</button>
+                                                            <button class="btn btn-lg btn-white btn-block">5</button>
+                                                            <button class="btn btn-lg btn-white btn-block">8</button>
+                                                            <button class="btn btn-lg btn-white btn-block">0</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <button class="btn btn-lg btn-white btn-block">3</button>
+                                                            <button class="btn btn-lg btn-white btn-block">6</button>
+                                                            <button class="btn btn-lg btn-white btn-block">9</button>
+                                                            <button class="btn btn-lg btn-white btn-block">.</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-primary' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-primary' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-primary' : 'btn-white'" @click="setOperation('PRICE')">Price</button>
+                                                            <button class="btn btn-lg btn-danger btn-block" @click="removeItem"><i class="fa fa-backspace"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-8 col-xs-12">
-            <div class="col-xs-12">
-                <div class="tabs-container">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">Sale 1</a></li>
-                        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">Sale 2</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body">
+                            <div class="col-sm-7 col-xs-12">
                                 <div class="col-xs-12">
                                     <div class="row">
                                         <form>
                                             <div class="input-group">
-                                                <input type="text" placeholder="Search Item" name="search" class="form-control">
+                                                <input type="text" placeholder="Search Item" v-model="term" class="form-control">
                                                 <div class="input-group-btn">
                                                     <button class="btn  btn-primary" type="submit">
                                                         Search
@@ -119,219 +124,32 @@
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed" style="margin: 5px"></div>
-                                    <div class="search-items">
-                                        <div class="file-box">
+                                    <div class="ibox-content search-items" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0">
+                                        <Spinner v-if="loading"/>
+                                        <div v-for="(product, index) in filteredProducts" v-bind:key="index"  class="file-box">
                                             <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
+                                                <a @click="addItem(product)">
+                                                    <span class="corner" :class="product.state ? 'available': 'unavailable'"></span>
+                                                    <div class="image">
+                                                        <img alt="image" class="img-responsive" src="/img/p1.jpg">
                                                     </div>
                                                     <div class="file-name">
-                                                        Document_2014.doc
+                                                        <h5 style="line-height: 0.1; margin-bottom: -5px">{{product.productName}}</h5>
                                                         <br>
-                                                        <small>Added: Jan 11, 2014</small>
+                                                        <span class="badge badge-info pull-right">{{product.salePrice === 0 ? product.price : product.salePrice}}</span>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                 </a>
                                             </div>
-
                                         </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div><div class="file-box">
-                                        <div class="file">
-                                            <a href="#">
-                                                <span class="corner"></span>
-
-                                                <div class="icon">
-                                                    <i class="fa fa-file"></i>
-                                                </div>
-                                                <div class="file-name">
-                                                    Document_2014.doc
-                                                    <br>
-                                                    <small>Added: Jan 11, 2014</small>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                    </div><div class="file-box">
-                                        <div class="file">
-                                            <a href="#">
-                                                <span class="corner"></span>
-
-                                                <div class="icon">
-                                                    <i class="fa fa-file"></i>
-                                                </div>
-                                                <div class="file-name">
-                                                    Document_2014.doc
-                                                    <br>
-                                                    <small>Added: Jan 11, 2014</small>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                    </div><div class="file-box">
-                                        <div class="file">
-                                            <a href="#">
-                                                <span class="corner"></span>
-
-                                                <div class="icon">
-                                                    <i class="fa fa-file"></i>
-                                                </div>
-                                                <div class="file-name">
-                                                    Document_2014.doc
-                                                    <br>
-                                                    <small>Added: Jan 11, 2014</small>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div><div class="file-box">
-                                        <div class="file">
-                                            <a href="#">
-                                                <span class="corner"></span>
-
-                                                <div class="icon">
-                                                    <i class="fa fa-file"></i>
-                                                </div>
-                                                <div class="file-name">
-                                                    Document_2014.doc
-                                                    <br>
-                                                    <small>Added: Jan 11, 2014</small>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                        <div class="file-box">
-                                            <div class="file">
-                                                <a href="#">
-                                                    <span class="corner"></span>
-
-                                                    <div class="icon">
-                                                        <i class="fa fa-file"></i>
-                                                    </div>
-                                                    <div class="file-name">
-                                                        Document_2014.doc
-                                                        <br>
-                                                        <small>Added: Jan 11, 2014</small>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-
-
-
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="tab-2" class="tab-pane">
-                            <div class="panel-body">
-                                <h1>Sale 2</h1>
-                            </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                            <h1>Sale 2</h1>
                         </div>
                     </div>
                 </div>
@@ -341,8 +159,91 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
+    import Spinner from "../../components/Spinner";
+    import { mapMultiRowFields } from 'vuex-map-fields';
     export default {
-        name: "Register"
+        name: "Register",
+        components: {Spinner},
+        data : function(){
+            return {
+                selected : 0,
+                operation : 'QTY',
+                term : '',
+                validator : window.validator
+            }
+        },
+        beforeRouteEnter(to, from, next){
+            next(v => {
+                v.$store.dispatch('inventory/getProducts')
+                v.$store.dispatch('inventory/getMeasurementUnits')
+            })
+        },
+        computed : {
+            totalSale(){
+                return this.items.reduce((total, item) => total + item.salePrice, 0)
+            },
+            filteredProducts () {
+               let self = this;
+               return this.term === ''
+                   ? this.products
+                   : this.products.filter(product => {
+                       return product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                           || product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                           || product.price === parseInt(self.term )>= 0
+                           || product.salePrice === parseInt(self.term )>= 0
+                           || product.measurement === parseInt(self.term )>= 0
+                           || product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                           || product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                           || product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                           // || product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                   })
+            },
+            ...mapState({
+                products : state => state.inventory.products,
+                units : state => state.inventory.measurementUnit,
+                items : state => state.pos.items,
+                loading : state => state.inventory.loading,
+                message : state => state.inventory.message,
+                status : state => state.inventory.status,
+            }),
+            ...mapMultiRowFields('pos',[
+                'items'
+            ]),
+            ...mapGetters({
+                getUom : 'inventory/getMeasurementUnit',
+            })
+        },
+        methods : {
+            addItem : function (product) {
+                if (this.items.filter(item => item.id === product.id).length === 0){
+                    product.qty = 1
+                    product.salePrice = product.salePrice === 0 ? product.price : product.salePrice
+                    this.$store.commit('pos/SET_ITEMS', product)
+                }
+            },
+            select : function (index) {
+                this.selected = index;
+            },
+            setOperation : function (operation){
+                this.operation = operation;
+            },
+            removeItem : function () {
+                this.$store.commit('pos/UNSET_ITEMS', this.selected);
+                this.selected = 0;
+            }
+
+        },
+        watch : {
+            items : {
+                // eslint-disable-next-line no-unused-vars
+                handler : function (n, o) {
+                    // eslint-disable-next-line no-console
+                    console.log(n)
+                }
+            }
+        }
+
     }
 </script>
 
@@ -427,7 +328,7 @@
     }
 
     .search-items{
-        height: 50vh;
+        height: 66vh;
         overflow-y: scroll;
     }
 

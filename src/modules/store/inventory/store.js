@@ -4,6 +4,7 @@ export default {
     state : {
         products : [],
         categories : {},
+        measurementUnit : {},
         message : '',
         status : '',
         loading : true,
@@ -13,6 +14,9 @@ export default {
         REFRESH_STORE() {},
         SET_PRODUCTS :(state, products) => {
             state.products = products
+        },
+        SET_MEASUREMENT_UNIT : (state, units) => {
+            state.measurementUnit = units
         },
         SET_MESSAGE : (state, payload) => {
             state.message = payload.message || 'Something went wrong'
@@ -28,7 +32,13 @@ export default {
             state.categories = categories;
         }
     },
-    getters : {},
+    getters : {
+        getMeasurementUnit : (state) => {
+            return (id) => {
+                return state.measurementUnit.filter(unit => unit.id === id)
+            }
+        }
+    },
     actions: {
         getProducts : (context) => {
             context.commit('SET_LOADING', true)
@@ -44,7 +54,17 @@ export default {
         getCategories : (context) => {
             context.commit('SET_LOADING', true)
             window.api.call('get',endpoints.products).then((res)=> {
-                context.commit('SET_CAREGORIES', res.data.data.categories);
+                context.commit('SET_CAREGORIES', res.data.data);
+                context.commit('SET_LOADING', false)
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false)
+            })
+        },
+        getMeasurementUnits : (context) => {
+            context.commit('SET_LOADING', true)
+            window.api.call('get',endpoints.measurementUnits).then((res)=> {
+                context.commit('SET_MEASUREMENT_UNIT', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});

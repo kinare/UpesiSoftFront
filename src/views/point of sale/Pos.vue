@@ -48,6 +48,8 @@
 </template>
 
 <script>
+    import inventory from '../../modules/store/inventory/store';
+    import pos from '../../modules/store/pos/store';
     export default {
         name: "Pos",
         data : function(){
@@ -69,6 +71,14 @@
         },
         beforeCreate() {
             document.body.className = 'top-navigation white-bg';
+        },
+        created() {
+            if (!(this.$store && this.$store.state && this.$store.state["inventory"])) {
+                this.$store.registerModule('inventory', inventory)
+            }
+            if (!(this.$store && this.$store.state && this.$store.state["pos"])) {
+                this.$store.registerModule('pos', pos)
+            }
         }
     }
 </script>
