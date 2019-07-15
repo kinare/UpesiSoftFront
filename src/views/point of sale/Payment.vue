@@ -29,13 +29,13 @@
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="due">Due</label>
-                                <input type="text" class="form-control" id="due" value="1500.00" disabled>
+                                <input type="text" class="form-control" id="due"  v-model="due" disabled>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="tendered">Tendered</label>
-                                <input type="text" class="form-control" id="tendered" value="1500.00">
+                                <input type="text" class="form-control" id="tendered" v-mode>
                             </div>
                         </div>
                         <div class="col-xs-3">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 text-right" style="margin-top: 20px;">
-                            <h2>Total : 2500.00 </h2>
+                            <h2>Total : {{getTotalSales}} </h2>
                             <h2>Change : 100.00 </h2>
                         </div>
                     </div>
@@ -115,8 +115,35 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
+    import { mapFields } from 'vuex-map-fields'
     export default {
-        name: "Payment"
+        name: "Payment",
+        data : function(){
+            return {
+
+            }
+        },
+        beforeRouteEnter(to, from, next){
+          next(v => {
+              v.due = v.getTotalSales;
+          })
+        },
+        computed : {
+            ...mapState({
+                items : state => state.pos.items,
+            }),
+            ...mapGetters({
+                getTotalSales : 'pos/totalSales',
+            }),
+            ...mapFields('pos', [
+                'payment.tendered',
+                'payment.due',
+                'payment.change',
+                'payment.method',
+                'payment.customer',
+            ])
+        }
     }
 </script>
 

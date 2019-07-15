@@ -5,17 +5,24 @@ export default {
     namespaced: true,
     state : {
         items : [],
+        payment : {
+           tendered : '',
+           due : '',
+           change : '',
+           method : '',
+           customer : {},
+        },
         receipt : {
             header : {},
-            lines : {},
+            lines : [],
         },
         invoice : {
             header : {},
-            lines : {},
+            lines : [],
         },
         quote : {
             header : {},
-            lines : {},
+            lines : [],
         },
         message : '',
         status : '',
@@ -44,6 +51,9 @@ export default {
     },
     getters : {
         getField,
+        totalSales : (state) => {
+            return state.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)
+        }
     },
     actions: {
         newProduct : ({context, dispatch}, data) => {

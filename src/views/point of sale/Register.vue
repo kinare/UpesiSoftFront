@@ -25,7 +25,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr v-for="(item , index) in items" :key="index"  @click="select(index)" :class="selected === index ? 'success' : ''">
-                                                        <td class="text-left">{{item.productName}} <br>
+                                                        <td class="text-left"><strong>{{item.productName}}</strong><br>
                                                             <small>{{item.productShortDescription}}</small>
                                                         </td>
                                                         <td class="text-left">
@@ -46,7 +46,7 @@
                                             </div>
                                             <div class="row m-r-xs">
                                                 <div class="col-xs-12">
-                                                    <h2 class="text-right"><strong>Total : {{totalSale}}</strong></h2>
+                                                    <h2 class="text-right"><strong>Total : {{getTotalSales}}</strong></h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -62,9 +62,9 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <router-link to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                                    <router-link to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
-                                                    <router-link to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
+                                                    <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn" @click="payment">Payment</router-link>
+                                                    <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
+                                                    <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
                                                 </div>
                                                 <div class="col-xs-8">
                                                     <div class="row no-pad">
@@ -87,9 +87,9 @@
                                                             <button class="btn btn-lg btn-white btn-block">.</button>
                                                         </div>
                                                         <div class="col-xs-3">
-                                                            <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-primary' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
-                                                            <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-primary' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>
-                                                            <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-primary' : 'btn-white'" @click="setOperation('PRICE')">Price</button>
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-success' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-success' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>
+                                                            <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-success' : 'btn-white'" @click="setOperation('PRICE')">Price</button>
                                                             <button class="btn btn-lg btn-danger btn-block" @click="removeItem"><i class="fa fa-backspace"></i> </button>
                                                         </div>
                                                     </div>
@@ -181,7 +181,7 @@
         },
         computed : {
             totalSale(){
-                return this.items.reduce((total, item) => total + item.salePrice, 0)
+                return this.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)
             },
             filteredProducts () {
                let self = this;
@@ -212,6 +212,7 @@
             ]),
             ...mapGetters({
                 getUom : 'inventory/getMeasurementUnit',
+                getTotalSales : 'pos/totalSales',
             })
         },
         methods : {
@@ -231,6 +232,9 @@
             removeItem : function () {
                 this.$store.commit('pos/UNSET_ITEMS', this.selected);
                 this.selected = 0;
+            },
+            payment : function () {
+
             }
 
         },
