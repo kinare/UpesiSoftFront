@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-7">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Categories</h5>
@@ -13,7 +13,7 @@
                 <div class="ibox-content" :class="loading ? 'sk-loading' : ''">
                     <Spinner v-if="loading"/>
                     <div class="row">
-                        <div class="col-sm-5 col-sm-push-7">
+                        <div class="col-sm-7 col-sm-push-5">
                             <form v-on:submit.prevent="searchProduct">
                                 <div class="input-group">
                                     <input  type="search" class="form-control" v-model="term" aria-label="Search" placeholder="Search">
@@ -35,10 +35,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(row, index) in rows" v-bind:key="index" style="cursor: pointer" @click="toggle(row.id)" :class="{ opened: opened.includes(row.id) }">
+                            <tr v-for="(category, index) in categories" v-bind:key="index" style="cursor: pointer">
                                 <td>{{index + 1}}</td>
-                                <td>{{ row.name }}</td>
-                                <td>{{ row.handle }}</td>
+                                <td>{{category.productCategoryName}}</td>
+                                <td>{{category.productCategoryDesc}}</td>
                             </tr>
 
 <!--                            <tr>-->
@@ -46,6 +46,54 @@
 <!--                            </tr>-->
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Add Category</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" :class="formDataError.name.status">
+                                    <label class="control-label">Name</label>
+                                    <input type="text" class="form-control" v-model="formData.name">
+                                    <span class="help-block">
+                                        {{formDataError.name.message}}
+                                    </span>
+                                </div>
+                                <div class="form-group" :class="formDataError.description.status">
+                                    <label class="control-label">Description</label>
+                                    <input type="text" class="form-control" v-model="formData.description">
+                                    <span class="help-block">
+                                        {{formDataError.description.message}}
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" value="option1" id="inlineCheckbox1" v-model="subCateg">
+                                        Sub Category
+                                    </label>
+                                </div>
+                                <div v-if="subCateg" class="form-group" :class="formDataError.parentId.state">
+                                   <label class="control-label">Parent Category</label>
+                                    <select class="form-control" v-model="formData.parentId">
+                                        <option v-for="(category, index) in categories" :value="category.id" :key="index">{{category.productCategoryName}}</option>
+                                    </select>
+                                    <span class="help-block">
+                                        {{formDataError.parentId.message}}
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-block btn-primary" @click.prevent="addCategory">Add Category</button>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -62,12 +110,32 @@
         components: {Spinner},
         data : function(){
             return {
-                opened: [],
-                rows: [
-                    { id: 1, name: 'Nails', handle: 'Steel Nails' },
-                ],
+                subCateg : false,
                 term : '',
-                validator : window.validator
+                formData : {
+                    name : '',
+                    description : '',
+                    parentId : '',
+                },
+                formDataError : {
+                    name : {
+                        state : '',
+                        message : '',
+                    },
+                    description : {
+                        state : '',
+                        message : '',
+                    },
+                    parentId : {
+                        state : '',
+                        message : '',
+                    },
+                },
+                rules : {
+                    name : 'required',
+                    description : 'required',
+                    parentId : 'optional',
+                }
             }
         },
         beforeRouteEnter(to, from, next){
@@ -76,17 +144,18 @@
             })
         },
         methods : {
+            addCategory : function(){
+                let res = window.validator.fields(this.formData, this.rules, this.formDataError);
+                if (res.hasErrors){
+                    this.formDataError = res.errors;
+                } else {
+                    this.$store.dispatch('inventory/newCategory', this.formData)
+                }
+            },
             searchProduct : function () {
                 
             },
-            toggle(id) {
-                const index = this.opened.indexOf(id);
-                if (index > -1) {
-                    this.opened.splice(index, 1)
-                } else {
-                    this.opened.push(id)
-                }
-            }
+
         },
         computed : {
             ...mapState('inventory',{
@@ -99,17 +168,4 @@
 </script>
 
 <style scoped>
-    table {
-        width: 100%;
-        border: 1px solid #ccc;
-    }
-
-    td {
-        padding: 2px;
-        border: 1px solid #ccc;
-    }
-
-    .opened {
-        background-color: yellow;
-    }
 </style>

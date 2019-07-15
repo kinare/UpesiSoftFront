@@ -53,7 +53,7 @@ export default {
 
         getCategories : (context) => {
             context.commit('SET_LOADING', true)
-            window.api.call('get',endpoints.products).then((res)=> {
+            window.api.call('get',endpoints.categories).then((res)=> {
                 context.commit('SET_CAREGORIES', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
@@ -74,7 +74,15 @@ export default {
 
         newProduct : ({context, dispatch}, data) => {
             window.api.call('post',endpoints.insert, data).then(() => {
-                dispatch('getProducts');
+                dispatch('getProducts', { root: true });
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+            })
+        },
+
+        newCategory : ({context, dispatch}, data) => {
+            window.api.call('post',endpoints.newCategory, data).then(() => {
+                dispatch('getCategories', { root: true });
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
             })

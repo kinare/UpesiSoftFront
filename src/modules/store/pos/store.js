@@ -26,6 +26,7 @@ export default {
         },
         message : '',
         status : '',
+        loading : false
     },
     mutations: {
         updateField,
@@ -48,11 +49,23 @@ export default {
             state.quote.header = quote.header
             state.quote.lines = quote.lines
         },
+        SET_LOADING : (state, status) => {
+            state.loading = status
+        },
+        UPDATE_SALE : (state, item) => {
+            state.items[item.index] = item.item;
+        },
     },
     getters : {
         getField,
         totalSales : (state) => {
             return state.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)
+        },
+        getItem : (state) => {
+            return (index) =>{
+                return state.items[index]
+            }
+
         }
     },
     actions: {
@@ -64,12 +77,55 @@ export default {
             })
         },
         generateReceipt : (context, data) => {
-            window.api.call('post',endpoints.insert, data).then((res) => {
+            context.commit('SET_LOADING', true);
+            window.api.call('post',endpoints.generateReceipt, data).then((res) => {
                 context.commit('SET_RECEIPT', res.data.data)
+                this.$router.push('/pos/receipt');
+                context.commit('SET_LOADING', false);
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false);
             })
         },
+
+        performOperation : ({state}, formulae) =>{
+            let item = state.items[formulae.operand]
+
+            switch (formulae.operation){
+                case 'QTY' :
+                    item.qty = parseInt(item.qty + '' + formulae.input);
+                     break;
+                case 'UNIT' :
+                    break
+                case 'PRICE' :
+                    break
+
+            }
+            // context.commit('UPDATE_SALE', {item : item, index : formulae.operand})
+        },
+        backSpace : ({context, state}, formulae) =>{
+            let item = state.items[formulae.operand]
+            switch (formulae.operation){
+                case 'QTY' :
+                    if (item.qty.toString().length === 1){
+                        alert('islessthan1')
+                        context.commit('UNSET_ITEMS', formulae.operand)
+                        return;
+                    }else {
+                        alert(item.qty.toString().length)
+                        item.qty = parseInt(item.qty.toString().slice(0, -1));
+                        // context.commit('UPDATE_SALE', {item : item, index : formulae.operand})
+                    }
+                    return;
+                case 'UNIT' :
+                    return
+                case 'PRICE' :
+                    return
+            }
+
+
+
+        }
 
     }
 }

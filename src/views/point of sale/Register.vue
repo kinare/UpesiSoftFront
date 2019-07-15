@@ -62,17 +62,17 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn" @click="payment">Payment</router-link>
+                                                    <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
                                                     <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
                                                     <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
                                                 </div>
                                                 <div class="col-xs-8">
                                                     <div class="row no-pad">
                                                         <div class="col-xs-3">
-                                                            <button class="btn btn-lg btn-white btn-block">1</button>
-                                                            <button class="btn btn-lg btn-white btn-block">4</button>
-                                                            <button class="btn btn-lg btn-white btn-block">7</button>
-                                                            <button class="btn btn-lg btn-white btn-block">+/-</button>
+                                                            <button class="btn btn-lg btn-white btn-block" @click="calculate(1)">1</button>
+                                                            <button class="btn btn-lg btn-white btn-block" @click="calculate(4)">4</button>
+                                                            <button class="btn btn-lg btn-white btn-block" @click="calculate(7)">7</button>
+                                                            <button class="btn btn-lg btn-white btn-block" @click="calculate('+/-')">+/-</button>
                                                         </div>
                                                         <div class="col-xs-3">
                                                             <button class="btn btn-lg btn-white btn-block">2</button>
@@ -90,7 +90,7 @@
                                                             <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-success' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
                                                             <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-success' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>
                                                             <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-success' : 'btn-white'" @click="setOperation('PRICE')">Price</button>
-                                                            <button class="btn btn-lg btn-danger btn-block" @click="removeItem"><i class="fa fa-backspace"></i> </button>
+                                                            <button class="btn btn-lg btn-danger btn-block" @click="removeItem()"><i class="fa fa-backspace"></i> </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -213,14 +213,16 @@
             ...mapGetters({
                 getUom : 'inventory/getMeasurementUnit',
                 getTotalSales : 'pos/totalSales',
+                getItem : 'pos/getItem',
             })
         },
         methods : {
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
-                    product.qty = 1
-                    product.salePrice = product.salePrice === 0 ? product.price : product.salePrice
-                    this.$store.commit('pos/SET_ITEMS', product)
+                    let prod = JSON.parse( JSON.stringify( product ) );
+                    prod.qty = 1
+                    prod.salePrice = product.salePrice === 0 ? product.price : product.salePrice
+                    this.$store.commit('pos/SET_ITEMS', prod)
                 }
             },
             select : function (index) {
@@ -230,11 +232,26 @@
                 this.operation = operation;
             },
             removeItem : function () {
-                this.$store.commit('pos/UNSET_ITEMS', this.selected);
-                this.selected = 0;
+                if (this.items.length !== 0){
+                    let formulae = {
+                        input : 1,
+                        operand : this.selected,
+                        operation : this.operation
+                    }
+                    this.$store.dispatch('pos/backSpace', formulae)
+                }
+                // this.$store.commit('pos/UNSET_ITEMS', this.selected);
+                // this.selected = 0;
             },
-            payment : function () {
-
+            calculate : function (input) {
+                if (this.items.length !== 0){
+                    let formulae = {
+                        input : input,
+                        operand : this.selected,
+                        operation : this.operation
+                    }
+                    this.$store.dispatch('pos/performOperation', formulae)
+                }
             }
 
         },
