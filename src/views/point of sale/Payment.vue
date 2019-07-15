@@ -18,9 +18,9 @@
                 <div class="col-xs-4">
                    <div class="row">
                        <div class=" col-xs-8 col-sm-push-4">
-                           <button class="btn btn-lg btn-white btn-block pull-right">Cash</button>
-                           <button class="btn btn-lg btn-white btn-block pull-right">Mpesa</button>
-                           <button class="btn btn-lg btn-white btn-block pull-right">Card</button>
+                           <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Cash'">Cash</button>
+                           <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Mpesa'">Mpesa</button>
+                           <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Card'">Card</button>
                        </div>
                    </div>
                 </div>
@@ -35,19 +35,19 @@
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="tendered">Tendered</label>
-                                <input type="text" class="form-control" id="tendered" v-mode>
+                                <input type="text" class="form-control" id="tendered" v-model="tendered">
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="change">Change</label>
-                                <input type="text" class="form-control" id="change" value="1500.00" disabled>
+                                <input type="text" class="form-control" id="change" value="1500.00" v-model="change" disabled>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="change">Method</label>
-                                <select class="form-control">
+                                <select class="form-control" v-model="method">
                                     <option selected value="Cash">Cash</option>
                                     <option value="Mpesa">Mpesa</option>
                                     <option value="Card">Card</option>
@@ -127,9 +127,14 @@
         beforeRouteEnter(to, from, next){
           next(v => {
               v.due = v.getTotalSales;
+              v.tendered = 0;
           })
         },
         computed : {
+            getChange() {
+                // this.change = this.tendered - this.due
+                return  this.change
+            },
             ...mapState({
                 items : state => state.pos.items,
             }),
