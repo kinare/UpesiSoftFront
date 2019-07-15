@@ -6,10 +6,10 @@ export default {
     state : {
         items : [],
         payment : {
-           tendered : '',
+           tendered : 0,
            due : '',
-           change : '',
-           method : '',
+           change : 0,
+           method : 'Cash',
            customer : {},
         },
         receipt : {
@@ -63,5 +63,13 @@ export default {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
             })
         },
+        generateReceipt : (context, data) => {
+            window.api.call('post',endpoints.insert, data).then((res) => {
+                context.commit('SET_RECEIPT', res.data.data)
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+            })
+        },
+
     }
 }

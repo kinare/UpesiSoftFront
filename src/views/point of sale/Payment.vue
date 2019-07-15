@@ -9,7 +9,7 @@
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
                 </div>
                 <div class="col-xs-3">
-                    <router-link to="/pos/receipt" class="btn btn-white btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></router-link>
+                    <a @click="receipt" class="btn btn-white btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></a>
                 </div>
 
             </div>
@@ -29,26 +29,26 @@
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="due">Due</label>
-                                <input type="text" class="form-control" id="due"  v-model="due" disabled>
+                                <input type="number" class="form-control" id="due"  v-model="due" disabled>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="tendered">Tendered</label>
-                                <input type="text" class="form-control" id="tendered" v-model="tendered">
+                                <input type="number" class="form-control" id="tendered" v-model="tendered">
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="change">Change</label>
-                                <input type="text" class="form-control" id="change" value="1500.00" v-model="change" disabled>
+                                <input type="number" class="form-control" id="change" v-model="change" disabled>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class="form-group">
                                 <label for="change">Method</label>
                                 <select class="form-control" v-model="method">
-                                    <option selected value="Cash">Cash</option>
+                                    <option value="Cash">Cash</option>
                                     <option value="Mpesa">Mpesa</option>
                                     <option value="Card">Card</option>
                                 </select>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-xs-12 text-right" style="margin-top: 20px;">
                             <h2>Total : {{getTotalSales}} </h2>
-                            <h2>Change : 100.00 </h2>
+                            <h2>Change : {{change}} </h2>
                         </div>
                     </div>
 
@@ -127,14 +127,26 @@
         beforeRouteEnter(to, from, next){
           next(v => {
               v.due = v.getTotalSales;
-              v.tendered = 0;
+              v.change = v.tendered - v.getTotalSales;
           })
         },
+        methods : {
+          receipt : function () {
+              let data = {
+                  header : {
+                      customer : this.customer,
+                      total : this.due,
+                      tendered : this.tendered,
+                      change : this.change,
+                      method : this.method,
+                  },
+                  lines : this.items
+              };
+              this.$store.dispatch('pos/generateReceipt', data);
+              this.$router.push('/pos/receipt');
+          }
+        },
         computed : {
-            getChange() {
-                // this.change = this.tendered - this.due
-                return  this.change
-            },
             ...mapState({
                 items : state => state.pos.items,
             }),
@@ -148,6 +160,14 @@
                 'payment.method',
                 'payment.customer',
             ])
+        },
+        watch : {
+            tendered : {
+                // eslint-disable-next-line no-unused-vars
+                handler : function (n, o) {
+                    this.change = n - this.due
+                }
+            }
         }
     }
 </script>
