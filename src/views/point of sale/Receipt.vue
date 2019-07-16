@@ -28,15 +28,14 @@
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-content">
-                                            <p>Nails <span class="pull-right">500.00 &nbsp; &nbsp; Ksh 1,500.00</span></p>
-                                            <p>Pipe <span class="pull-right">700.00 &nbsp; &nbsp; Ksh 1,400.00</span></p>
+                                            <p v-for="(item, index) in items" :key="index">{{item.productName}} <span class="pull-right"> &nbsp; &nbsp; {{item.price}}</span></p>
 
                                             <br>
-                                            <p>Sub total <span class="pull-right">Ksh 2,900.00</span></p>
-                                            <h4>Total <span class="pull-right">Ksh 2,900.00</span></h4>
+                                            <p>Sub total <span class="pull-right">Ksh {{getTotalSales}}</span></p>
+                                            <h4>Total <span class="pull-right">Ksh {{getTotalSales}}</span></h4>
                                             <br>
-                                            <p>Cash <span class="pull-right">Ksh 3,000.00</span></p>
-                                            <p>Change <span class="pull-right">Ksh 100.00</span></p>
+                                            <p>Cash <span class="pull-right">Ksh {{payment.due}}</span></p>
+                                            <p>Change <span class="pull-right">Ksh {{payment.change}}</span></p>
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-footer">
@@ -64,13 +63,23 @@
 </template>
 
 <script>
+    import { mapState, mapGetters } from 'vuex'
     export default {
         name: "Receipt",
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('receipt');
             }
-        }
+        },
+        computed : {
+            ...mapState({
+                items : state => state.pos.items,
+                payment : state => state.pos.payment,
+            }),
+            ...mapGetters({
+                getTotalSales : 'pos/totalSales',
+            }),
+        },
     }
 </script>
 

@@ -37,7 +37,7 @@
                                                             <span v-else>{{item.measurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
                                                         </td>
                                                         <td class="text-right">
-                                                            <input v-if="selected === index" type="number" min="1"  v-model="item.salePrice" class="form-control input-sm" >
+                                                            <input v-if="selected === index" type="number" min="1"  v-model="item.salePrice * item.qty" class="form-control input-sm" >
                                                             <span v-else>{{item.salePrice}}</span>
                                                         </td>
                                                     </tr>
@@ -46,7 +46,7 @@
                                             </div>
                                             <div class="row m-r-xs">
                                                 <div class="col-xs-12">
-                                                    <h2 class="text-right"><strong>Total : {{getTotalSales}}</strong></h2>
+                                                    <h2 class="text-right"><strong>Total : Ksh {{getTotalSales}}</strong></h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,9 +134,10 @@
                                                         <img alt="image" class="img-responsive" src="/img/p1.jpg">
                                                     </div>
                                                     <div class="file-name">
-                                                        <h5 style="line-height: 0.1; margin-bottom: -5px">{{product.productName}}</h5>
+                                                        <h5 style="line-height: 1; margin-bottom: -5px">{{product.productName}}</h5>
                                                         <br>
-                                                        <span class="badge badge-info pull-right">{{product.salePrice === 0 ? product.price : product.salePrice}}</span>
+                                                        <small>QTY {{product.qty || 1}}</small>
+                                                        <span class="badge badge-info pull-right">Ksh {{product.salePrice === 0 ? product.price : product.salePrice}}</span>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                 </a>
@@ -170,7 +171,7 @@
                 selected : 0,
                 operation : 'QTY',
                 term : '',
-                validator : window.validator
+                validator : window.validator,
             }
         },
         beforeRouteEnter(to, from, next){

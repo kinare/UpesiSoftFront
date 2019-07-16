@@ -5,7 +5,8 @@
                 <div class="ibox-title">
                     <h4>New Product</h4>
                 </div>
-                <div class="ibox-content">
+                <div class="ibox-content" :class="loading ? 'sk-loading' : ''">
+                    <spinner v-if="loading"/>
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="tabs-container">
@@ -25,10 +26,10 @@
                                                             <label class="col-sm-4 control-label">Name</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" class="form-control" v-model="formData.productName">
+                                                                <span class="help-block">
+                                                                    {{formDataError.productName.message}}
+                                                                </span>
                                                             </div>
-                                                            <span class="help-block">
-                                                                {{formDataError.productName.message}}
-                                                            </span>
                                                         </div>
                                                         <div class="form-group" :class="formDataError.productShortDescription.status">
                                                             <label class="col-sm-4 control-label">Short Desc</label>
@@ -59,7 +60,7 @@
                                                         <div class="form-group" :class="formDataError.sku.status">
                                                             <label class="col-sm-4 control-label">SKU</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.sku">
+                                                                <input type="number" class="form-control" v-model="formData.sku">
                                                                 <span class="help-block">
                                                                     {{formDataError.sku.message}}
                                                                 </span>
@@ -222,14 +223,20 @@
                                 <!--categories-->
                                 <div class="col-xs-12">
                                     <h4 class="tag-title">Categories</h4>
-                                    <div class="input-group m-b">
-                                        <select class="form-control" v-model="category">
-                                            <option v-for="(category, index) in categories" :value="category.productCategoryName" :key="index">{{category.productCategoryName}}</option>
-                                        </select>
-                                        <div class="input-group-btn">
-                                            <button tabindex="-1" class="btn btn-primary" type="button" @click="addCategory()">Add</button>
+                                    <div class="form-group" :class="formDataError.categories.status">
+                                        <div class="input-group" >
+                                            <select class="form-control" v-model="category">
+                                                <option v-for="(category, index) in categories" :value="category.productCategoryName" :key="index">{{category.productCategoryName}}</option>
+                                            </select>
+                                            <div class="input-group-btn">
+                                                <button tabindex="-1" class="btn btn-primary" type="button" @click="addCategory()">Add</button>
+                                            </div>
                                         </div>
+                                        <span class="help-block">
+                                            {{formDataError.categories.message}}
+                                        </span>
                                     </div>
+
 
                                     <ul class="tag-list" style="padding: 0">
                                         <li v-for="(category, index) in formData.categories" :key="index">
@@ -237,7 +244,7 @@
                                     </ul>
                                 </div>
 
-                                <!--                            images-->
+                                <!-- images-->
                                 <div class="col-xs-12 m-t-lg">
                                     <h4>Product Image</h4>
                                     <label class="btn btn-block btn-white">
@@ -268,9 +275,10 @@
 <script>
     import { mapState } from 'vuex'
     import DatePicker from 'vue2-datepicker'
+    import Spinner from "../../components/Spinner";
     export default {
         name: "NewProduct",
-        components: { DatePicker },
+        components: {Spinner, DatePicker },
         data : function () {
             return {
                 category : '',
@@ -289,7 +297,7 @@
                     published : '',
                     storageLocation : '',
                     sellAs : 'FULL',
-                    customSaleUnit : '',
+                    customSaleUnit : 0,
                     measurement : '',
                     qty : '',
                 },
@@ -365,22 +373,22 @@
                 },
                 rules : {
                     productName : 'required',
-                    // productDescription : 'required',
-                    // productShortDescription : 'required',
-                    // // availableFrom : 'optional',
-                    // availableTo : 'optional',
-                    // categories : 'optional',
-                    // sku : 'optional',
-                    // price : 'required',
-                    // salePrice : 'required',
-                    // measurementUnit : 'required',
-                    // taxClassId : 'required',
-                    // published : 'optional',
-                    // storageLocation : 'optional',
-                    // sellAs : 'FULL',
-                    // customSaleUnit : 'optional',
-                    // measurement : 'optional',
-                    // qty : 'required',
+                    productDescription : 'required',
+                    productShortDescription : 'required',
+                    availableFrom : 'optional',
+                    availableTo : 'optional',
+                    categories : 'required',
+                    sku : 'optional',
+                    price : 'required',
+                    salePrice : 'required',
+                    measurementUnit : 'required',
+                    taxClassId : 'required',
+                    published : 'optional',
+                    storageLocation : 'optional',
+                    sellAs : 'FULL',
+                    customSaleUnit : 'optional',
+                    measurement : 'optional',
+                    qty : 'required',
                 }
             }
         },
@@ -399,13 +407,12 @@
             },
             addProduct : function () {
                 //validation
-                // eslint-disable-next-line no-console
-                console.log(this.formData)
                 let res = window.validator.fields(this.formData, this.rules, this.formDataError)
                 if (res.hasErrors){
-                    this.formDataError = res
+                    this.formDataError = res.errors
                 } else {
                     this.$store.dispatch('inventory/newProduct', this.formData);
+                    this.$store.commit('inventory/SET_LOADING', true);
                 }
             }
 
@@ -414,6 +421,7 @@
             ...mapState({
                 units : state => state.inventory.measurementUnit,
                 categories : state => state.inventory.categories,
+                loading : state => state.inventory.loading,
             }),
         },
 

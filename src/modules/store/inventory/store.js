@@ -72,11 +72,15 @@ export default {
             })
         },
 
-        newProduct : ({context, dispatch}, data) => {
+        newProduct : (commit, data) => {
+            // context.commit('inventory/SET_LOADING', true);
             window.api.call('post',endpoints.insert, data).then(() => {
-                dispatch('getProducts', { root: true });
+                // dispatch('getProducts', { root: true });
+                commit('SET_LOADING', false);
+                // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
-                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                // commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                commit('SET_LOADING', false);
             })
         },
 

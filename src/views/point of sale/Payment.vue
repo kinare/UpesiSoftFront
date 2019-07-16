@@ -57,8 +57,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 text-right" style="margin-top: 20px;">
-                                <h2>Total : {{getTotalSales}} </h2>
-                                <h2>Change : {{change}} </h2>
+                                <h2>Total : Ksh {{getTotalSales}} </h2>
+                                <h2>Change : Ksh {{change}} </h2>
                             </div>
                         </div>
 

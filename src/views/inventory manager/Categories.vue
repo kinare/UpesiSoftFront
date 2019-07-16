@@ -79,7 +79,7 @@
                                         Sub Category
                                     </label>
                                 </div>
-                                <div v-if="subCateg" class="form-group" :class="formDataError.parentId.state">
+                                <div v-if="subCateg" class="form-group" :class="formDataError.parentId.status">
                                    <label class="control-label">Parent Category</label>
                                     <select class="form-control" v-model="formData.parentId">
                                         <option v-for="(category, index) in categories" :value="category.id" :key="index">{{category.productCategoryName}}</option>
@@ -119,15 +119,15 @@
                 },
                 formDataError : {
                     name : {
-                        state : '',
+                        status : '',
                         message : '',
                     },
                     description : {
-                        state : '',
+                        status : '',
                         message : '',
                     },
                     parentId : {
-                        state : '',
+                        status : '',
                         message : '',
                     },
                 },
@@ -146,6 +146,8 @@
         methods : {
             addCategory : function(){
                 let res = window.validator.fields(this.formData, this.rules, this.formDataError);
+                // eslint-disable-next-line no-console
+                console.log(res)
                 if (res.hasErrors){
                     this.formDataError = res.errors;
                 } else {
