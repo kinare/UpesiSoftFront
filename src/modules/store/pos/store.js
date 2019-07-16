@@ -3,7 +3,7 @@ import { getField, updateField } from 'vuex-map-fields';
 
 export default {
     namespaced: true,
-    state : {
+    state : () => ({
         items : [],
         payment : {
            tendered : 0,
@@ -27,7 +27,7 @@ export default {
         message : '',
         status : '',
         loading : false
-    },
+    }),
     mutations: {
         updateField,
         REFRESH_STORE() {},
@@ -65,7 +65,6 @@ export default {
             return (index) =>{
                 return state.items[index]
             }
-
         }
     },
     actions: {
@@ -103,13 +102,13 @@ export default {
             }
             // context.commit('UPDATE_SALE', {item : item, index : formulae.operand})
         },
-        backSpace : ({context, state}, formulae) =>{
+        backSpace : ({commit, state}, formulae) =>{
             let item = state.items[formulae.operand]
             switch (formulae.operation){
                 case 'QTY' :
                     if (item.qty.toString().length === 1){
                         alert('islessthan1')
-                        context.commit('UNSET_ITEMS', formulae.operand)
+                        commit('UNSET_ITEMS', formulae.operand)
                         return;
                     }else {
                         alert(item.qty.toString().length)

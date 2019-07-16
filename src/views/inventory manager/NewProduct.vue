@@ -155,7 +155,7 @@
                                                         <div class="form-group" :class="formDataError.price.status">
                                                             <label class="col-sm-4 control-label">Price</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.price">
+                                                                <input type="number" class="form-control" v-model="formData.price">
                                                                 <span class="help-block">
                                                                     {{formDataError.price.message}}
                                                                 </span>
@@ -164,9 +164,18 @@
                                                         <div class="form-group" :class="formDataError.salePrice.status">
                                                             <label class="col-sm-4 control-label">Sale Price</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.salePrice">
+                                                                <input type="number" class="form-control" v-model="formData.salePrice">
                                                                 <span class="help-block">
                                                                     {{formDataError.salePrice.message}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" :class="formDataError.unitPrice.status">
+                                                            <label class="col-sm-4 control-label">Price Per unit</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="number" class="form-control" v-model="formData.unitPrice">
+                                                                <span class="help-block">
+                                                                    {{formDataError.unitPrice.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -292,6 +301,7 @@
                     sku : '',
                     price : '',
                     salePrice : '',
+                    unitPrice : '',
                     measurementUnit : '',
                     taxClassId : '',
                     published : '',
@@ -331,6 +341,10 @@
                         message : '',
                     },
                     price : {
+                        status : '',
+                        message : '',
+                    },
+                    unitPrice : {
                         status : '',
                         message : '',
                     },
@@ -380,6 +394,7 @@
                     categories : 'required',
                     sku : 'optional',
                     price : 'required',
+                    unitPrice : 'required',
                     salePrice : 'required',
                     measurementUnit : 'required',
                     taxClassId : 'required',
