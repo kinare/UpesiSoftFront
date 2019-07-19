@@ -1,8 +1,9 @@
 <template>
-    <div class="panel-body">
+    <div class="container-fluid">
         <div class="col-sm-5 border-right">
+<!--            pos display-->
             <div class="row">
-                <div class="ibox" style="margin-bottom: 0; ">
+                <div class="ibox" style="margin-bottom: 0;">
                     <div class="ibox-content pos-display">
                         <div class="row pos-items">
                             <table class="table small table-condensed table-striped">
@@ -20,18 +21,39 @@
                                         <small>{{item.productShortDescription}}</small>
                                     </td>
                                     <td class="text-left">
-                                        <input v-if="selected === index" :disabled="item.sellAs === 'CUSTOM'"  v-on:change="fieldUpdate(index, 'QTY')" type="number" min="1" v-model="item.qty" class="form-control input-sm" >
+                                        <input v-if="selected === index"
+                                               :disabled="item.sellAs === 'CUSTOM'"
+                                               v-on:change="fieldUpdate(index, 'QTY')"
+                                               type="number" min="1"
+                                               class="form-control input-sm"
+                                               v-model="item.qty"
+                                        >
                                         <span v-else>{{item.qty}}</span>
                                     </td>
                                     <td class="text-left">
                                         <div v-if="selected === index" class="input-group">
-                                            <input  v-on:change="fieldUpdate(index, 'UNIT')" :disabled="item.sellAs === 'FULL'" aria-describedby="basic-addon2" type="number" :min="item.minUnit" :max="item.maxUnit" v-model="item.measurement" class="form-control input-sm">
-                                            <span class="input-group-addon" id="basic-addon2">{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
+                                            <input  v-on:change="fieldUpdate(index, 'UNIT')"
+                                                    :disabled="item.sellAs === 'FULL'"
+                                                    aria-describedby="basic-addon2"
+                                                    type="number"
+                                                    :min="item.minUnit"
+                                                    :max="item.maxUnit"
+                                                    class="form-control input-sm"
+                                                    v-model="item.measurement"
+                                            >
+                                            <span class="input-group-addon"
+                                                  id="basic-addon2">
+                                                {{getUom(item.measurementUnit)[0].measurementAbbreviation}}
+                                            </span>
                                         </div>
                                         <span v-else>{{item.measurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
                                     </td>
                                     <td class="text-right">
-                                        <input v-if="selected === index" type="number" min="1" v-model="item.salePrice" class="form-control input-sm" >
+                                        <input v-if="selected === index"
+                                               type="number" min="1"
+                                               class="form-control input-sm"
+                                               v-model="item.salePrice"
+                                        >
                                         <span v-else>{{item.salePrice}}</span>
                                     </td>
                                 </tr>
@@ -46,17 +68,19 @@
                     </div>
                 </div>
             </div>
+
+<!--            pos calculator-->
             <div class="row">
                 <div class="ibox" style="margin-bottom: 0">
                     <div class="ibox-content pos-calc">
-                        <div class="row ">
+                        <div class="row">
                             <div class="col-xs-12 p-sm">
                                 <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4">
-                                <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/payment" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
+                                <router-link :class="totalSale === 0 ? 'disabled' : ''" :to="'/pos/payment/' + namespace.split('/').pop()" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
                             </div>
@@ -69,16 +93,16 @@
                                         <button class="btn btn-lg btn-white btn-block" @click="calculate('+/-')">+/-</button>
                                     </div>
                                     <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">2</button>
-                                        <button class="btn btn-lg btn-white btn-block">5</button>
-                                        <button class="btn btn-lg btn-white btn-block">8</button>
-                                        <button class="btn btn-lg btn-white btn-block">0</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(2)">2</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(5)">5</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(8)">8</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(0)">0</button>
                                     </div>
                                     <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block">3</button>
-                                        <button class="btn btn-lg btn-white btn-block">6</button>
-                                        <button class="btn btn-lg btn-white btn-block">9</button>
-                                        <button class="btn btn-lg btn-white btn-block">.</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(3)">3</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(6)">6</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(9)">9</button>
+                                        <button class="btn btn-lg btn-white btn-block" @click="calculate('.')">.</button>
                                     </div>
                                     <div class="col-xs-3">
                                         <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-success' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
@@ -144,13 +168,12 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
     import Spinner from "../../components/Spinner";
-    import { mapMultiRowFields } from 'vuex-map-fields';
     import Pos from "../../modules/store/pos/pos";
     const posController  = new Pos();
     export default {
         name: "PosInstance",
+        props : ['namespace'],
         components: {Spinner},
         data : function(){
             return {
@@ -158,14 +181,14 @@
                 operation : 'QTY',
                 term : '',
                 validator : window.validator,
-
             }
         },
         beforeCreate(){
-            this.$store.dispatch('inventory/getProducts')
-            this.$store.dispatch('inventory/getMeasurementUnits')
+            this.$store.dispatch('inventory/getProducts');
+            this.$store.dispatch('inventory/getMeasurementUnits');
         },
         computed : {
+            //getters
             totalSale(){
                 return this.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)
             },
@@ -185,22 +208,21 @@
                         // || product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     })
             },
-            ...mapState({
-                products : state => state.inventory.products,
-                units : state => state.inventory.measurementUnit,
-                items : state => state.pos.items,
-                loading : state => state.inventory.loading,
-                message : state => state.inventory.message,
-                status : state => state.inventory.status,
-            }),
-            ...mapMultiRowFields('pos',[
-                'items'
-            ]),
-            ...mapGetters({
-                getUom : 'inventory/getMeasurementUnit',
-                getTotalSales : 'pos/totalSales',
-                getItem : 'pos/getItem',
-            })
+
+            //Inventory
+            products(){return this.$store.getters['inventory/products']},
+            units(){return this.$store.getters['inventory/measurementUnit']},
+            loading(){return this.$store.getters['inventory/loading']},
+            message(){return this.$store.getters['inventory/message']},
+            status(){return this.$store.getters['inventory/status']},
+            getUom(){return this.$store.getters['inventory/getMeasurementUnit']},
+
+
+            //pos
+            items(){return this.$store.getters[this.namespace + '/items']},
+            getTotalSales(){return this.$store.getters[this.namespace + '/totalSales']},
+            getItem(){return this.$store.getters[this.namespace + '/getItem']},
+
         },
         methods : {
             addItem : function (product) {
@@ -212,7 +234,7 @@
                     prod.maxUnit = prod.measurement;
                     prod.minUnit = prod.customSaleUnit;
                     prod.itemPrice = prod.salePrice;
-                    this.$store.commit('pos/SET_ITEMS', prod)
+                    this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }
             },
             select : function (index) {
@@ -222,50 +244,37 @@
                 this.operation = operation;
             },
             removeItem : function () {
-                if (this.items.length !== 0){
-                    let formulae = {
-                        input : 1,
-                        operand : this.selected,
-                        operation : this.operation
-                    }
-                    this.$store.dispatch('pos/backSpace', formulae)
-                }
-                // this.$store.commit('pos/UNSET_ITEMS', this.selected);
-                // this.selected = 0;
+                this.$store.commit(this.namespace + '/UNSET_ITEMS', this.selected);
             },
             calculate : function (input) {
                 if (this.items.length !== 0){
                     let formulae = {
                         input : input,
-                        operand : this.selected,
+                        operand : this.getItem(this.selected),
                         operation : this.operation
-                    }
-                    this.$store.dispatch('pos/performOperation', formulae)
+                    };
+
+                    this.$store.commit(
+                        this.namespace + '/UPDATE_SALE',
+                        {
+                            index : this.selected,
+                            item : posController.performOperation(formulae)
+                        }
+                    )
                 }
             },
             fieldUpdate : function (index, field) {
-                this.$store.dispatch(
-                    'inventory/UPDATE_SALE',
+                this.$store.commit(
+                    this.namespace + '/UPDATE_SALE',
                     {
                         index : index,
                         item : posController.updateSale(this.getItem(index), field)
                     }
                 )
-            }
-
+            },
         },
-        watch : {
-            items : {
-                // eslint-disable-next-line no-unused-vars
-                handler : function (n, o) {
-                    // eslint-disable-next-line no-console
-                    console.log(n)
-                }
-            }
-        }
     }
 </script>
-
 <style scoped>
     td input {
         min-width: 70px
@@ -341,13 +350,7 @@
     .pos-footer{
         min-height: 40px;
     }
-    .tabs-container .tab-pane .panel-body{
 
-        background-color: #FAFBFB;
-    }
-    .tabs-container .nav-tabs > li.active > a{
-        background-color: #FAFBFB;
-    }
 
     .search-items{
         height: 66vh;

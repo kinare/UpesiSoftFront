@@ -33,11 +33,14 @@ export default {
         }
     },
     getters : {
-        getMeasurementUnit : (state) => {
-            return (id) => {
-                return state.measurementUnit.filter(unit => unit.id === id)
-            }
-        }
+        getMeasurementUnit : (state) => {return (id) => {return state.measurementUnit.filter(unit => unit.id === id)}},
+        products : (state) => {return state.products},
+        categories : (state) => {return state.categories},
+        measurementUnit : (state) => {return state.measurementUnit},
+        message : (state) => {return state.message},
+        status : (state) => {return state.status},
+        loading : (state) => {return state.loading},
+        view : (state) => {return state.view},
     },
     actions: {
         getProducts : (context) => {
@@ -50,7 +53,6 @@ export default {
                 context.commit('SET_LOADING', false)
             })
         },
-
         getCategories : (context) => {
             context.commit('SET_LOADING', true)
             window.api.call('get',endpoints.categories).then((res)=> {
@@ -71,7 +73,6 @@ export default {
                 context.commit('SET_LOADING', false)
             })
         },
-
         newProduct : (commit, data) => {
             // context.commit('inventory/SET_LOADING', true);
             window.api.call('post',endpoints.insert, data).then(() => {
@@ -83,7 +84,6 @@ export default {
                 commit('SET_LOADING', false);
             })
         },
-
         newCategory : ({context, dispatch}, data) => {
             window.api.call('post',endpoints.newCategory, data).then(() => {
                 dispatch('getCategories', { root: true });

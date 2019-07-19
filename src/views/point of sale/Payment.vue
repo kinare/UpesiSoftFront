@@ -9,7 +9,7 @@
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
                 </div>
                 <div class="col-xs-3">
-                    <a @click="receipt" :class="tendered === 0 ? 'disabled' : ''" class="btn btn-primary btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></a>
+                    <a @click="receipt" :class="tendered >= getTotalSales ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></a>
                 </div>
 
             </div>
@@ -20,9 +20,9 @@
                     <div class="col-xs-4">
                         <div class="row">
                             <div class=" col-xs-8 col-sm-push-4">
-                                <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Cash'">Cash</button>
-                                <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Mpesa'">Mpesa</button>
-                                <button class="btn btn-lg btn-white btn-block pull-right" @click="method = 'Card'">Card</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Cash' ? 'btn-primary' : 'btn-white'" @click="method = 'Cash'">Cash</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Mpesa' ? 'btn-primary' : 'btn-white'" @click="method = 'Mpesa'">Mpesa</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Card' ? 'btn-primary' : 'btn-white'" @click="method = 'Card'">Card</button>
                             </div>
                         </div>
                     </div>
@@ -31,13 +31,13 @@
                             <div class="col-xs-3">
                                 <div class="form-group">
                                     <label for="due">Due</label>
-                                    <input type="number" class="form-control" id="due"  v-model="due" disabled>
+                                    <input type="number" class="form-control" id="due"  v-model="getTotalSales" disabled>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
                                     <label for="tendered">Tendered</label>
-                                    <input type="number" class="form-control" id="tendered" v-model="tendered">
+                                    <input type="number" class="form-control" id="tendered" v-model="tendered" autofocus>
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -57,8 +57,22 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 text-right" style="margin-top: 20px;">
-                                <h2>Total : Ksh {{getTotalSales}} </h2>
-                                <h2>Change : Ksh {{change}} </h2>
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Paid :</strong></td>
+                                        <td>Ksh {{tendered}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Amount Due :</strong></td>
+                                        <td>Ksh {{getTotalSales}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Change :</strong></td>
+                                        <td>Ksh {{change}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -71,28 +85,28 @@
                                         <div class="col-xs-12">
                                             <div class="row no-pad">
                                                 <div class="col-xs-3">
-                                                    <button class="btn btn-lg btn-white btn-block">1</button>
-                                                    <button class="btn btn-lg btn-white btn-block">4</button>
-                                                    <button class="btn btn-lg btn-white btn-block">7</button>
-                                                    <button class="btn btn-lg btn-white btn-block">C</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(1)">1</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(4)">4</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(7)">7</button>
+                                                    <button class="btn btn-lg btn-warning btn-block" @click="unsetTendered">C</button>
                                                 </div>
                                                 <div class="col-xs-3">
-                                                    <button class="btn btn-lg btn-white btn-block">2</button>
-                                                    <button class="btn btn-lg btn-white btn-block">5</button>
-                                                    <button class="btn btn-lg btn-white btn-block">8</button>
-                                                    <button class="btn btn-lg btn-white btn-block">0</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(2)">2</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(5)">5</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(8)">8</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(0)">0</button>
                                                 </div>
                                                 <div class="col-xs-3">
-                                                    <button class="btn btn-lg btn-white btn-block">3</button>
-                                                    <button class="btn btn-lg btn-white btn-block">6</button>
-                                                    <button class="btn btn-lg btn-white btn-block">9</button>
-                                                    <button class="btn btn-lg btn-white btn-block">.</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(3)">3</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(6)">6</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered(9)">9</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="setTendered('.')">.</button>
                                                 </div>
                                                 <div class="col-xs-3">
-                                                    <button class="btn btn-lg btn-white btn-block">+10</button>
-                                                    <button class="btn btn-lg btn-white btn-block">+20</button>
-                                                    <button class="btn btn-lg btn-white btn-block">+50</button>
-                                                    <button class="btn btn-lg btn-white btn-block">Del</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="addTendered(10)">+10</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="addTendered(20)">+20</button>
+                                                    <button class="btn btn-lg btn-white btn-block" @click="addTendered(50)">+50</button>
+                                                    <button class="btn btn-lg btn-danger btn-block" @click="delTendered(1)"><i class="fa fa-backspace"></i> </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-5">
-                                <div class="ibox-content pos-calc" style="border: none">
+                                <div class="ibox-content" style="border: none">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> Customer</router-link>
@@ -118,60 +132,69 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
-    import { mapFields } from 'vuex-map-fields'
     import Spinner from "../../components/Spinner";
     export default {
         name: "Payment",
         components: {Spinner},
         data : function(){
             return {
-
+                namespace : '',
+                tendered : 0,
+                method : '',
+                change : 0,
             }
         },
         beforeRouteEnter(to, from, next){
           next(v => {
-              v.due = v.getTotalSales;
-              v.change = v.tendered - v.getTotalSales;
+              v.namespace = to.params.namespace;
+              v.method = v.method === '' ? 'Cash' : v.method
           })
         },
         methods : {
-          receipt : function () {
-              let data = {
-                  header : {
-                      customer : this.customer,
-                      total : this.due,
-                      tendered : this.tendered,
-                      change : this.change,
-                      method : this.method,
-                  },
-                  lines : this.items
-              };
-              this.$store.dispatch('pos/generateReceipt', data);
-              this.$router.push('/pos/receipt');
-          }
+            receipt : function () {
+                let data = {
+                     header : {
+                        customer : this.customer,
+                        total : this.due,
+                        tendered : this.tendered,
+                        change : this.change,
+                         method : this.method,
+                    },
+                     lines : this.items
+                };
+                this.$store.dispatch('pos/' + this.namespace + '/generateReceipt', data);
+                this.$router.push('/pos/receipt');
+            },
+            setTendered : function (input) {
+                this.tendered = parseInt(this.tendered.toString() + '' + input);
+            },
+            delTendered : function () {
+                if (this.tendered.toString().length === 1){
+                    this.tendered = 0
+                } else {
+                    this.tendered = parseInt(this.tendered.toString().slice(0, -1))
+                }
+            },
+            unsetTendered : function () {
+                this.tendered = 0
+            },
+            addTendered : function (input) {
+                this.tendered = this.tendered + input
+            }
         },
         computed : {
-            ...mapState({
-                items : state => state.pos.items,
-                loading : state => state.pos.loading,
-            }),
-            ...mapGetters({
-                getTotalSales : 'pos/totalSales',
-            }),
-            ...mapFields('pos', [
-                'payment.tendered',
-                'payment.due',
-                'payment.change',
-                'payment.method',
-                'payment.customer',
-            ])
+            items(){return this.$store.getters['pos/' +this.namespace + '/items']},
+            loading(){return this.$store.getters['pos/' +this.namespace + '/loading']},
+            getTotalSales(){return this.$store.getters['pos/' +this.namespace + '/totalSales']},
+            payment(){return this.$store.getters['pos/' +this.namespace + '/payment']},
+
         },
         watch : {
             tendered : {
                 // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
-                    this.change = n - this.due
+                    let change = n - this.getTotalSales;
+                    this.change =  change < 0 ? 0 : change
                 }
             }
         }
@@ -209,5 +232,10 @@
     }
     .pos-calc{
         padding: 10px 20px;
+    }
+    .invoice-total > tbody > tr > td:last-child {
+        border-bottom: 1px solid #DDDDDD;
+        text-align: right;
+        width: 30%!important;
     }
 </style>

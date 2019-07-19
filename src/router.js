@@ -36,7 +36,7 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Register'),
                     },
                     {
-                        path : 'payment',
+                        path : 'payment/:namespace',
                         component : () => import('./views/point of sale/Payment'),
                     },
                     {
@@ -60,6 +60,7 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Payment'),
                     }
                 ],
+                props : true,
                 meta : { breadcrumb : 'point of sale'}
             },
             {

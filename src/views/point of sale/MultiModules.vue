@@ -1,17 +1,14 @@
 <template>
-    <h1>Module : {{mymodule}} with state : {{getName}}</h1>
+    <h1>Module : {{namespace}} with state name {{name}} </h1>
 </template>
 
 <script>
     export default {
         name: "MultiModules",
-        props : ['mymodule'],
+        props : ['namespace'],
         computed  :{
-            getName(){
-                return this.$store.state[this.mymodule].name
-            }
-
-        }
+            name(){ return this.$store.getters[this.namespace + '/getName']},
+        },
     }
 </script>
 

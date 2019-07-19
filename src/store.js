@@ -11,14 +11,7 @@ export default new Vuex.Store({
       mutations: {},
       getters: {},
       actions: {}
-    },
-    moduleB : {
-      namespaced : true,
-      state: {name : 'moduleB'},
-      mutations: {},
-      getters: {},
-      actions: {}
-    },
+    }
   },
   state: {},
   mutations: {},
