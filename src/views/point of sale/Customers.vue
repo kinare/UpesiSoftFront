@@ -8,7 +8,7 @@
                 <h2 class="text-center" style="margin-top: 10px">Customers</h2>
             </div>
             <div class="col-xs-3">
-                <a class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#customerModal" @click="selectedCustomer = {}; mode = 'new'"> Add Customer <i class="fa fa-user-plus"></i></a>
+                <router-link to="/pos/customers/card" class="btn btn-primary btn-lg pull-right"> Add Customer <i class="fa fa-user-plus"></i></router-link>
             </div>
         </div>
         <div class="hr-line-dashed"></div>
@@ -41,13 +41,13 @@
                             <th>Phone</th>
                             <th>Postal Address</th>
                             <th>Physical Address</th>
-                            <th>Physical Address</th>
+                            <th>Country Code</th>
                             <th>Action</th>
                         </tr>
 
                         </thead>
                         <tbody>
-                        <tr v-for="(customer, index) in filteredCustomers" :key="index">
+                        <tr v-for="(customer, index) in filteredCustomers" :key="index" style="cursor: pointer">
                             <td>{{index + 1}}</td>
                             <td>{{customer.customerFirstName + ' ' + customer.customerLastName}}</td>
                             <td>{{customer.customerBusinessName}}</td>
@@ -57,29 +57,11 @@
                             <td>{{customer.customerPostalAddress}}</td>
                             <td>{{customer.customerAddress}}</td>
                             <td>{{customer.customerCountryCode}}</td>
-                            <td><a class="btn btn-sm btn-default" data-toggle="modal" data-target="#customerModal" @click="selectedCustomer = customer; mode = 'view'"><i class="fa fa-eye"></i> view</a> </td>
+                            <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>
+                            <td><router-link :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-default" ><i class="fa fa-eye"></i> view</router-link> </td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-<!--        customer modal-->
-        <div class="modal inmodal fade" id="customerModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">{{mode === 'view' ? 'View' : 'New'}} customer</h4>
-                    </div>
-                    <div class="modal-body">
-                       <customer-card :customer="selectedCustomer" :mode="mode"></customer-card>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" v-if="mode === 'new'" @click="save">Save</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -88,22 +70,21 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import CustomerCard from "./CustomerCard";
+    import { mapState, mapGetters } from 'vuex'
     export default {
         name: "Customers",
-        components: {CustomerCard},
         data : function(){
             return {
                 namespace : '',
                 term : '',
                 selectedCustomer : {},
                 mode : 'view',
+                save : false,
             }
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.namespace = to.params.namespace
+                v.namespace = to.params.namespace;
                 v.$store.dispatch('pos/getCustomers');
             })
         },
@@ -114,22 +95,30 @@
                 ? this.customers
                 : this.customers.filter(customer => {
 
-                        /*customer.customerFirstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0*/
-                        // || customer.customerLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                        /*||*/
-
-                    return  customer.customerBusinessName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                        || customer.customerEmail.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                        || customer.customerPhoneNumber.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                        || customer.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                        || customer.customerAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        return customer.customerFirstName   ? customer.customerFirstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0        : ''
+                        || customer.customerLastName        ? customer.customerLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0         : ''
+                        || customer.customerBusinessName    ? customer.customerBusinessName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0     : ''
+                        || customer.customerEmail           ? customer.customerEmail.toLowerCase().indexOf(self.term.toLowerCase()) >= 0            : ''
+                        || customer.customerPhoneNumber     ? customer.customerPhoneNumber.toLowerCase().indexOf(self.term.toLowerCase()) >= 0      : ''
+                        || customer.customerPostalAddress   ? customer.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0    : ''
+                        || customer.customerAddress         ? customer.customerAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0          : ''
                     })
             },
             ...mapState('pos', {
                 customers : state => state.customers,
                 message : state => state.message,
                 loading : state => state.loading,
-            })
+            }),
+            ...mapGetters('pos',[
+                'getCurrentTab'
+            ])
+        },
+        methods : {
+            selectCustomer : function (customer) {
+                this.$store.commit(this.getCurrentTab.namespace + '/SET_CUSTOMER', customer);
+                this.$router.go(-1); //go where you came from
+                // this.$router.push('/pos/payment/' + this.getCurrentTab.namespace.split('/').pop())
+            }
         }
 
     }

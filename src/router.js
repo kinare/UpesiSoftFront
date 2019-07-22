@@ -56,6 +56,10 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Customers'),
                     },
                     {
+                        path : 'customers/card/:id?',
+                        component : () => import('./views/point of sale/CustomerCard'),
+                    },
+                    {
                         path : 'payment',
                         component : () => import('./views/point of sale/Payment'),
                     }

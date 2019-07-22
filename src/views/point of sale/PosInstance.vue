@@ -74,7 +74,10 @@
                 <div class="ibox" style="margin-bottom: 0">
                     <div class="ibox-content pos-calc">
                         <div class="row">
-                            <div class="col-xs-12 p-sm">
+                            <div class="col-xs-8 col-md-12 p-sm">
+                                <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
+                            </div>
+                            <div class="col-xs-4 col-md-12 visible-xs p-sm">
                                 <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
                             </div>
                         </div>
@@ -222,7 +225,7 @@
             items(){return this.$store.getters[this.namespace + '/items']},
             getTotalSales(){return this.$store.getters[this.namespace + '/totalSales']},
             getItem(){return this.$store.getters[this.namespace + '/getItem']},
-
+            customer(){return this.$store.getters[this.namespace + '/customer']},
         },
         methods : {
             addItem : function (product) {

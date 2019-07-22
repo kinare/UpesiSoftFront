@@ -3,7 +3,7 @@
         <div class="col-lg-10 col-lg-push-1 col-xs-12">
             <div class="row">
                 <div class="col-xs-3">
-                    <a @click="$router.go(-1)" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
+                    <a @click="$router.push('/pos')" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
                 </div>
                 <div class="col-xs-6">
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
@@ -117,7 +117,7 @@
                                 <div class="ibox-content" style="border: none">
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> Customer</router-link>
+                                            <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -138,6 +138,7 @@
         components: {Spinner},
         data : function(){
             return {
+                validator : window.validator,
                 namespace : '',
                 tendered : 0,
                 method : '',
@@ -155,7 +156,7 @@
                 let data = {
                      header : {
                         customer : this.customer,
-                        total : this.due,
+                        total : this.getTotalSales,
                         tendered : this.tendered,
                         change : this.change,
                          method : this.method,
@@ -187,6 +188,7 @@
             loading(){return this.$store.getters['pos/' +this.namespace + '/loading']},
             getTotalSales(){return this.$store.getters['pos/' +this.namespace + '/totalSales']},
             payment(){return this.$store.getters['pos/' +this.namespace + '/payment']},
+            customer(){return this.$store.getters['pos/' +this.namespace + '/customer']},
 
         },
         watch : {

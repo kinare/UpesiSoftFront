@@ -23,7 +23,7 @@ const state = () => {
             header : {},
             lines : [],
         },
-        customers : {},
+        customer : '',
         message : '',
         status : '',
         loading : false
@@ -59,13 +59,17 @@ const mutations = {
         state.message = payload.message || 'Something went wrong'
         state.status = payload.status || 'alert-warning'
     },
+    SET_CUSTOMER : (state, customer) =>{
+        state.customer = customer
+    }
 }
 const getters = {
     getField,
     totalSales : (state) => {return state.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)},
     getItem : (state) => {return (index) =>{return state.items[index]}},
     items : state => {return state.items},
-    payment : state => {return state.payment}
+    payment : state => {return state.payment},
+    customer : state => {return state.customer}
 
 }
 const actions = {

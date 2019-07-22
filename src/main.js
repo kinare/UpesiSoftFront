@@ -60,6 +60,9 @@ new Vue({
         Event.$on('userPasswordSet', () => {
             this.$router.push('/auth/login')
         });
+        Event.$on('customerAdded', () => {
+            this.$router.push('/pos/customers')
+        });
         Event.$on('ApiError', () => {
 
         });

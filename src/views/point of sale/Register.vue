@@ -57,7 +57,7 @@
         methods : {
             newTab : function () {
                 //init tab
-                this.tab.name = 'tab' + this.tabCount,
+                this.tab.name = 'sale ' + (this.tabCount + 1),
                 this.tab.id =  'tab-' + this.tabCount,
                 this.tab.namespace = 'pos/tab' + this.tabCount,
                 this.tab.status = 'active',
@@ -78,7 +78,6 @@
                 // reset tab variable
                 this.tab = {}
             },
-
             closeTab : function (index, no) {
 
                 // close all but last tab
@@ -90,7 +89,7 @@
             },
             switchTab : function (index) {
                 this.$store.commit('pos/SWITCH_TAB', index);  // remove tab
-            }
+            },
         }
     }
 </script>

@@ -37,6 +37,20 @@ export default {
             state.status = payload.status || 'alert-warning'
         },
     },
+    getters : {
+        getCustomer : (state) =>{
+            return (id) =>{
+                return state.customers.filter(cust => {
+                    return cust.id === parseInt(id);
+                })[0]
+            }
+        },
+        getCurrentTab : (state) =>{
+            return state.tabs.filter(tab => {
+                return tab.status === 'active'
+            }).shift()
+        }
+    },
     actions : {
         getCustomers : (context) => {
             context.commit('SET_LOADING', true);
@@ -52,6 +66,7 @@ export default {
             commit('SET_LOADING', true);
             window.api.call('post', endpoint.insertCustomer, data).then(() =>{
                 dispatch('getCustomers');
+                Event.$emit('customerAdded');
             }).catch(error => {
                 commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
                 commit('SET_LOADING', false);
