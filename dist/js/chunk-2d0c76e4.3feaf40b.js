@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c76e4"],{"511c":function(n,e,c){"use strict";c.r(e);var a=function(){var n=this,e=n.$createElement,c=n._self._c||e;return c("h1",[n._v("Sales & Accounting Management")])},t=[],u={name:"AccountingManager"},o=u,r=c("2877"),s=Object(r["a"])(o,a,t,!1,null,"3001da4b",null);e["default"]=s.exports}}]);
-//# sourceMappingURL=chunk-2d0c76e4.3feaf40b.js.map
