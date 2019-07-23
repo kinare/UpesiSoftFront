@@ -20,7 +20,6 @@ pipelines:
         script:
           - echo "Deploying to production environment"
           - ssh d4a@108.61.86.53
-          - cd /var/www
           - ls -l
           - echo "Deployment successful"
 
