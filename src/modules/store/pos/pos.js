@@ -8,10 +8,11 @@ class Pos {
 
         switch (type) {
             case 'QTY':
-                sale.salePrice = sale.qty * sale.itemPrice
+                sale.price = sale.qty * sale.itemPrice
                 break;
             case 'UNIT':
-                sale.salePrice = sale.measurement * sale.itemPrice
+                sale.price = sale.soldMeasurement * sale.itemPrice
+                sale.measurementAfter = sale.measurementBefore - sale.soldMeasurement
                 break;
             case 'PRICE':
                 break;
@@ -28,11 +29,11 @@ class Pos {
                 break;
             case 'UNIT':
                 if (formulae.operand.sellAs !== 'FULL') {
-                    formulae.operand.measurement = parseInt(formulae.operand.measurement + '' + formulae.input);
+                    formulae.operand.soldMeasurement = parseInt(formulae.operand.soldMeasurement + '' + formulae.input);
                 }
                 break;
             case 'PRICE':
-                formulae.operand.salePrice = parseInt(formulae.operand.salePrice + '' + formulae.input);
+                formulae.operand.price = parseInt(formulae.operand.price + '' + formulae.input);
                 break;
         }
 

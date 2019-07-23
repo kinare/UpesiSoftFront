@@ -11,10 +11,8 @@ const state = () => {
             method : 'Cash',
             customer : {},
         },
-        receipt : {
-            header : {},
-            lines : [],
-        },
+        oderNo : '',
+        receipt : [],
         invoice : {
             header : {},
             lines : [],
@@ -41,8 +39,7 @@ const mutations = {
         state.items[item.index] = item.item;
     },
     SET_RECEIPT : (state, receipt) => {
-        state.receipt.header = receipt.header
-        state.receipt.lines = receipt.lines
+        state.receipt = receipt
     },
     SET_INVOICE : (state, invoice) => {
         state.invoice.header = invoice.header
@@ -61,29 +58,47 @@ const mutations = {
     },
     SET_CUSTOMER : (state, customer) =>{
         state.customer = customer
+    },
+    SET_ORDER_NO : (state, no) =>{
+        state.oderNo = no
     }
 }
 const getters = {
     getField,
-    totalSales : (state) => {return state.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)},
+    totalSales : (state) => {return state.items.reduce((total, item) => parseInt(total) + parseInt(item.price), 0)},
     getItem : (state) => {return (index) =>{return state.items[index]}},
     items : state => {return state.items},
     payment : state => {return state.payment},
-    customer : state => {return state.customer}
+    customer : state => {return state.customer},
+    loading : state => {return state.loading},
+    oderNo : state => {return state.oderNo},
+    receipt : state => {return state.receipt.shift()},
+    invoice : state => {return state.invoice},
+    quote : state => {return state.quote}
 
 }
 const actions = {
     generateReceipt : (context, data) => {
         context.commit('SET_LOADING', true);
         window.api.call('post',endpoints.generateReceipt, data).then((res) => {
-            context.commit('SET_RECEIPT', res.data.data)
-            this.$router.push('/pos/receipt');
+            context.commit('SET_ORDER_NO', res.data.data.orderId)
             context.commit('SET_LOADING', false);
         }).catch((error) => {
             context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
             context.commit('SET_LOADING', false);
         })
     },
+    getDocument : (context, param) => {
+        context.commit('SET_LOADING', true);
+        window.api.call('get',endpoints.document(param)).then((res) => {
+            context.commit('SET_RECEIPT', res.data.data)
+            context.commit('SET_LOADING', false);
+        }).catch((error) => {
+            context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+            context.commit('SET_LOADING', false);
+        })
+
+    }
 }
 
 export default {

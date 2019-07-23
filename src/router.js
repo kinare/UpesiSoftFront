@@ -40,15 +40,15 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Payment'),
                     },
                     {
-                        path : 'receipt',
+                        path : 'receipt/:namespace/:orderId',
                         component : () => import('./views/point of sale/Receipt'),
                     },
                     {
-                        path : 'invoice',
+                        path : 'invoice/:namespace/:orderId',
                         component : () => import('./views/point of sale/Invoice'),
                     },
                     {
-                        path : 'quote',
+                        path : 'quote/:namespace/:orderId',
                         component : () => import('./views/point of sale/Quote'),
                     },
                     {

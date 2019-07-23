@@ -17,7 +17,7 @@ class Helper {
     prepareFormData (formData){
         let data = new FormData();
         for(let key in formData){
-            data.append(key, formData[key]);
+            data.append(key, JSON.stringify(formData[key]));
         }
         return data;
     }

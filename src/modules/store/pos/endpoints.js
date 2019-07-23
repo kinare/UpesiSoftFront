@@ -5,11 +5,14 @@ let endpoint = {
 
     // categories
     categories : 'categories/get/all',
-    generateReceipt : 'categories/get/all',
+    generateReceipt : 'orders/new',
 
     // customers
     customers : 'customers/get/all',
     insertCustomer : 'customers/new',
+
+    // get document
+    document : param => `orders/get?orderType=${param.type}&orderId=${param.id}&orderStatus=${param.status}`
 
 }
 

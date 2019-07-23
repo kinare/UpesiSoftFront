@@ -20,9 +20,9 @@
                     <div class="col-xs-4">
                         <div class="row">
                             <div class=" col-xs-8 col-sm-push-4">
-                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Cash' ? 'btn-primary' : 'btn-white'" @click="method = 'Cash'">Cash</button>
-                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Mpesa' ? 'btn-primary' : 'btn-white'" @click="method = 'Mpesa'">Mpesa</button>
-                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'Card' ? 'btn-primary' : 'btn-white'" @click="method = 'Card'">Card</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'CASH' ? 'btn-primary' : 'btn-white'" @click="method = 'Cash'">Cash</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'MPESA' ? 'btn-primary' : 'btn-white'" @click="method = 'Mpesa'">Mpesa</button>
+                                <button class="btn btn-lg  btn-block pull-right" :class="method === 'VISA' ? 'btn-primary' : 'btn-white'" @click="method = 'Card'">Card</button>
                             </div>
                         </div>
                     </div>
@@ -50,9 +50,9 @@
                                 <div class="form-group">
                                     <label for="change">Method</label>
                                     <select class="form-control" v-model="method">
-                                        <option value="Cash">Cash</option>
-                                        <option value="Mpesa">Mpesa</option>
-                                        <option value="Card">Card</option>
+                                        <option value="CASH">Cash</option>
+                                        <option value="MPESA">Mpesa</option>
+                                        <option value="VISA">Card</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,23 +148,31 @@
         beforeRouteEnter(to, from, next){
           next(v => {
               v.namespace = to.params.namespace;
-              v.method = v.method === '' ? 'Cash' : v.method
+              v.method = v.method === '' ? 'CASH' : v.method
           })
         },
         methods : {
             receipt : function () {
+
+                //Get receipt if order is posted
+                if (this.oderNo !== '')
+                    this.$router.push(`/pos/receipt/${this.namespace}/${this.oderNo}`)
+
+                //Init order data
                 let data = {
-                     header : {
-                        customer : this.customer,
-                        total : this.getTotalSales,
-                        tendered : this.tendered,
-                        change : this.change,
-                         method : this.method,
-                    },
-                     lines : this.items
+                    customerId : this.customer.id,
+                    customerDetails : JSON.stringify(this.customer),
+                    total : this.getTotalSales,
+                    paymentMethod : this.method,
+                    orderType : 'ORDER',
+                    orderStatus : 'PAID',
+                    orderItems : JSON.stringify(this.items),
+                    tendered : this.tendered,
+                    change : this.change,
                 };
+
+                //post order data
                 this.$store.dispatch('pos/' + this.namespace + '/generateReceipt', data);
-                this.$router.push('/pos/receipt');
             },
             setTendered : function (input) {
                 this.tendered = parseInt(this.tendered.toString() + '' + input);
@@ -189,7 +197,7 @@
             getTotalSales(){return this.$store.getters['pos/' +this.namespace + '/totalSales']},
             payment(){return this.$store.getters['pos/' +this.namespace + '/payment']},
             customer(){return this.$store.getters['pos/' +this.namespace + '/customer']},
-
+            oderNo(){return this.$store.getters['pos/' +this.namespace + '/oderNo']},
         },
         watch : {
             tendered : {
@@ -197,6 +205,15 @@
                 handler : function (n, o) {
                     let change = n - this.getTotalSales;
                     this.change =  change < 0 ? 0 : change
+                }
+            },
+            oderNo : {
+                // eslint-disable-next-line no-unused-vars
+                handler : function (n, o) {
+                    //redirect to receipt page after posting
+                    if (n !== '' && o === ''){
+                        this.$router.push(`/pos/receipt/${this.namespace}/${n}`)
+                    }
                 }
             }
         }

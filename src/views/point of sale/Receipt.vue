@@ -14,32 +14,63 @@
                 <div class="col-xs-8 border-right">
                     <div class="row" id="receipt">
                         <div class="col-xs-6 col-xs-push-3" >
-                            <div class="ibox-content" style="border: none; width : 340px " >
+                            <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; width : 340px " >
+                                <spinner v-if="loading"/>
                                 <div class="row">
-                                    <div class="pos-receipt" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
+                                    <div class="pos-receipt" v-if="!validator.isEmptyObject(receipt)" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
                                         <div class="pos-receipt-header">
                                             <h5 class="text-center">
-                                                Receipt No: 000215<br>
-                                                Date : 07/05/2019 13 : 12 : 22
+                                                Receipt No: {{receipt.id}}<br>
+                                                Date : {{receipt.createdAt}}
                                             </h5>
-                                            <p>Name : Michael Kamau</p>
-                                            <p>Phone : 0708338855</p>
-                                            <p>Email : michaelkinare@gmil.com</p>
+                                            <p>Name : {{receipt.customerIsBusiness ? receipt.customerBusinessName : receipt.customerFirstName + ' ' + receipt.customerLastName}}</p>
+                                            <p>Phone : {{receipt.customerPhoneNumber}}</p>
+                                            <p>Email : {{receipt.customerEmail}}</p>
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-content">
-                                            <p v-for="(item, index) in items" :key="index">{{item.productName}} <span class="pull-right"> &nbsp; &nbsp; {{item.price}}</span></p>
-
-                                            <br>
-                                            <p>Sub total <span class="pull-right">Ksh {{getTotalSales}}</span></p>
-                                            <h4>Total <span class="pull-right">Ksh {{getTotalSales}}</span></h4>
-                                            <br>
-                                            <p>Cash <span class="pull-right">Ksh {{payment.due}}</span></p>
-                                            <p>Change <span class="pull-right">Ksh {{payment.change}}</span></p>
+                                            <table class="table small table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th>QTY</th>
+                                                        <th>Unit</th>
+                                                        <th>Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="(item, index) in receipt.orderItems" :key="index" >
+                                                    <td class="no-borders">
+                                                       {{item.productName}}
+                                                    </td>
+                                                    <td class="no-borders">
+                                                        {{item.qty || 1}}
+                                                    </td>
+                                                    <td class="no-borders">
+                                                       {{item.soldMeasurement ? item.soldMeasurement + ' ' + measurmentAbbreviation(item.measurementUnitId) : ''}}
+                                                    </td>
+                                                    <td class="no-borders">
+                                                       Ksh {{item.price}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="no-borders"><strong>Total</strong></td>
+                                                    <td class="no-borders"><strong>Ksh {{receipt.total}}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="no-borders"><strong>Cash</strong></td>
+                                                    <td class="no-borders"><strong>Ksh {{receipt.tenderedAmount}}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="no-borders"><strong>Change</strong></td>
+                                                    <td class="no-borders"><strong>Ksh {{receipt.changeAmount}}</strong></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-footer">
-                                            <p> Served by : Agnes </p>
+                                            <p> Served by : {{receipt.cashierLastName + ', ' + receipt.cashierPhoneNumber}} </p>
                                             <h3 class="text-center">Thank You</h3>
                                         </div>
                                     </div>
@@ -63,22 +94,38 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex'
+    import Spinner from "../../components/Spinner";
     export default {
         name: "Receipt",
+        components: {Spinner},
+        data : function(){
+          return{
+              validator : window.validator,
+              namespace : '',
+              orderId : '',
+          }
+        },
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('receipt');
             }
         },
+        beforeRouteEnter(to, from, next){
+          next(v =>{
+              v.namespace = to.params.namespace;
+              v.orderId = to.params.orderId
+              let data = {
+                  type : 'ORDER',
+                  id : v.orderId,
+                  status : 'PAID',
+              }
+              v.$store.dispatch(`pos/${v.namespace}/getDocument`, data);
+          })
+        },
         computed : {
-            ...mapState({
-                items : state => state.pos.items,
-                payment : state => state.pos.payment,
-            }),
-            ...mapGetters({
-                getTotalSales : 'pos/totalSales',
-            }),
+            receipt(){return this.$store.getters[`pos/${this.namespace }/receipt`]},
+            loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
+            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},
         },
     }
 </script>
@@ -88,6 +135,7 @@
         border:  1px solid #e7eaec;
         padding: 10px 20px;
         font-family:  monospace, sans-serif;
+        font-size: 12px;
         line-height: 1;
     }
 </style>

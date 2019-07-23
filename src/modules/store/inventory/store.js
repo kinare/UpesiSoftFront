@@ -33,7 +33,12 @@ export default {
         }
     },
     getters : {
-        getMeasurementUnit : (state) => {return (id) => {return state.measurementUnit.filter(unit => unit.id === id)}},
+        getMeasurmentAbbreviation : (state) => {
+          return (id) =>{
+              return state.measurementUnit.filter(unit => unit.id === id).shift().measurementAbbreviation;
+          }
+        },
+        getMeasurementUnit : (state) => {return (id) => {return state.measurementUnit.filter(unit => unit.measurementUnitId === id)}},
         products : (state) => {return state.products},
         categories : (state) => {return state.categories},
         measurementUnit : (state) => {return state.measurementUnit},

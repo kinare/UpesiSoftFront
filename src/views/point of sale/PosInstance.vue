@@ -39,22 +39,22 @@
                                                     :min="item.minUnit"
                                                     :max="item.maxUnit"
                                                     class="form-control input-sm"
-                                                    v-model="item.measurement"
+                                                    v-model="item.soldMeasurement"
                                             >
                                             <span class="input-group-addon"
                                                   id="basic-addon2">
                                                 {{getUom(item.measurementUnit)[0].measurementAbbreviation}}
                                             </span>
                                         </div>
-                                        <span v-else>{{item.measurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
+                                        <span v-else>{{item.soldMeasurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
                                     </td>
                                     <td class="text-right">
                                         <input v-if="selected === index"
                                                type="number" min="1"
                                                class="form-control input-sm"
-                                               v-model="item.salePrice"
+                                               v-model="item.price"
                                         >
-                                        <span v-else>{{item.salePrice}}</span>
+                                        <span v-else>{{item.price}}</span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -193,7 +193,7 @@
         computed : {
             //getters
             totalSale(){
-                return this.items.reduce((total, item) => parseInt(total) + parseInt(item.salePrice), 0)
+                return this.items.reduce((total, item) => parseInt(total) + parseInt(item.price), 0)
             },
             filteredProducts () {
                 let self = this;
@@ -231,12 +231,17 @@
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
                     let prod = Object.assign({}, product); // JSON.parse( JSON.stringify( product ) );
-                    prod.qty = 1
-                    prod.salePrice = product.salePrice === 0 ? product.price : product.salePrice
-                    prod.measurement = product.measurement ? product.measurement : 1
+                    prod.productId = prod.id
+                    prod.subProductId = prod.sellAs === 'CUSTOM' ? prod.id : '';
+                    prod.soldMeasurement = prod.measurement;
+                    prod.categories = '';
+                    prod.measurementBefore = prod.measurement;
+                    prod.measurementAfter = prod.measurement;
+                    prod.price = product.salePrice === 0 ? product.price : product.salePrice;
+                    prod.qty = 1;
                     prod.maxUnit = prod.measurement;
                     prod.minUnit = prod.customSaleUnit;
-                    prod.itemPrice = prod.salePrice;
+                    prod.itemPrice = prod.price;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }
             },
