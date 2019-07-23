@@ -84,8 +84,8 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" :to="'/pos/payment/' + namespace.split('/').pop()" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</router-link>
-                                <router-link :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</router-link>
+                                <a @click="postDocument('INVOICE')" :class="(validator.isEmptyObject(customer) || totalSale === 0) ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
+                                <a @click="postDocument('QUOTE')" :class="(validator.isEmptyObject(customer) || totalSale === 0) ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
                             </div>
                             <div class="col-xs-8">
                                 <div class="row no-pad">

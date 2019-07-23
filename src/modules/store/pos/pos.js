@@ -39,5 +39,21 @@ class Pos {
 
         return this.updateSale(formulae.operand, formulae.operation)
     }
+
+    prepareDocument(type = 'ORDER', customer, items, payment){
+        let data = {
+            customerId : customer.id,
+            customerDetails : JSON.stringify(customer),
+            orderType : type,
+            orderStatus : type === 'ORDER' ? 'PAID' : 'PENDING',
+            orderItems : JSON.stringify(items),
+            total : payment.total,
+            paymentMethod : payment.method,
+            tendered : payment.tendered,
+            change : payment.change,
+        };
+
+        return data;
+    }
 }
 export default Pos

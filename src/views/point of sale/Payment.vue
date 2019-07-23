@@ -133,6 +133,8 @@
 
 <script>
     import Spinner from "../../components/Spinner";
+    import Pos from "../../modules/store/pos/pos";
+    const posController  = new Pos()
     export default {
         name: "Payment",
         components: {Spinner},
@@ -158,21 +160,21 @@
                 if (this.oderNo !== '')
                     this.$router.push(`/pos/receipt/${this.namespace}/${this.oderNo}`)
 
-                //Init order data
-                let data = {
-                    customerId : this.customer.id,
-                    customerDetails : JSON.stringify(this.customer),
-                    total : this.getTotalSales,
-                    paymentMethod : this.method,
-                    orderType : 'ORDER',
-                    orderStatus : 'PAID',
-                    orderItems : JSON.stringify(this.items),
-                    tendered : this.tendered,
-                    change : this.change,
-                };
 
                 //post order data
-                this.$store.dispatch('pos/' + this.namespace + '/generateReceipt', data);
+                this.$store.dispatch('pos/' + this.namespace + '/generateReceipt',
+                    posController.prepareDocument(
+                        'ORDER',
+                        this.customer,
+                        this.items,
+                        {
+                            total : this.getTotalSales,
+                            tendered : this.tendered,
+                            change : this.change,
+                            method : this.method
+                        }
+                    )
+                );
             },
             setTendered : function (input) {
                 this.tendered = parseInt(this.tendered.toString() + '' + input);
