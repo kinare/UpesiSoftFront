@@ -19,8 +19,7 @@ pipelines:
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
           - echo "Deploying to production environment"
-          - ssh d4a@108.61.86.53
-          - ls -l
+          - ssh d4a@108.61.86.53 ls -l /var/www
           - echo "Deployment successful"
 
 
