@@ -11,7 +11,7 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
-          - npm install
+          - npm -v
           # - npm run build
     - step:
         name: Deploy to production
@@ -19,11 +19,9 @@ pipelines:
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
           - echo "Deploying to production environment"
-          - pipe: atlassian/ssh-run:0.2.2
-            variables:
-              SSH_USER: 'd4a'
-              SERVER: '108.61.86.53'
-              MODE: 'script'
-              COMMAND: 'productionDeploy.sh'
+          - ssh d4a@108.61.86.53
+          - cd /var/www
+          - ls -l
+          - echo "Deployment successful"
 
 
