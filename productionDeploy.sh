@@ -11,3 +11,4 @@ npm install
 npm run build
 
 echo -e 'Deployment successful'
+
