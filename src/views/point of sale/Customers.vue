@@ -49,7 +49,7 @@
                             <td @click="selectCustomer(customer)">+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
                             <td @click="selectCustomer(customer)">{{customer.customerEmail}}</td>
                             <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
-                            <td><router-link :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-default" ><i class="fa fa-eye"></i> view</router-link> </td>
+                            <td><router-link :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-warning" ><i class="fa fa-eye"></i> &nbsp; view</router-link> </td>
 <!--                         <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>-->
                         </tr>
                         </tbody>
