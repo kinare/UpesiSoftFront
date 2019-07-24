@@ -160,7 +160,6 @@
                 if (this.oderNo !== '')
                     this.$router.push(`/pos/receipt/${this.namespace}/${this.oderNo}`)
 
-
                 //post order data
                 this.$store.dispatch('pos/' + this.namespace + '/generateReceipt',
                     posController.prepareDocument(

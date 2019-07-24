@@ -35,30 +35,22 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Business</th>
-                            <th>Type</th>
-                            <th>Email</th>
                             <th>Phone</th>
-                            <th>Postal Address</th>
-                            <th>Physical Address</th>
-                            <th>Country Code</th>
+                            <th>Email</th>
+                            <th>Type</th>
                             <th>Action</th>
                         </tr>
 
                         </thead>
                         <tbody>
-                        <tr v-for="(customer, index) in filteredCustomers" :key="index" style="cursor: pointer">
-                            <td>{{index + 1}}</td>
-                            <td>{{customer.customerFirstName + ' ' + customer.customerLastName}}</td>
-                            <td>{{customer.customerBusinessName}}</td>
-                            <td><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'indivisual'}}</span> </td>
-                            <td>{{customer.customerEmail}}</td>
-                            <td>{{customer.customerPhoneNumber}}</td>
-                            <td>{{customer.customerPostalAddress}}</td>
-                            <td>{{customer.customerAddress}}</td>
-                            <td>{{customer.customerCountryCode}}</td>
-                            <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>
+                        <tr v-for="(customer, index) in filteredCustomers" :key="index"  style="cursor: pointer" title="Click to select customer">
+                            <td @click="selectCustomer(customer)">{{index + 1}}</td>
+                            <td @click="selectCustomer(customer)">{{customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName + ' ' + customer.customerLastName}}</td>
+                            <td @click="selectCustomer(customer)">+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
+                            <td @click="selectCustomer(customer)">{{customer.customerEmail}}</td>
+                            <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
                             <td><router-link :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-default" ><i class="fa fa-eye"></i> view</router-link> </td>
+<!--                         <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -116,6 +108,7 @@
         methods : {
             selectCustomer : function (customer) {
                 this.$store.commit(this.getCurrentTab.namespace + '/SET_CUSTOMER', customer);
+                // this.$router
                 this.$router.go(-1); //go where you came from
                 // this.$router.push('/pos/payment/' + this.getCurrentTab.namespace.split('/').pop())
             }

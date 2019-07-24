@@ -3,6 +3,7 @@ export default {
     namespaced: true,
     state : {
         products : [],
+        subProducts : [],
         categories : {},
         measurementUnit : {},
         message : '',
@@ -14,6 +15,9 @@ export default {
         REFRESH_STORE() {},
         SET_PRODUCTS :(state, products) => {
             state.products = products
+        },
+        SET_SUB_PRODUCTS :(state, subs) => {
+            state.subProducts = subs
         },
         SET_MEASUREMENT_UNIT : (state, units) => {
             state.measurementUnit = units
@@ -40,6 +44,7 @@ export default {
         },
         getMeasurementUnit : (state) => {return (id) => {return state.measurementUnit.filter(unit => unit.measurementUnitId === id)}},
         products : (state) => {return state.products},
+        subProducts : (state) => {return state.subProducts},
         categories : (state) => {return state.categories},
         measurementUnit : (state) => {return state.measurementUnit},
         message : (state) => {return state.message},
@@ -52,6 +57,17 @@ export default {
             context.commit('SET_LOADING', true)
             window.api.call('get',endpoints.products).then((res)=> {
                 context.commit('SET_PRODUCTS', res.data.data);
+                context.commit('SET_LOADING', false)
+            }).catch((error) => {
+                context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false)
+            })
+        },
+        getSubProducts : (context, id) => {
+            context.commit('SET_LOADING', true)
+            context.commit('SET_SUB_PRODUCTS', []); // reset sub products
+            window.api.call('get', endpoints.subProducts(id)).then((res)=> {
+                context.commit('SET_SUB_PRODUCTS', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
                 context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});

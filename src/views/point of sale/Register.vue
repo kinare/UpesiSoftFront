@@ -17,7 +17,7 @@
                 <div class="tab-content">
                     <div :id="tab.id" class="tab-pane" :class="tab.status" v-for="(tab, index) in tabs" :key="index">
                         <div class="panel-body">
-                            <pos-instance :namespace="tab.namespace"></pos-instance>
+                            <pos-instance :namespace="tab.namespace" :id="tab.id"></pos-instance>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
         methods : {
             newTab : function () {
                 //init tab
-                this.tab.name = 'sale ' + (this.tabCount + 1),
+                this.tab.name = 'Sale ' + (this.tabCount + 1),
                 this.tab.id =  'tab-' + this.tabCount,
                 this.tab.namespace = 'pos/tab' + this.tabCount,
                 this.tab.status = 'active',

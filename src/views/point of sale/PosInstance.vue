@@ -149,7 +149,7 @@
                     <Spinner v-if="loading"/>
                     <div v-for="(product, index) in filteredProducts" v-bind:key="index"  class="file-box">
                         <div class="file">
-                            <a @click="addItem(product)">
+                            <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
                                 <span class="corner" :class="product.state ? 'available': 'unavailable'"></span>
                                 <div class="image">
                                     <img alt="image" class="img-responsive" src="/img/p1.jpg">
@@ -167,6 +167,62 @@
                 </div>
             </div>
         </div>
+
+        <div  v-if="showModal" class="modal fadeIn in modal-active"  :id="id" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="showModal = false"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">{{subProduct.productName}} &nbsp; <span class="badge badge-primary">{{subProducts.length}}</span> </h4>
+                        <small class="font-bold">{{subProduct.productDescription}}</small>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <form>
+                                        <div class="input-group-sm">
+                                            <input type="text" placeholder="Search Item" v-model="subterm" class="form-control">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none;">
+                                    <Spinner v-if="loading"/>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <td><input type="checkbox" value="All" v-model="selectedAllSubProducts" class="check-control"></td>
+                                                    <th>Name</th>
+                                                    <th>Units</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(product, index) in filteredSubProducts" v-bind:key="index">
+                                                    <td><input type="checkbox" :value="product" v-model="selectedSubProducts" class="check-control"></td>
+                                                    <td>{{product.productName}}</td>
+                                                    <td>{{product.measurement + ' ' + product.measurementAbbreviation}}</td>
+                                                    <td>Ksh {{product.price}}</td>
+                                                </tr>
+                                            <tr>
+                                                <td colspan="4" v-if="validator.isEmptyObject(subProducts)" class="text-center">No Sub-products Found</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" @click="showModal = false">Close</button>
+                        <button type="button" class="btn btn-primary" @click="addSubProducts">Add Items</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -176,14 +232,19 @@
     const posController  = new Pos();
     export default {
         name: "PosInstance",
-        props : ['namespace'],
+        props : ['namespace', 'id'],
         components: {Spinner},
         data : function(){
             return {
+                selectedSubProducts : [],
+                selectedAllSubProducts : [],
                 selected : 0,
+                subProduct : {},
                 operation : 'QTY',
                 term : '',
+                subterm : '',
                 validator : window.validator,
+                showModal : false
             }
         },
         beforeCreate(){
@@ -202,18 +263,31 @@
                     : this.products.filter(product => {
                         return product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.price === parseInt(self.term )>= 0
-                            || product.salePrice === parseInt(self.term )>= 0
-                            || product.measurement === parseInt(self.term )>= 0
+                            || product.price.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                         // || product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     })
             },
+            filteredSubProducts () {
+                let self = this;
+                return this.subterm === ''
+                    ? this.subProducts
+                    : this.subProducts.filter(product => {
+                        return product.price.toString().toLowerCase().indexOf(self.subterm.toLowerCase()) >= 0
+                            || product.salePrice.toString().toLowerCase().indexOf(self.subterm.toLowerCase()) >= 0
+                            || product.measurement.toString().toLowerCase().indexOf(self.subterm.toLowerCase()) >= 0
+                            || product.sku.toString().toLowerCase().indexOf(self.subterm.toLowerCase()) >= 0
+                            || product.productName.toLowerCase().indexOf(self.subterm.toLowerCase()) >= 0
+                    })
+            },
 
             //Inventory
             products(){return this.$store.getters['inventory/products']},
+            subProducts(){return this.$store.getters['inventory/subProducts']},
             units(){return this.$store.getters['inventory/measurementUnit']},
             loading(){return this.$store.getters['inventory/loading']},
             message(){return this.$store.getters['inventory/message']},
@@ -230,9 +304,9 @@
         methods : {
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
-                    let prod = Object.assign({}, product); // JSON.parse( JSON.stringify( product ) );
+                    let prod = {...product}; // JSON.parse( JSON.stringify( product ) );
                     prod.productId = prod.id
-                    prod.subProductId = prod.sellAs === 'CUSTOM' ? prod.id : '';
+                    // prod.subProductId = prod.sellAs === 'CUSTOM' ? prod.id : '';
                     prod.soldMeasurement = prod.measurement;
                     prod.categories = '';
                     prod.measurementBefore = prod.measurement;
@@ -244,6 +318,24 @@
                     prod.itemPrice = prod.price;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }
+            },
+            addSubProducts : function(){
+                this.selectedSubProducts.forEach(product => {
+                    product.subProductId = this.subProduct.id
+                    product.productShortDescription = this.subProduct.productShortDescription
+                    product.sellAs = 'CUSTOM'
+                    this.addItem(product);
+                    this.showModal = false
+                });
+                // eslint-disable-next-line no-undef
+                $('#subProducts').modal('hide');
+            },
+            getSubProducts : function(product){
+                this.subProduct = product
+                this.$store.dispatch('inventory/getSubProducts', product.id);
+                this.showModal = true
+                // eslint-disable-next-line no-undef
+                $('#subProducts').modal('show');
             },
             select : function (index) {
                 this.selected = index;
@@ -281,9 +373,33 @@
                 )
             },
         },
+        watch : {
+            selectedAllSubProducts : {
+                handler : function (n, o) {
+                    if (n[0] === 'All') {
+                        //Clear selected products
+                        this.selectedSubProducts = [];
+                        //Add all sub products
+                        this.filteredSubProducts.forEach(product => {
+                            this.selectedSubProducts.push(product)
+                        })
+                    }else{
+                        //Unselect all sub products
+                        this.selectedSubProducts = [];
+                    }
+
+                }
+            }
+        }
     }
 </script>
 <style scoped>
+    .check-control{
+        height: 20px !important;
+    }
+    .modal-active{
+        display:block;
+    }
     td input {
         min-width: 70px
     }
