@@ -56,6 +56,7 @@
                                         >
                                         <span v-else>{{item.price}}</span>
                                     </td>
+                                    <td v-if="selected === index" ><span class="badge badge-white" @click="removeItemByIndex(index)"><i class="fa fa-times text-danger"></i> </span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -332,6 +333,9 @@
             },
             removeItem : function () {
                 this.$store.commit(this.namespace + '/UNSET_ITEMS', this.selected);
+            },
+            removeItemByIndex : function(index){
+                this.$store.commit(this.namespace + '/UNSET_ITEMS', index);
             },
             calculate : function (input) {
                 if (this.items.length !== 0){
