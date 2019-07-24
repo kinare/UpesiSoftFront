@@ -139,10 +139,13 @@
                                     <img alt="image" class="img-responsive" src="/img/p1.jpg">
                                 </div>
                                 <div class="file-name">
-                                    <h5 style="line-height: 1; margin-bottom: -5px">{{product.productName}}</h5>
+                                    <h5 style="line-height: 1; margin-bottom: -12px">{{product.productName}}</h5>
                                     <br>
-                                    <small>QTY {{product.qty || 1}}</small>
-                                    <span class="badge badge-info pull-right">Ksh {{product.salePrice === 0 ? product.price : product.salePrice}}</span>
+                                    <small>{{product.sellAs === 'FULL' ? 'Full' : 'Pieces'}} {{product.qty}}</small>
+                                    <span class="badge badge-info pull-right">Ksh {{product.price}}</span>
+                                    <br>
+                                    <small>{{product.categories || '[]'}}</small>
+
                                     <div class="clearfix"></div>
                                 </div>
                             </a>
@@ -493,6 +496,7 @@
     }
     .file-box {
         float: left;
-        width: 160px;
+        width: 195px;
+        /*width: 160px;*/
     }
 </style>
