@@ -14,7 +14,7 @@
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#general" aria-expanded="true"><i class="fa fa-wrench"></i> General</a></li>
                                         <li class=""><a data-toggle="tab" href="#inventory" aria-expanded="false"><i class="fa fa-list-alt"></i> Inventory</a></li>
-                                        <li class=""><a data-toggle="tab" href="#attributes" aria-expanded="false"><i class="fa fa-tags"></i> Pricing</a></li>
+                                        <li class=""><a data-toggle="tab" href="#pricing" aria-expanded="false"><i class="fa fa-tags"></i> Pricing</a></li>
                                         <li class=""><a data-toggle="tab" href="#shipping" aria-expanded="false"><i class="fa fa-truck"></i>Shipping</a></li>
                                     </ul>
                                     <div class="tab-content m-b-lg">
@@ -148,7 +148,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="attributes" class="tab-pane">
+                                        <div id="pricing" class="tab-pane">
                                             <div class="panel-body">
                                                 <div class="col-xs-12">
                                                     <form method="get" class="form-horizontal">
@@ -415,7 +415,7 @@
         },
         methods : {
             addCategory : function () {
-                if (this.formData.categories.filter(cat => cat === this.category).length === 0) {
+                if (this.formData.categories.filter(cat => cat === this.category).length === 0 && this.category !== '') {
                     this.formData.categories.push(this.category);
                     this.category = ''
                 }
