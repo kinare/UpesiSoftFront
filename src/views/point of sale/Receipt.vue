@@ -3,7 +3,7 @@
         <div class="col-lg-10 col-lg-push-1 col-xs-12">
             <div class="row">
                 <div class="col-xs-3">
-                    <a @click="$router.go(-1)" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
+                    <a @click="freshSale" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
                 </div>
                 <div class="col-xs-6">
                     <h2 class="text-center" style="margin-top: 10px">Receipt</h2>
@@ -95,6 +95,8 @@
 
 <script>
     import Spinner from "../../components/Spinner";
+    import PosModule from "../../modules/store/pos/PosModule";
+    const { state } = PosModule;
     export default {
         name: "Receipt",
         components: {Spinner},
@@ -108,6 +110,14 @@
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('receipt');
+            },
+            freshSale : function () {
+                // redirect to pos
+                if (this.namespace !== ''){
+                    //refresh store
+                    this.$store.commit(`pos/${this.namespace}/RESET_STATE`, state)
+                }
+                this.$router.push('/pos')
             }
         },
         beforeRouteEnter(to, from, next){

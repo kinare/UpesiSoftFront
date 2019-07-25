@@ -29,6 +29,9 @@ const state = () => {
 }
 const mutations = {
     updateField,
+    RESET_STATE : (state, defaultState) =>{
+        state = defaultState
+    },
     SET_ITEMS :(state, item) => {
         state.items.push(item)
     },

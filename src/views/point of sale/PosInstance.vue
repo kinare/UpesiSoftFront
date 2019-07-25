@@ -298,8 +298,8 @@
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
                     let prod = {...product}; // JSON.parse( JSON.stringify( product ) );
-                    prod.productId = prod.id
-                    // prod.subProductId = prod.sellAs === 'CUSTOM' ? prod.id : '';
+                    prod.productId = product.subproduct ? this.subProduct.id  : prod.id
+                    // prod.subProductId =  prod.id;
                     prod.soldMeasurement = prod.measurement;
                     prod.categories = '';
                     prod.measurementBefore = prod.measurement;
@@ -314,7 +314,8 @@
             },
             addSubProducts : function(){
                 this.selectedSubProducts.forEach(product => {
-                    product.subProductId = this.subProduct.id
+                    product.subproduct = true
+                    product.subProductId = product.id
                     product.productShortDescription = this.subProduct.productShortDescription
                     product.sellAs = 'CUSTOM'
                     this.addItem(product);
