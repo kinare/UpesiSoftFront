@@ -46,7 +46,8 @@ new Vue({
     mounted() {
         //Global Event Listeners
         Event.$on('userLoggedIn', () => {
-            this.$router.push('/')
+            window.location = '/'
+            // this.$router.push('/')
         });
         Event.$on('userLoggedOut', () => {
             this.$router.push('/auth/login')
