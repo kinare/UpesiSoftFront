@@ -11,17 +11,12 @@ const state = () => {
             method : 'Cash',
             customer : {},
         },
-        oderNo : '',
+        documentNo : '',
         receipt : [],
-        invoice : {
-            header : {},
-            lines : [],
-        },
-        quote : {
-            header : {},
-            lines : [],
-        },
-        customer : '',
+        invoice : [],
+        quote : [],
+        document : {},
+        customer : {},
         message : '',
         status : '',
         loading : false
@@ -41,16 +36,17 @@ const mutations = {
     UPDATE_SALE : (state, item) => {
         state.items[item.index] = item.item;
     },
-    SET_RECEIPT : (state, receipt) => {
+    SET_ORDER : (state, receipt) => {
         state.receipt = receipt
     },
+    SET_DOCUMENT : (state, data) => {
+        state.document = data
+    },
     SET_INVOICE : (state, invoice) => {
-        state.invoice.header = invoice.header
-        state.invoice.lines = invoice.lines
+        state.invoice  = invoice
     },
     SET_QUOTE : (state, quote) => {
-        state.quote.header = quote.header
-        state.quote.lines = quote.lines
+        state.quote = quote
     },
     SET_LOADING : (state, status) => {
         state.loading = status
@@ -62,8 +58,11 @@ const mutations = {
     SET_CUSTOMER : (state, customer) =>{
         state.customer = customer
     },
-    SET_ORDER_NO : (state, no) =>{
-        state.oderNo = no
+    SET_DOC_NO : (state, no) =>{
+        state.documentNo = no
+    },
+    RESET_DOC_NO : (state) =>{
+        state.documentNo = null
     }
 }
 const getters = {
@@ -74,17 +73,18 @@ const getters = {
     payment : state => {return state.payment},
     customer : state => {return state.customer},
     loading : state => {return state.loading},
-    oderNo : state => {return state.oderNo},
+    documentNo : state => {return state.documentNo},
     receipt : state => {return state.receipt.shift()},
-    invoice : state => {return state.invoice},
-    quote : state => {return state.quote}
+    invoice : state => {return state.invoice.shift()},
+    quote : state => {return state.quote.shift()},
+    document : state => {return state.document}
 
 }
 const actions = {
-    generateReceipt : (context, data) => {
+    generateDocument : (context, data) => {
         context.commit('SET_LOADING', true);
         window.api.call('post',endpoints.generateReceipt, data).then((res) => {
-            context.commit('SET_ORDER_NO', res.data.data.orderId)
+            context.commit('SET_DOC_NO', res.data.data.orderId)
             context.commit('SET_LOADING', false);
         }).catch((error) => {
             context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
@@ -94,7 +94,7 @@ const actions = {
     getDocument : (context, param) => {
         context.commit('SET_LOADING', true);
         window.api.call('get',endpoints.document(param)).then((res) => {
-            context.commit('SET_RECEIPT', res.data.data)
+            context.commit(`SET_${param.type}`, res.data.data)
             context.commit('SET_LOADING', false);
         }).catch((error) => {
             context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});

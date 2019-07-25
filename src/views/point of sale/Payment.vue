@@ -157,11 +157,11 @@
             receipt : function () {
 
                 //Get receipt if order is posted
-                if (this.oderNo !== '')
-                    this.$router.push(`/pos/receipt/${this.namespace}/${this.oderNo}`)
+                if (this.documentNo !== '')
+                    this.$router.push(`/pos/receipt/${this.namespace}/${this.documentNo}`)
 
                 //post order data
-                this.$store.dispatch('pos/' + this.namespace + '/generateReceipt',
+                this.$store.dispatch('pos/' + this.namespace + '/generateDocument',
                     posController.prepareDocument(
                         'ORDER',
                         this.customer,
@@ -198,7 +198,7 @@
             getTotalSales(){return this.$store.getters['pos/' +this.namespace + '/totalSales']},
             payment(){return this.$store.getters['pos/' +this.namespace + '/payment']},
             customer(){return this.$store.getters['pos/' +this.namespace + '/customer']},
-            oderNo(){return this.$store.getters['pos/' +this.namespace + '/oderNo']},
+            documentNo(){return this.$store.getters['pos/' +this.namespace + '/documentNo']},
         },
         watch : {
             tendered : {
@@ -208,7 +208,7 @@
                     this.change =  change < 0 ? 0 : change
                 }
             },
-            oderNo : {
+            documentNo : {
                 // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     //redirect to receipt page after posting

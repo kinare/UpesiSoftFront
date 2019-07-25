@@ -11,96 +11,67 @@
         <div class="hr-line-dashed"></div>
         <div class="row">
             <div class="col-xs-8" >
-                <div class="ibox-content p-xl pos-invoice" style="height: 80vh; overflow-x: scroll" id="invoice">
-                    <div class="row">
-                        <h2 class="text-center"><strong>Invoice</strong></h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h5>From:</h5>
-                            <address>
-                                <strong>Inspinia, Inc.</strong><br>
-                                106 Jorg Avenu, 600/10<br>
-                                Chicago, VT 32456<br>
-                                <abbr title="Phone">P:</abbr> (123) 601-4590
-                            </address>
+                <div class="ibox-content p-xl pos-invoice" :class="loading ? 'sk-loading' : ''" style="height: 80vh; overflow-x: scroll" id="invoice">
+                    <spinner v-if="loading"/>
+                    <div v-if="!validator.isEmptyObject(invoice)">
+                        <div class="row">
+                            <h2 class="text-center"><strong>Invoice</strong></h2>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>From:</h5>
+                                <address>
+                                    <strong>{{invoice.cashierFirstName + ' ' + invoice.cashierLastName}}</strong><br>
+                                    +{{invoice.cashierCountryCode + invoice.cashierPhoneNumber}}<br>
+                                    {{invoice.cashierEmail}}<br>
+                                </address>
+                            </div>
 
-                        <div class="col-sm-6 text-right">
-                            <h4>Invoice No.</h4>
-                            <h4 class="text-navy">INV-000567F7-00</h4>
-                            <span>To:</span>
-                            <address>
-                                <strong>Corporate, Inc.</strong><br>
-                                112 Street Avenu, 1080<br>
-                                Miami, CT 445611<br>
-                                <abbr title="Phone">P:</abbr> (120) 9000-4321
-                            </address>
-                            <p>
-                                <span><strong>Invoice Date:</strong> Marh 18, 2014</span><br>
-                                <span><strong>Due Date:</strong> March 24, 2014</span>
-                            </p>
+                            <div class="col-sm-6 text-right">
+                                <h4>Invoice No. {{invoice.id}}</h4>
+                                <span>To:</span>
+                                <address>
+                                    <strong>{{invoice.customerIsBusiness ? invoice.customerBusinessName : invoice.customerFirstName + ' ' + invoice.customerLastName}}</strong><br>
+                                    +{{invoice.customerCountryCode + invoice.customerPhoneNumber}}<br>
+                                    {{invoice.customerEmail}}<br>
+                                    {{invoice.customerPostalAddress}}
+                                </address>
+                                <p>
+                                    <span><strong>Invoice Date:</strong> {{invoice.createdAt}}</span><br>
+                                    <!--                                <span><strong>Due Date:</strong> March 24, 2014</span>-->
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="table-responsive m-t">
-                        <table class="table invoice-table">
-                            <thead>
-                            <tr>
-                                <th>Item List</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Tax</th>
-                                <th>Total Price</th>
-                            </tr>
-                            </thead>
+                        <div class="table-responsive m-t">
+                            <table class="table invoice-table">
+                                <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>QTY</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(item, index) in invoice.orderItems" :key="index">
+
+                                    <td>{{item.productName}}</td>
+                                    <td>{{item.qty || 1}}</td>
+                                    <td>{{item.soldMeasurement ? item.soldMeasurement + ' ' + measurmentAbbreviation(item.measurementUnitId) : ''}}</td>
+                                    <td>Ksh {{item.price}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /table-responsive -->
+                        <table class="table invoice-total">
                             <tbody>
                             <tr>
-                                <td><div><strong>Admin Theme with psd project layouts</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small></td>
-                                <td>1</td>
-                                <td>$26.00</td>
-                                <td>$5.98</td>
-                                <td>$31,98</td>
+                                <td><strong>Total :</strong></td>
+                                <td>{{invoice.total}}</td>
                             </tr>
-                            <tr>
-                                <td><div><strong>Wodpress Them customization</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                    </small></td>
-                                <td>2</td>
-                                <td>$80.00</td>
-                                <td>$36.80</td>
-                                <td>$196.80</td>
-                            </tr>
-                            <tr>
-                                <td><div><strong>Angular JS &amp; Node JS Application</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small></td>
-                                <td>3</td>
-                                <td>$420.00</td>
-                                <td>$193.20</td>
-                                <td>$1033.20</td>
-                            </tr>
-
                             </tbody>
                         </table>
-                    </div><!-- /table-responsive -->
-
-                    <table class="table invoice-total">
-                        <tbody>
-                        <tr>
-                            <td><strong>Sub Total :</strong></td>
-                            <td>$1026.00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TAX :</strong></td>
-                            <td>$235.98</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TOTAL :</strong></td>
-                            <td>$1261.98</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -117,11 +88,48 @@
 </template>
 
 <script>
+    import Spinner from "../../components/Spinner";
     export default {
         name: "Invoice",
+        components: {Spinner},
+        data : function(){
+            return {
+                namespace : '',
+                validator : window.validator,
+            }
+        },
+        beforeRouteEnter(to, from, next){
+            next(v =>{
+                v.namespace = to.params.namespace;
+
+                //post invoice
+                v.$store.dispatch(`pos/${v.namespace}/generateDocument`, v.document);
+            })
+        },
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('invoice');
+            }
+        },
+        computed : {
+            invoice(){return this.$store.getters[`pos/${this.namespace }/invoice`]},
+            document(){return this.$store.getters[`pos/${this.namespace }/document`]},
+            loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
+            documentNo(){return this.$store.getters[`pos/${this.namespace }/documentNo`]},
+            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},        },
+        watch : {
+            documentNo : {
+                handler : function (n, o) {
+                    if (n){
+                        let data = {
+                            type : this.document.orderType,
+                            id : n,
+                            status : this.document.orderStatus,
+                        }
+
+                        this.$store.dispatch(`pos/${this.namespace}/getDocument`, data);
+                    }
+                }
             }
         }
     }

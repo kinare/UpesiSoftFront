@@ -44,11 +44,11 @@ const  router = new Router({
                         component : () => import('./views/point of sale/Receipt'),
                     },
                     {
-                        path : 'invoice/:namespace/:orderId',
+                        path : 'invoice/:namespace',
                         component : () => import('./views/point of sale/Invoice'),
                     },
                     {
-                        path : 'quote/:namespace/:orderId',
+                        path : 'quote/:namespace/',
                         component : () => import('./views/point of sale/Quote'),
                     },
                     {
