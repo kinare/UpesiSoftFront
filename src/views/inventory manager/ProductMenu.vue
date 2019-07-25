@@ -4,6 +4,10 @@
             <router-link to="new" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> New product</router-link>
         </div>
 
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Launch demo modal
+        </button>
+
         <div class="modal inmodal in fade" id="newProduct" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

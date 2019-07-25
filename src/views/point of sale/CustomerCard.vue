@@ -11,38 +11,7 @@
         <div class="hr-line-dashed"></div>
         <div class="ibox-content" style="border : none;" :class="loading ? 'sk-loading' : ''">
             <spinner v-if="loading"/>
-            <div class="row">
-                <div v-if="!validator.isEmptyObject(customer)" class="col-md-12 text-right">
-                    <!--                <a class="btn btn-primary"><i class="fa fa-user-check"></i> Select</a> &nbsp;-->
-                    <a class="btn btn-white" @click="editCustomer"><i class="fa fa-edit"></i> Edit</a>
-                </div>
-            </div>
-            <div v-if="!validator.isEmptyObject(customer)" class="row">
-                <div class="col-md-6">
-                    <div class="profile-image">
-                        <img src="/img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
-                    </div>
-                    <div class="profile-info">
-                        <div class="">
-                            <div>
-                                <h2 class="">
-                                    {{customer.customerFirstName + ' ' + customer.customerLastName}}
-                                </h2>
-                                <h4>{{customer.customerBusinessName}}</h4>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <dl class="dl-horizontal" style="margin-top: 20px">
-                        <dt>Phone:</dt> <dd>{{customer.customerPhoneNumber}}</dd>
-                        <dt>Email:</dt> <dd>{{customer.customerEmail}}</dd>
-                        <dt>Postal Address:</dt> <dd> {{customer.customerPostalAddress}}</dd>
-                        <dt>Physical Address:</dt> <dd>{{customer.customerAddress}}</dd>
-                    </dl>
-                </div>
-            </div>
+<!--            add customer-->
             <div v-else class="row">
                 <div class="col-md-4">
                     <div class="ibox">
@@ -459,7 +428,9 @@
         beforeRouteEnter(to, from, next){
           next(v => {
               if (to.params.id){
-                  v.customer = v.getCustomer(to.params.id)
+                  v.formData = v.getCustomer(to.params.id)
+                  v.customer = {}
+                  v.mode = 'edit'
               }
           })
         },
@@ -485,13 +456,9 @@
               }
           },
 
-            editCustomer : function () {
-                this.formData = this.customer
-                this.customer = {}
-                this.mode = 'edit'
-            },
+
             updateCustomer : function () {
-                //
+                //todo update customer endpoint
             }
         },
     }

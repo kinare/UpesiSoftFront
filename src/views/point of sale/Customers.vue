@@ -49,11 +49,60 @@
                             <td @click="selectCustomer(customer)">+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
                             <td @click="selectCustomer(customer)">{{customer.customerEmail}}</td>
                             <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
-                            <td><router-link :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-warning" ><i class="fa fa-eye"></i> &nbsp; view</router-link> </td>
+                            <td><a @click="selectedCustomer = customer" class="btn btn-sm btn-warning"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye"></i> &nbsp; view</a> </td>
+<!--                            <td><a :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-warning" ><i class="fa fa-eye"></i> &nbsp; view</a> </td>-->
 <!--                         <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>-->
                         </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+<!--        customer modal-->
+        <div class="modal inmodal fadeIn" id="customerCard" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Customer Card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <a class="btn btn-primary" data-dismiss="modal" @click="selectCustomer(selectedCustomer)"><i class="fa fa-user-check"></i> Select</a> &nbsp;
+                                <router-link data-dismiss="modal" :to="'/pos/customers/card/' + selectedCustomer.id" class="btn btn-white" ><i class="fa fa-edit"></i> Edit</router-link>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="profile-image">
+                                    <img src="/img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
+                                </div>
+                                <div class="profile-info">
+                                    <div class="">
+                                        <div>
+                                            <h1 class="">
+                                                {{selectedCustomer.isBusiness ? selectedCustomer.customerBusinessName : selectedCustomer.customerFirstName + ' ' + selectedCustomer.customerLastName}}
+                                            </h1>
+                                            <h4><i class="fa fa-phone"></i>   + {{selectedCustomer.customerCountryCode + ' ' + selectedCustomer.customerPhoneNumber}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal" style="margin-top: 20px">
+                                    <dt>Email:</dt> <dd>{{selectedCustomer.customerEmail}}</dd>
+                                    <dt>Postal Address:</dt> <dd> {{selectedCustomer.customerPostalAddress}}</dd>
+                                    <dt>Physical Address:</dt> <dd>{{selectedCustomer.customerAddress}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
