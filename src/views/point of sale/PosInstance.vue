@@ -1,5 +1,7 @@
 <template>
     <div class="container-fluid">
+
+<!--        sales display-->
         <div class="col-sm-5 border-right">
 <!--            pos display-->
             <div class="row">
@@ -85,8 +87,8 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" :to="'/pos/payment/' + namespace.split('/').pop()" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                <a @click="postDocument('INVOICE')" :class="(validator.isEmptyObject(customer) || totalSale === 0) ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
-                                <a @click="postDocument('QUOTE')" :class="(validator.isEmptyObject(customer) || totalSale === 0) ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
+                                <a @click="postDocument('INVOICE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
+                                <a @click="postDocument('QUOTE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
                             </div>
                             <div class="col-xs-8">
                                 <div class="row no-pad">
@@ -121,6 +123,8 @@
                 </div>
             </div>
         </div>
+
+<!--        product display-->
         <div class="col-sm-7 col-xs-12">
             <div class="col-xs-12">
                 <div class="row m-b">
@@ -156,6 +160,7 @@
             </div>
         </div>
 
+<!--        sub product modal-->
         <div  v-if="showModal" class="modal fadeIn in modal-active"  :id="id" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
@@ -363,9 +368,18 @@
                     }
                 )
             },
+            postDocument : function (type) {
+
+                // set customer before posting document
+                if (window.validator.isEmptyObject(this.customer)) {
+                    this.$router.push('/pos/customers')
+                }
+
+            }
         },
         watch : {
             selectedAllSubProducts : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     if (n[0] === 'All') {
                         //Clear selected products
