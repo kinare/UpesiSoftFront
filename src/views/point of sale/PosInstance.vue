@@ -11,7 +11,7 @@
                             <table class="table small table-condensed table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="text-left">Item</th>
+                                    <th class="text-left pos-product-name">Item</th>
                                     <th class="text-left">Qty</th>
                                     <th class="text-left">Measure</th>
                                     <th class="text-right">Price</th>
@@ -19,11 +19,11 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="(item , index) in items" :key="index"  @click="select(index)" :class="selected === index ? 'success' : ''">
-                                    <td class="text-left"><strong>{{item.productName}}</strong><br>
+                                    <td class="text-left pos-product-name"><strong>{{item.productName}}</strong><br>
                                         <small>{{item.productShortDescription}}</small>
                                     </td>
                                     <td class="text-left">
-                                        <input v-if="selected === index"
+                                        <input v-if="selected === index && item.sellAs !== 'CUSTOM'"
                                                :disabled="item.sellAs === 'CUSTOM'"
                                                v-on:change="fieldUpdate(index, 'QTY')"
                                                type="number" min="1"
@@ -33,7 +33,7 @@
                                         <span v-else>{{item.qty}}</span>
                                     </td>
                                     <td class="text-left">
-                                        <div v-if="selected === index" class="input-group">
+                                        <div v-if="selected === index && item.sellAs !== 'FULL'" class="input-group">
                                             <input  v-on:change="fieldUpdate(index, 'UNIT')"
                                                     :disabled="item.sellAs === 'FULL'"
                                                     aria-describedby="basic-addon2"
@@ -399,6 +399,9 @@
     }
 </script>
 <style scoped>
+    .pos-product-name{
+        min-width: 115px;
+    }
     .check-control{
         height: 20px !important;
     }
