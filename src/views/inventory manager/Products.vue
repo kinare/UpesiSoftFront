@@ -84,21 +84,26 @@
                     </div>
 <!--                    product grid-->
                     <div v-if="view === 'grid'" class="row">
-                        <div class="col-md-12">
-                            <div v-for="(product, index) in products" v-bind:key="index"  class="file-box">
-                                <div class="file">
-                                    <a href="#">
-                                        <span class="corner" :class="product.state ? 'available': 'unavailable'"></span>
-                                        <div class="image">
-                                            <img alt="image" class="img-responsive" src="/img/p1.jpg">
+
+                        <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in products" v-bind:key="index">
+                            <div class="contact-box" style="padding: 5px">
+                                <a @click="openProduct(product)">
+                                    <div class="col-sm-4">
+                                        <div class="text-center">
+                                            <img alt="image" class="m-t-xs img-responsive" src="/img/a2.jpg">
+                                            <div class="m-t-xs font-bold">
+                                                <span class="badge badge-info">Ksh {{product.price}}</span>
+                                            </div>
                                         </div>
-                                        <div class="file-name">
-                                            {{product.name}}<span class="badge badge-info pull-right">{{product.price}}</span>
-                                            <br>
-                                            <small>{{product.shortDescription}}</small>
-                                        </div>
-                                    </a>
-                                </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <h5><strong>{{product.productName}}</strong></h5>
+                                        <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
+                                        <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
+                                        <small>Category : {{product.categories}}</small>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -225,6 +230,21 @@
 </script>
 
 <style scoped>
+    .prod-image{
+        padding: 50px 0;
+        background-repeat:no-repeat;
+        background-position: center center;
+        background-size: cover;
+        border-top: 1px solid #e7eaec ;
+        border-left: 1px solid #e7eaec ;
+        border-bottom: 1px solid #e7eaec;
+    }
+    .prod-desc{
+        height: 101px;
+        border-top: 1px solid #e7eaec;
+        border-right: 1px solid #e7eaec;
+        border-bottom: 1px solid #e7eaec;
+    }
     .product-avatar img {
         width: 28px;
         height: 28px;

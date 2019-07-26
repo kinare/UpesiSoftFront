@@ -128,34 +128,54 @@
         <div class="col-sm-7 col-xs-12">
             <div class="col-xs-12">
                 <div class="row m-b">
-                    <form>
-                        <div class="input-group-lg">
-                            <input type="text" placeholder="Search Item" v-model="term" autofocus class="form-control">
-                        </div>
-                    </form>
+                    <div class="col-xs-10 col-xs-push-1">
+                        <form>
+                            <div class="input-group-lg">
+                                <input type="text" placeholder="Search Item" v-model="term" autofocus class="form-control">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="ibox-content search-items" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0">
+                <div class="ibox-content search-items" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0; margin: 0">
                     <Spinner v-if="loading"/>
-                    <div v-for="(product, index) in filteredProducts" v-bind:key="index"  class="file-box">
-                        <div class="file">
-                            <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
-                                <span class="corner" :class="product.state ? 'available': 'unavailable'"></span>
-                                <div class="image">
-                                    <img alt="image" class="img-responsive" src="/img/p1.jpg">
-                                </div>
-                                <div class="file-name">
-                                    <h5 style="line-height: 1; margin-bottom: -12px">{{product.productName}}</h5>
-                                    <br>
-                                    <small>{{product.sellAs === 'FULL' ? 'Full' : 'Pieces'}} {{product.qty}}</small>
-                                    <span class="badge badge-info pull-right">Ksh {{product.price}}</span>
-                                    <br>
-                                    <small>{{product.categories || '[]'}}</small>
 
-                                    <div class="clearfix"></div>
+
+                    <div class="col-xs-6" v-for="(product, index) in filteredProducts" v-bind:key="index">
+                        <div class="contact-box" style="padding: 5px">
+                            <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
+                                <div class="col-sm-4">
+                                    <div class="text-center">
+                                        <img alt="image" class="m-t-xs img-responsive" src="img/a2.jpg">
+                                        <div class="m-t-xs font-bold">
+                                            <span class="badge badge-info">Ksh {{product.price}}</span>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="col-sm-8">
+                                    <h5><strong>{{product.productName}}</strong></h5>
+                                   <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
+                                   <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
+                                   <small>Category : {{product.categories}}</small>
+                                </div>
+                                <div class="clearfix"></div>
                             </a>
                         </div>
                     </div>
+
+
+
+<!--                    <div v-for="(product, index) in filteredProducts" v-bind:key="index" class="m-b-md col-xs-6" >-->
+<!--                        <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">-->
+<!--                            <div class="col-xs-4 prod-image" style="background-image : url('/img/p1.jpg');"></div>-->
+<!--                            <div class="col-xs-8 prod-desc" style="">-->
+<!--                                <h5>{{product.productName}}</h5>-->
+<!--                                <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;-->
+<!--                                <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>-->
+<!--                                <small>Category : {{product.categories}}</small><br>-->
+<!--                                <span class="badge badge-info pull-right">Ksh {{product.price}}</span>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -432,6 +452,21 @@
     }
 </script>
 <style scoped>
+    .prod-image{
+        padding: 50px 0;
+        background-repeat:no-repeat;
+        background-position: center center;
+        background-size: cover;
+        border-top: 1px solid #e7eaec ;
+        border-left: 1px solid #e7eaec ;
+        border-bottom: 1px solid #e7eaec;
+    }
+    .prod-desc{
+        height: 101px;
+        border-top: 1px solid #e7eaec;
+        border-right: 1px solid #e7eaec;
+        border-bottom: 1px solid #e7eaec;
+    }
     .pos-product-name{
         min-width: 115px;
     }
