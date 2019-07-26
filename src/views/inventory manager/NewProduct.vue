@@ -12,15 +12,15 @@
                             <div class="tabs-container">
                                 <div class="tabs-left">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#general" aria-expanded="true"><i class="fa fa-wrench"></i> General</a></li>
-                                        <li class=""><a data-toggle="tab" href="#inventory" aria-expanded="false"><i class="fa fa-list-alt"></i> Inventory</a></li>
-                                        <li class=""><a data-toggle="tab" href="#pricing" aria-expanded="false"><i class="fa fa-tags"></i> Pricing</a></li>
-                                        <li class=""><a data-toggle="tab" href="#shipping" aria-expanded="false"><i class="fa fa-truck"></i>Shipping</a></li>
+                                        <li :class="{active : activeTab === 1}"><a @click="activeTab = 1" ><i class="fa fa-wrench"></i> General</a></li>
+                                        <li :class="{active : activeTab === 2}"><a @click="activeTab = 2" ><i class="fa fa-list-alt"></i> Inventory</a></li>
+                                        <li :class="{active : activeTab === 3}"><a @click="activeTab = 3" ><i class="fa fa-tags"></i> Pricing</a></li>
+                                        <li :class="{active : activeTab === 4}"><a @click="activeTab = 4" ><i class="fa fa-truck"></i>Shipping</a></li>
                                     </ul>
                                     <div class="tab-content m-b-lg">
-                                        <div id="general" class="tab-pane active">
+                                        <div :class="{active : activeTab === 1}" id="general" class="tab-pane">
                                             <div class="panel-body">
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
                                                         <div class="form-group" :class="formDataError.productName.status">
                                                             <label class="col-sm-4 control-label">Name</label>
@@ -53,9 +53,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="inventory" class="tab-pane">
+                                        <div :class="{active : activeTab === 2}" id="inventory" class="tab-pane">
                                             <div class="panel-body">
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
                                                         <div class="form-group" :class="formDataError.sku.status">
                                                             <label class="col-sm-4 control-label">SKU</label>
@@ -148,9 +148,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="pricing" class="tab-pane">
+                                        <div :class="{active : activeTab === 3}" id="pricing" class="tab-pane">
                                             <div class="panel-body">
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
                                                         <div class="form-group" :class="formDataError.price.status">
                                                             <label class="col-sm-4 control-label">Price</label>
@@ -196,9 +196,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="shipping" class="tab-pane">
+                                        <div :class="{active : activeTab === 4}" id="shipping" class="tab-pane">
                                             <div class="panel-body">
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
                                                         <div class="form-group" :class="formDataError.availableFrom.status">
                                                             <label class="col-sm-4 control-label">Available From</label>
@@ -273,8 +273,9 @@
                     </div>
                 </div>
                 <div class="ibox-footer text-right">
-                    <button type="button" class="btn btn-white"><i class="fa fa-times"></i> Cancel</button>
-                    <button type="button" class="btn btn-primary m-l" @click="addProduct"><i class="fa fa-plus" ></i> Add </button>
+                    <button v-if="activeTab === tabCount" type="button" class="btn btn-primary m-l" @click="addProduct"><i class="fa fa-plus" ></i> Add </button>
+                    <button v-else type="button" class="btn btn-primary m-l" @click="activeTab++">Next <i class="fa fa-arrow-right"></i>  </button>
+                    <button v-if="activeTab > 1" type="button" class="btn btn-white pull-left" @click="activeTab--"><i class="fa fa-arrow-left"></i>  Back  </button>
                 </div>
             </div>
         </div>
@@ -290,6 +291,8 @@
         components: {Spinner, DatePicker },
         data : function () {
             return {
+                activeTab : 1,
+                tabCount : 4,
                 category : '',
                 formData : {
                     productName : '',
@@ -444,6 +447,10 @@
 </script>
 
 <style scoped>
+    /*.tab-body {*/
+    /*    height: 400px;*/
+    /*    overflow-y: scroll;*/
+    /*}*/
     .cat-icon:hover{
         color: #9F2F33;
     }
