@@ -1,9 +1,11 @@
 let endpoint = {
-    login : 'users/login',
-    register : 'users/signup',
-    activate : 'users/activate',
-    reset : 'users/reset/initiate',
-    complete : 'users/reset/complete',
+    //users
+    users : 'b/users',
+    saveUser : 'b/users/create',
+
+    //roles
+    roles : 'b/roles',
+    saveRole : 'b/roles/create',
 }
 
 export default endpoint;

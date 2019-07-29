@@ -26,34 +26,9 @@
         </div>
         <div class="wrapper wrapper-content">
             <div class="container">
+
                 <div class="row">
-                    <div class="col-lg-3">
-                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/user-management')">
-                            <div class="m-b-md">
-                                <i class="fa fa-users fa-4x"></i>
-                                <h3 class="p-xs">User Manager</h3>
-                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/inventory-management')">
-                            <div class="m-b-md">
-                                <i class="fa fa-list-alt fa-4x"></i>
-                                <h3 class="p-xs">Inventory Manager</h3>
-                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/accounting-management')" >
-                            <div class="m-b-md">
-                                <i class="fa fa-file-invoice-dollar fa-4x"></i>
-                                <h3 class="p-xs">Sales & Accounting</h3>
-                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
-                            </div>
-                        </div>
-                    </div>
+<!--                    pos-->
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/pos')" >
                             <div class="m-b-md">
@@ -63,6 +38,41 @@
                             </div>
                         </div>
                     </div>
+
+<!--                    inventory-->
+                    <div class="col-lg-3">
+                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/inventory-management')">
+                            <div class="m-b-md">
+                                <i class="fa fa-list-alt fa-4x"></i>
+                                <h3 class="p-xs">Inventory Manager</h3>
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                user-->
+                    <div class="col-lg-3">
+                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/user-management')">
+                            <div class="m-b-md">
+                                <i class="fa fa-users fa-4x"></i>
+                                <h3 class="p-xs">User Manager</h3>
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </small>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    accounting-->
+                    <div class="col-lg-3">
+                        <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/accounting-management')" >
+                            <div class="m-b-md">
+                                <i class="fa fa-file-invoice-dollar fa-4x"></i>
+                                <h3 class="p-xs">Sales & Accounting</h3>
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    supplier-->
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/supplier-management')">
                             <div class="m-b-md">
@@ -72,6 +82,8 @@
                             </div>
                         </div>
                     </div>
+
+<!--                    integration-->
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/integration-management')">
                             <div class="m-b-md">
@@ -81,6 +93,8 @@
                             </div>
                         </div>
                     </div>
+
+<!--                    resource-->
                     <div class="col-lg-3">
                         <div class="widget navy-bg p-lg text-center" @click="$router.push('/dashboard/resource-management')">
                             <div class="m-b-md">
