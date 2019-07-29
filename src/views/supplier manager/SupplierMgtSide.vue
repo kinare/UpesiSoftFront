@@ -1,5 +1,7 @@
 <template>
-    <ul class="nav metismenu" id="side-menu" style="">
+    <div>
+        <router-link to="/" class="btn btn-block btn-primary side-home" style="padding: 20px 25px;"><i class="fa fa-arrow-left"></i> &nbsp;&nbsp;FOCUS</router-link>
+        <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
         <li>
             <a href="layouts.html"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
@@ -11,6 +13,7 @@
             <a href="layouts.html"><i class="fa fa-unlock"></i> <span class="nav-label">Roles</span></a>
         </li>
     </ul>
+    </div>
 </template>
 
 <script>

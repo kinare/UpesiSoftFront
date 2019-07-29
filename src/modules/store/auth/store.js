@@ -29,7 +29,7 @@ export default {
     actions: {
         signIn : (context, data) => {
             window.api.call('post',endpoints.login, data).then((res)=> {
-                window.auth.login(res.data.data.token)
+                window.auth.login(res.data.data)
                 context.commit('SET_USER', res.data.data.user);
                 context.commit('SET_TOKEN', res.data.data.token);
             }).catch((error) => {

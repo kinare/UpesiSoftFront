@@ -1,5 +1,8 @@
 <template>
-    <ul class="nav metismenu" id="side-menu" style="">
+    <div>
+        <router-link to="/" class="btn btn-block btn-primary side-home" style="padding: 20px 25px;"><i class="fa fa-arrow-left"></i> &nbsp;&nbsp;FOCUS</router-link>
+
+        <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
         <li>
             <router-link  to="/dashboard/accounting-management/quotes"><i class="fa fa-file-invoice"></i> <span class="nav-label">Quotes</span></router-link>
@@ -17,6 +20,7 @@
             <router-link  to="/dashboard/accounting-management/sales"><i class="fa fa-wallet"></i> <span class="nav-label">Sales</span></router-link>
         </li>
     </ul>
+    </div>
 </template>
 
 <script>

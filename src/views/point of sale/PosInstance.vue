@@ -161,21 +161,6 @@
                             </a>
                         </div>
                     </div>
-
-
-
-<!--                    <div v-for="(product, index) in filteredProducts" v-bind:key="index" class="m-b-md col-xs-6" >-->
-<!--                        <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">-->
-<!--                            <div class="col-xs-4 prod-image" style="background-image : url('/img/p1.jpg');"></div>-->
-<!--                            <div class="col-xs-8 prod-desc" style="">-->
-<!--                                <h5>{{product.productName}}</h5>-->
-<!--                                <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;-->
-<!--                                <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>-->
-<!--                                <small>Category : {{product.categories}}</small><br>-->
-<!--                                <span class="badge badge-info pull-right">Ksh {{product.price}}</span>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>

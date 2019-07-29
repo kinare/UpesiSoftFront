@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="tabs-container">
-                                <div class="tabs-left">
+                                <div class="">
                                     <ul class="nav nav-tabs">
                                         <li :class="{active : activeTab === 1}"><a @click="activeTab = 1" ><i class="fa fa-wrench"></i> General</a></li>
                                         <li :class="{active : activeTab === 2}"><a @click="activeTab = 2" ><i class="fa fa-list-alt"></i> Inventory</a></li>

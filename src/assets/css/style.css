@@ -176,6 +176,8 @@ h5 {
   padding: 33px 25px;
   background-color: #505153;
   background-image: url("patterns/header-profile.png");
+  background-repeat: no-repeat;
+  background-size : cover;
 }
 .pace-done .nav-header {
   transition: all 0.4s;
@@ -397,6 +399,7 @@ body.mini-navbar .navbar-static-side {
   width: 70px;
 }
 body.mini-navbar .profile-element,
+body.mini-navbar .side-home,
 body.mini-navbar .nav-label,
 body.mini-navbar .navbar-default .nav li a span {
   display: none;
@@ -8579,4 +8582,8 @@ body.md-skin {
 .nav > li a.router-link-active {
   border-left: 4px solid #BF282D;
   background: #333435;
+}
+
+body.mini-navbar .sidebar-collapse side-home{
+  visibility: hidden;
 }
