@@ -21,8 +21,8 @@
                     <div class="row">
                         <div class="col-sm-3 m-b-xs">
                             <div class="btn-group-xs">
-                                <select class="form-control">
-                                    <option selected>Select Category</option>
+                                <select class="form-control" v-model="term">
+                                    <option v-for="(category, index) in categories" :key="index" selected>{{category.productCategoryName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(product, index) in products" v-bind:key="index" style="cursor: pointer">
+                            <tr v-for="(product, index) in filteredProducts" v-bind:key="index" style="cursor: pointer">
                                 <td @click="openProduct(product)" class="product-avatar"><img alt="image" src="/img/p1.jpg"> </td>
                                 <td @click="openProduct(product)" >
                                     {{product.productName}}<br>
@@ -85,7 +85,7 @@
 <!--                    product grid-->
                     <div v-if="view === 'grid'" class="row">
 
-                        <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in products" v-bind:key="index">
+                        <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in filteredProducts" v-bind:key="index">
                             <div class="contact-box" style="padding: 5px">
                                 <a @click="openProduct(product)">
                                     <div class="col-sm-4">
@@ -194,12 +194,30 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('inventory/getProducts')
+                v.$store.dispatch('inventory/getProducts');
+                v.$store.dispatch('inventory/getCategories')
             })
         },
         computed : {
+            filteredProducts () {
+                let self = this;
+                return this.term === ''
+                    ? this.products
+                    : this.products.filter(product => {
+                        return product.productName ? product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.productShortDescription ? product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0  : ''
+                        || product.price ? product.price.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.salePrice ? product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.measurement ? product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.sellAs ? product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.availableFrom ? product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.availableTo ? product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.categories ? product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                    })
+            },
             ...mapState('inventory',{
                 products : state => state.products,
+                categories : state => state.categories,
                 loading : state => state.loading,
                 view : state => state.view,
                 message : state => state.message,

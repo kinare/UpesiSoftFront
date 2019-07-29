@@ -4,7 +4,7 @@
         <ul class="nav metismenu" id="side-menu" style="">
             <side-header/>
             <li>
-                <router-link to="/dashboard/inventory-management/products"><i class="fa fa-list"></i> <span class="nav-label">Product</span></router-link>
+                <router-link to="/dashboard/inventory-management/products"><i class="fa fa-list"></i> <span class="nav-label">Products</span></router-link>
             </li>
             <li>
                 <router-link to="/dashboard/inventory-management/categories"><i class="fa fa-tags"></i> <span class="nav-label">Categories</span></router-link>

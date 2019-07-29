@@ -260,14 +260,14 @@
                 return this.term === ''
                     ? this.products
                     : this.products.filter(product => {
-                        return product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.price.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        return product.productName ? product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.productShortDescription ? product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0  : ''
+                            || product.price ? product.price.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.salePrice ? product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.measurement ? product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.sellAs ? product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.availableFrom ? product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                            || product.availableTo ? product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         // || product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     })
             },
