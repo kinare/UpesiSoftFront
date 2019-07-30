@@ -7,6 +7,7 @@ import Landing from './views/layout/landing';
 import Login from './views/auth/Login';
 import Reset from './views/auth/password/Email';
 import Activation from './views/auth/Activation';
+import RegSuccess from './views/auth/RegistrationSuccess';
 import Register from './views/auth/Register';
 import Password from './views/auth/password/Password';
 
@@ -258,6 +259,12 @@ const  router = new Router({
                   component: Activation,
                   meta : { breadcrumb : 'activation'},
                   params : true
+              },
+          {
+                  path: 'success',
+                  name: 'success',
+                  component: RegSuccess,
+                  meta : { breadcrumb : 'RegSuccess'},
               },
               {
                   path: 'reset',

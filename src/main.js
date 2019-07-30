@@ -53,7 +53,7 @@ new Vue({
             this.$router.push('/auth/login')
         });
         Event.$on('userSignedUp', () => {
-            this.$router.push('/auth/activation')
+            this.$router.push('/auth/success')
         });
         Event.$on('userActivated', () => {
             this.$router.push('/auth/login')

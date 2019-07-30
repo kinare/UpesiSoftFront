@@ -33,7 +33,7 @@
                         {{formDataError.email.message}}
                     </span>
                 </div>
-                <div class="form-group" :class="formDataError.userRoleId.status">
+                <div v-show="false" class="form-group" :class="formDataError.userRoleId.status">
                     <input type="text" class="form-control" placeholder="Role" v-model="formData.userRoleId"  required="">
                     <span class="help-block m-b-none">
                         {{formDataError.userRoleId.message}}
@@ -85,7 +85,7 @@
                     email : '',
                     password : '',
                     confirmPassword : '',
-                    userRoleId : '',
+                    userRoleId : '1',
                     businessName : '',
                     businessTypeId : '',
                 },
