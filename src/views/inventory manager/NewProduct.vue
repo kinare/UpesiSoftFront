@@ -261,11 +261,11 @@
                                         <i class="fa fa-image" ></i> upload image
                                     </label>
                                     <dd class="product-image">
-                                        <a href=""><img alt="image" src="/img/a3.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a1.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a2.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a4.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a5.jpg"></a>
+<!--                                        <a href=""><img alt="image" src="/img/a3.jpg"></a>-->
+<!--                                        <a href=""><img alt="image" src="/img/a1.jpg"></a>-->
+<!--                                        <a href=""><img alt="image" src="/img/a2.jpg"></a>-->
+<!--                                        <a href=""><img alt="image" src="/img/a4.jpg"></a>-->
+<!--                                        <a href=""><img alt="image" src="/img/a5.jpg"></a>-->
                                     </dd>
                                 </div>
                             </div>

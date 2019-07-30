@@ -52,7 +52,7 @@
 <script>
     import inventory from '../../modules/store/inventory/store';
     import pos from '../../modules/store/pos/store';
-    export default {
+        export default {
         name: "Pos",
         data : function(){
             return {
