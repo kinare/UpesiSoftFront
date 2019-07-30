@@ -9,9 +9,9 @@
         name: "InventoryManager",
         components: {Page},
         created() {
-            if (!(this.$store && this.$store.state && this.$store.state["inventory"])) {
-                    this.$store.registerModule('inventory', inventory)
-            }
+           if(!this.$store._modules.root._children[`inventory`]) {
+              this.$store.registerModule('inventory', inventory)
+           }
         }
     }
 </script>

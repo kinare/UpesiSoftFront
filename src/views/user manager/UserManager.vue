@@ -9,7 +9,7 @@
         name : "UserManager",
         components: {Page},
         created (){
-            if (!(this.$store && this.$store.state && this.$store.state["inventory"])) {
+            if(!this.$store._modules.root._children[`userMgt`]) {
                 this.$store.registerModule('userMgt', userMgt);
             }
         },

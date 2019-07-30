@@ -86,10 +86,11 @@
             document.body.className = 'top-navigation white-bg';
         },
         created() {
-            if (!(this.$store && this.$store.state && this.$store.state["inventory"])) {
+            if(!this.$store._modules.root._children[`inventory`]) {
                 this.$store.registerModule('inventory', inventory)
             }
-            if (!(this.$store && this.$store.state && this.$store.state["pos"])) {
+
+            if(!this.$store._modules.root._children[`pos`]) {
                 this.$store.registerModule('pos', pos)
             }
         }
