@@ -6,7 +6,7 @@
                     <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a href="#" class="navbar-brand">FOCUS</a>
+                    <a class="navbar-brand">FOCUS</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -48,8 +48,8 @@
                     <div class="col-lg-3">
                         <div class="widget white-bg inventory-tile p-lg text-center" @click="$router.push('/dashboard/inventory-management')">
                             <div class="m-b-md">
-                                <i class="fa fa-list-alt fa-4x" style="color: #FF6D00"></i>
-                                <h3 class="p-xs">Inventory Manager</h3>
+                                <i class="fa fa-clipboard-list fa-4x" style="color: #FF6D00"></i>
+                                <h3 class="p-xs">Inventory</h3>
                                 <small class="tile-subtext">Add new stock, check what’s left and more</small>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/user-management')">
                             <div class="m-b-md">
                                 <i class="fa fa-users fa-4x" style="color: #AEEA00"></i>
-                                <h3 class="p-xs">User Manager</h3>
+                                <h3 class="p-xs">Users</h3>
                                 <small class="tile-subtext">Create new users and manage specific roles</small>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="widget white-bg supplier-tile p-lg text-center" > <!--@click="$router.push('/dashboard/supplier-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-truck fa-4x" style="color: #0091EA"></i>
-                                <h3 class="p-xs">Suppliers Manager</h3>
+                                <h3 class="p-xs">Suppliers</h3>
                                 <small class="tile-subtext">Mange aspects regarding your suppliers</small>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div class="widget white-bg integration-tile p-lg text-center" > <!--@click="$router.push('/dashboard/integration-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-plug fa-4x" style="color: #DD2C00"></i>
-                                <h3 class="p-xs">Integration Manager</h3>
+                                <h3 class="p-xs">Integrations</h3>
                                 <small class="tile-subtext">Mange aspects of integration such as with your website</small>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                         <div class="widget white-bg resource-tile p-lg text-center" > <!--@click="$router.push('/dashboard/resource-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-shopping-cart fa-4x" style="color: #0091EA"></i>
-                                <h3 class="p-xs">Resource Manager</h3>
+                                <h3 class="p-xs">Resource</h3>
                                 <small class="tile-subtext">Mange resources and other third party elements</small>
                             </div>
                         </div>

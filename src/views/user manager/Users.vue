@@ -43,7 +43,7 @@
                             <tr v-for="(user, index) in filteredUsers" v-bind:key="index" style="cursor: pointer" @click="openUser(user)">
                                 <td>{{index + 1}}</td>
                                 <td>{{user.firstName + ' ' + user.lastName}}</td>
-                                <td>{{user.userRoleId}}</td>
+                                <td>{{user.roleName}}</td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.createdAt}}</td>
                             </tr>
