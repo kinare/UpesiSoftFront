@@ -17,6 +17,11 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
+                            <a>
+                                <i class="fa fa-user-circle"></i> {{user.firstName + ' ' + user.lastName}}
+                            </a>
+                        </li>
+                        <li>
                             <a @click="toggle">
                                 <i class="fa fa-expand-arrows-alt"></i> Fullscreen
                             </a>
@@ -56,7 +61,13 @@
         name: "Pos",
         data : function(){
             return {
-                fullscreen: false
+                fullscreen: false,
+                auth : window.auth
+            }
+        },
+        computed : {
+            user(){
+                return JSON.parse(this.auth.authUser());
             }
         },
         methods : {

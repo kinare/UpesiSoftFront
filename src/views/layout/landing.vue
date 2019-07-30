@@ -16,6 +16,11 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
+                            <a>
+                                <i class="fa fa-user-circle"></i> {{user.firstName + ' ' + user.lastName}}
+                            </a>
+                        </li>
+                        <li>
                             <a @click="signOut">
                                 <i class="fa fa-sign-out"></i> Sign out
                             </a>
@@ -118,6 +123,16 @@
     import Footer from '@/views/layout/Footer.vue'
     export default {
         name: "landing",
+        data : function(){
+            return {
+                auth : window.auth
+            }
+        },
+        computed : {
+            user(){
+                return JSON.parse(this.auth.authUser());
+            }
+        },
         components: {
             Footer
         },
