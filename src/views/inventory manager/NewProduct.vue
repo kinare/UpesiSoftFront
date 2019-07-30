@@ -76,14 +76,14 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" :class="formDataError.measurementUnit.status">
+                                                        <div class="form-group" :class="formDataError.measurementUnitId.status">
                                                             <label class="col-sm-4 control-label">Unit of Measure</label>
                                                             <div class="col-sm-8">
-                                                                <select class="form-control" v-model="formData.measurementUnit">
+                                                                <select class="form-control" v-model="formData.measurementUnitId">
                                                                     <option v-for="(unit, index) in units"  :value="unit.id" :key="index">{{unit.measurementName}} ({{unit.measurementAbbreviation}})</option>
                                                                 </select>
                                                                 <span class="help-block">
-                                                                    {{formDataError.measurementUnit.message}}
+                                                                    {{formDataError.measurementUnitId.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -261,11 +261,11 @@
                                         <i class="fa fa-image" ></i> upload image
                                     </label>
                                     <dd class="product-image">
-<!--                                        <a href=""><img alt="image" src="/img/a3.jpg"></a>-->
-<!--                                        <a href=""><img alt="image" src="/img/a1.jpg"></a>-->
-<!--                                        <a href=""><img alt="image" src="/img/a2.jpg"></a>-->
-<!--                                        <a href=""><img alt="image" src="/img/a4.jpg"></a>-->
-<!--                                        <a href=""><img alt="image" src="/img/a5.jpg"></a>-->
+                                        <!--<a href=""><img alt="image" src="/img/a3.jpg"></a>
+                                        <a href=""><img alt="image" src="/img/a1.jpg"></a>
+                                        <a href=""><img alt="image" src="/img/a2.jpg"></a>
+                                        <a href=""><img alt="image" src="/img/a4.jpg"></a>
+                                        <a href=""><img alt="image" src="/img/a5.jpg"></a>-->
                                     </dd>
                                 </div>
                             </div>
@@ -305,7 +305,7 @@
                     price : '',
                     salePrice : '',
                     unitPrice : '',
-                    measurementUnit : '',
+                    measurementUnitId : '',
                     taxClassId : '',
                     published : '',
                     storageLocation : '',
@@ -355,7 +355,7 @@
                         status : '',
                         message : '',
                     },
-                    measurementUnit : {
+                    measurementUnitId : {
                         status : '',
                         message : '',
                     },
@@ -399,7 +399,7 @@
                     price : 'required',
                     unitPrice : 'required',
                     salePrice : 'required',
-                    measurementUnit : 'required',
+                    measurementUnitId : 'required',
                     taxClassId : 'required',
                     published : 'optional',
                     storageLocation : 'optional',
