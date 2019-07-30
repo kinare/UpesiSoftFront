@@ -45,10 +45,10 @@
                                             >
                                             <span class="input-group-addon"
                                                   id="basic-addon2">
-                                                {{getUom(item.measurementUnit)[0].measurementAbbreviation}}
+                                                {{item.measurementAbbreviation}}
                                             </span>
                                         </div>
-                                        <span v-else>{{item.soldMeasurement}}{{getUom(item.measurementUnit)[0].measurementAbbreviation}}</span>
+                                        <span v-else>{{item.soldMeasurement}}{{item.measurementAbbreviation}}</span>
                                     </td>
                                     <td class="text-right">
                                         <input v-if="selected === index"
