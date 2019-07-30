@@ -84,7 +84,6 @@
                     </div>
 <!--                    product grid-->
                     <div v-if="view === 'grid'" class="row">
-
                         <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in filteredProducts" v-bind:key="index">
                             <div class="contact-box" style="padding: 5px">
                                 <a @click="openProduct(product)">

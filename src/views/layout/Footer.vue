@@ -1,10 +1,10 @@
 <template>
     <div class="footer">
         <div class="pull-right">
-            10GB of <strong>250GB</strong> Free.
+            Made with <i class="fa fa-heart text-danger"></i>  <a href="https://digital4africa.com/" > by Digital 4 Africa</a>
         </div>
         <div>
-            <strong>Copyright</strong> Example Company © 2014-2017
+            <strong>Copyright</strong> Focus Glass & Alluminium © 2019
         </div>
     </div>
 </template>
