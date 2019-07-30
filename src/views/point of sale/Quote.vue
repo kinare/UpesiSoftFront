@@ -19,10 +19,11 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <h5>From:</h5>
+                                <h5>From:<br>
+                                    <strong>Focus Glass & Aluminium</strong>
+                                </h5>
                                 <address>
                                     <strong>{{quote.cashierFirstName + ' ' + quote.cashierLastName}}</strong><br>
-                                    +{{quote.cashierCountryCode + quote.cashierPhoneNumber}}<br>
                                     {{quote.cashierEmail}}<br>
                                 </address>
                             </div>
@@ -105,6 +106,10 @@
                 //post invoice
                 v.$store.dispatch(`pos/${v.namespace}/generateDocument`, v.document);
             })
+        },
+        beforeRouteLeave(to, from, next){
+            this.$store.commit(`pos/${this.namespace }/SET_DOC_NO`, '');
+            next();
         },
         methods : {
             printDoc : function () {

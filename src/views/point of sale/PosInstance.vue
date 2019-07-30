@@ -138,8 +138,6 @@
                 </div>
                 <div class="ibox-content search-items" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0; margin: 0">
                     <Spinner v-if="loading"/>
-
-
                     <div class="col-xs-6" v-for="(product, index) in filteredProducts" v-bind:key="index">
                         <div class="contact-box" style="padding: 5px">
                             <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
@@ -153,13 +151,17 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <h5><strong>{{product.productName}}</strong></h5>
-                                   <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
-                                   <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
-                                   <small>Category : {{product.productCategoryName}}</small>
+                                    <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
+                                    <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
+                                    <small>Category : {{product.productCategoryName}}</small>
                                 </div>
                                 <div class="clearfix"></div>
                             </a>
                         </div>
+                    </div>
+                    <div v-if="validator.isEmptyObject(products)" class="aler alert-warning text-center m-t-lg p-lg">
+                        <h1>No Products Found</h1>
+                        <p>Contact Inventory manager for more info</p>
                     </div>
                 </div>
             </div>
@@ -243,7 +245,7 @@
                 subterm : '',
                 validator : window.validator,
                 showModal : false,
-                documentType : ''
+                documentType : '',
             }
         },
         beforeCreate(){
@@ -538,7 +540,7 @@
 
 
     .search-items{
-        height: 66vh;
+        height: 80vh;
         overflow-y: scroll;
     }
 

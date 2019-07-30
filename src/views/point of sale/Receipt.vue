@@ -3,7 +3,7 @@
         <div class="col-lg-10 col-lg-push-1 col-xs-12">
             <div class="row">
                 <div class="col-xs-3">
-                    <a @click="freshSale" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
+                    <router-link to="/pos" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </router-link>
                 </div>
                 <div class="col-xs-6">
                     <h2 class="text-center" style="margin-top: 10px">Receipt</h2>
@@ -20,6 +20,7 @@
                                     <div class="pos-receipt" v-if="!validator.isEmptyObject(receipt)" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
                                         <div class="pos-receipt-header">
                                             <h5 class="text-center">
+                                                <strong>Focus Glass & Aluminium</strong><br>
                                                 Receipt No: {{receipt.id}}<br>
                                                 Date : {{receipt.createdAt}}
                                             </h5>
@@ -95,8 +96,6 @@
 
 <script>
     import Spinner from "../../components/Spinner";
-    import PosModule from "../../modules/store/pos/PosModule";
-    const { state } = PosModule;
     export default {
         name: "Receipt",
         components: {Spinner},
@@ -111,14 +110,6 @@
             printDoc : function () {
                 this.$htmlToPaper('receipt');
             },
-            freshSale : function () {
-                // redirect to pos
-                if (this.namespace !== ''){
-                    //refresh store
-                    this.$store.commit(`pos/${this.namespace}/RESET_STATE`, state)
-                }
-                this.$router.push('/pos')
-            }
         },
         beforeRouteEnter(to, from, next){
           next(v =>{
@@ -131,6 +122,10 @@
               }
               v.$store.dispatch(`pos/${v.namespace}/getDocument`, data);
           })
+        },
+        beforeRouteLeave(to, from, next){
+            this.$store.commit(`pos/${this.namespace }/RESET_STATE`);
+            next();
         },
         computed : {
             receipt(){return this.$store.getters[`pos/${this.namespace }/receipt`]},

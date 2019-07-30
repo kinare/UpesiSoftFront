@@ -24,8 +24,13 @@ const state = () => {
 }
 const mutations = {
     updateField,
-    RESET_STATE : (state, defaultState) =>{
-        state = defaultState
+    RESET_STATE : (state) =>{
+        state.items  = []
+        state.documentNo  = ''
+        state.customer  = {}
+        state.message  = ''
+        state.status  = ''
+        state.loading  = ''
     },
     SET_ITEMS :(state, item) => {
         state.items.push(item)

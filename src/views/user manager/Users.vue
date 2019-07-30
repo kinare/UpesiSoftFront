@@ -36,6 +36,7 @@
                                 <th>Name</th>
                                 <th>Role</th>
                                 <th>Email</th>
+                                <th>Date Created</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -44,6 +45,7 @@
                                 <td>{{user.firstName + ' ' + user.lastName}}</td>
                                 <td>{{user.userRoleId}}</td>
                                 <td>{{user.email}}</td>
+                                <td>{{user.createdAt}}</td>
                             </tr>
                             </tbody>
                         </table>

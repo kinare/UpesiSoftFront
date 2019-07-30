@@ -94,15 +94,14 @@ export default {
                 context.commit('SET_LOADING', false)
             })
         },
-        newProduct : (commit, data) => {
-            // context.commit('inventory/SET_LOADING', true);
-            window.api.call('post',endpoints.insert, data).then(() => {
-                // dispatch('getProducts', { root: true });
-                commit('SET_LOADING', false);
-                // eslint-disable-next-line no-unused-vars
+        newProduct : (context, data) => {
+            context.commit('inventory/SET_LOADING', true);
+            window.api.call('post',endpoints.insert, data).then((res) => {
+                context.commit('SET_MESSAGE', {  message : res.data.status , status : ''});
+                context.commit('SET_LOADING', false);
             }).catch((error) => {
-                // commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
-                commit('SET_LOADING', false);
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false);
             })
         },
         newCategory : ({context, dispatch}, data) => {

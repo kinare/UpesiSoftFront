@@ -232,17 +232,18 @@
                                 <!--categories-->
                                 <div class="col-xs-12">
                                     <h4 class="tag-title">Categories</h4>
-                                    <div class="form-group" :class="formDataError.categories.status">
-                                        <div class="input-group" >
-                                            <select class="form-control" v-model="category">
-                                                <option v-for="(category, index) in categories" :value="category.productCategoryName" :key="index">{{category.productCategoryName}}</option>
-                                            </select>
-                                            <div class="input-group-btn">
-                                                <button tabindex="-1" class="btn btn-primary" type="button" @click="addCategory()">Add</button>
-                                            </div>
-                                        </div>
+                                    <div class="form-group" :class="formDataError.categoryId.status">
+                                        <select class="form-control" v-model="formData.categoryId">
+                                            <option v-for="(category, index) in categories" :value="category.id" :key="index">{{category.productCategoryName}}</option>
+                                        </select>
+<!--                                        <div class="input-group" >-->
+<!--                                           -->
+<!--&lt;!&ndash;                                            <div class="input-group-btn">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <button tabindex="-1" class="btn btn-primary" type="button" @click="addCategory()">Add</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--                                        </div>-->
                                         <span class="help-block">
-                                            {{formDataError.categories.message}}
+                                            {{formDataError.categoryId.message}}
                                         </span>
                                     </div>
 
@@ -298,7 +299,7 @@
                     productName : '',
                     productDescription : '',
                     productShortDescription : '',
-                    categories : [],
+                    categoryId : '',
                     availableFrom : '',
                     availableTo : '',
                     sku : '',
@@ -327,7 +328,7 @@
                         status : '',
                         message : '',
                     },
-                    categories : {
+                    categoryId : {
                         status : '',
                         message : '',
                     },
@@ -394,7 +395,7 @@
                     productShortDescription : 'required',
                     availableFrom : 'optional',
                     availableTo : 'optional',
-                    categories : 'required',
+                    categoryId : 'required',
                     sku : 'optional',
                     price : 'required',
                     unitPrice : 'required',
@@ -418,7 +419,7 @@
         },
         methods : {
             addCategory : function () {
-                if (this.formData.categories.filter(cat => cat === this.category).length === 0 && this.category !== '') {
+                if (this.formData.categoryId.filter(cat => cat === this.category).length === 0 && this.category !== '') {
                     this.formData.categories.push(this.category);
                     this.category = ''
                 }
@@ -430,7 +431,6 @@
                     this.formDataError = res.errors
                 } else {
                     this.$store.dispatch('inventory/newProduct', this.formData);
-                    this.$store.commit('inventory/SET_LOADING', true);
                 }
             }
 
@@ -440,8 +440,19 @@
                 units : state => state.inventory.measurementUnit,
                 categories : state => state.inventory.categories,
                 loading : state => state.inventory.loading,
+                message : state => state.inventory.message,
             }),
         },
+        watch : {
+            message : {
+                // eslint-disable-next-line no-unused-vars
+                handler : function (n, o) {
+                    if (n === 'success') {
+                        this.$router.push('/dashboard/inventory-management/products')
+                    }
+                }
+            }
+        }
 
     }
 </script>

@@ -55,56 +55,85 @@
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerFirstName.status">
                                     <label class="control-label">First Name</label>
-                                    <input type="text" class="form-control" v-model="formData.customerFirstName">
+                                    <input type="text" class="form-control" placeholder="Michael" v-model="formData.customerFirstName">
                                     <span class="help-block">{{formDataError.customerFirstName.message}}</span>
                                 </div>
                             </div>
+
+<!--                            last Name-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerLastName.status">
                                     <label class="control-label">First Name</label>
-                                    <input type="text" class="form-control" v-model="formData.customerLastName">
+                                    <input type="text" class="form-control" placeholder="Kinare"  v-model="formData.customerLastName">
                                     <span class="help-block">{{formDataError.customerLastName.message}}</span>
                                 </div>
                             </div>
                         </div>
 
+<!--                        Email-->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerEmail.status">
                                     <label class="control-label">Email</label>
-                                    <input type="email" class="form-control" v-model="formData.customerEmail">
+                                    <input type="email" class="form-control" placeholder="example@email.com" v-model="formData.customerEmail">
                                     <span class="help-block">{{formDataError.customerEmail.message}}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group" :class="formDataError.customerPhoneNumber.status">
+                                <div class="form-group" :class="formDataError.customerPhoneNumber.status + ' ' + formDataError.customerCountryCode.status" >
                                     <label class="control-label">Phone</label>
-                                    <input type="tel" class="form-control" v-model="formData.customerPhoneNumber">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button" aria-expanded="false">{{formData.customerCountryCode === '' ? 'Code' : formData.customerCountryCode}} <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li><a @click="formData.customerCountryCode = '254'">Kenya (+254)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '255'">Tanzania (+255)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '256'">Uganda (+256)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '250'">Rwanda (+250)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '265'">Malawi (+265)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '263'">Zimbabwe (+263)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '44'">UK (+44)</a></li>
+                                                <li><a @click="formData.customerCountryCode = '1'">USA (+1)</a></li>
+                                            </ul>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="708338855" v-model="formData.customerPhoneNumber" max="9">
+                                    </div>
                                     <span class="help-block">{{formDataError.customerPhoneNumber.message}}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
+
+<!--                            KRA-->
+                            <div class="col-md-6">
+                                <div class="form-group" :class="formDataError.kraPin.status">
+                                    <label class="control-label">KRA PIN</label>
+                                    <input type="text" class="form-control" placeholder="A005264826L" max="11" v-model="formData.kraPin">
+                                    <span class="help-block">{{formDataError.kraPin.message}}</span>
+                                </div>
+                            </div>
+
+<!--                            Postal Address-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerPostalAddress.status">
                                     <label class="control-label">Postal Address</label>
-                                    <input type="text" class="form-control" v-model="formData.customerPostalAddress">
+                                    <input type="text" class="form-control" placeholder="3881" v-model="formData.customerPostalAddress">
                                     <span class="help-block">{{formDataError.customerPostalAddress.message}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group" :class="formDataError.customerAddress.status">
-                                    <label class="control-label">Physical Address</label>
-                                    <input type="text" class="form-control" v-model="formData.customerAddress">
-                                    <span class="help-block">{{formDataError.customerAddress.message}}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
+
+<!--                            Physical Address-->
                             <div class="col-md-6">
-                                <div class="form-group" :class="formDataError.customerCountryCode.status">
+                                <div class="form-group" :class="formDataError.customerAddress.status">
+                                    <label class="control-label">Physical Address</label>
+                                    <input type="text" class="form-control" placeholder="Night Rose, Kirinyaga Rd" v-model="formData.customerAddress">
+                                    <span class="help-block">{{formDataError.customerAddress.message}}</span>
+                                </div>
+                                <div v-show="false" class="form-group">
                                     <label class="control-label">Country Code</label>
                                     <select class="form-control" id="countryCode" v-model="formData.customerCountryCode" name="countryCode">
                                         <option data-countryCode="KE" value="254" Selected>Kenya (+254)</option>
@@ -339,7 +368,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group" :class="formDataError.customerCountryCode.status">
+                            <div class="form-group">
                                 <a v-if="mode === 'edit'" class="btn btn-lg btn-primary btn-block" @click.prevent="updateCustomer"><i class="fa fa-user-plus"></i> Add Customer</a>
                                 <a v-else class="btn btn-lg btn-primary btn-block" @click.prevent="addCustomer"><i class="fa fa-user-plus"></i> Add Customer</a>
                             </div>
@@ -369,6 +398,7 @@
                     customerEmail : '',
                     customerCountryCode : '254',
                     customerPhoneNumber : '',
+                    kraPin : '',
                     customerPostalAddress : '',
                     customerAddress : '',
                     isBusiness : '0',
@@ -399,6 +429,10 @@
                         status : '',
                         message : '',
                     },
+                    kraPin : {
+                        status : '',
+                        message : '',
+                    },
                     customerPostalAddress : {
                         status : '',
                         message : '',
@@ -416,9 +450,10 @@
                     customerFirstName : 'optional',
                     customerLastName : 'optional',
                     customerBusinessName : 'optional',
-                    customerEmail : 'required|email',
+                    customerEmail : 'optional',
                     customerCountryCode : 'optional',
                     customerPhoneNumber : 'required',
+                    kraPin : 'optional',
                     customerPostalAddress : 'optional',
                     customerAddress : 'optional',
                     isBusiness : 'required',
