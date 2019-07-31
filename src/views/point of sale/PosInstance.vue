@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="ibox" style="margin-bottom: 0;">
                     <div class="ibox-content pos-display">
-                        <div class="row pos-items">
+                        <div class="row pos-items style-1">
                             <table class="table small table-condensed table-striped">
                                 <thead>
                                 <tr>
@@ -136,7 +136,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="ibox-content search-items" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0; margin: 0">
+                <div class="ibox-content search-items style-1"  :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0; margin: 0">
                     <Spinner v-if="loading"/>
                     <div class="col-xs-6" v-for="(product, index) in filteredProducts" v-bind:key="index">
                         <div class="contact-box" style="padding: 5px">
@@ -575,4 +575,6 @@
         width: 195px;
         /*width: 160px;*/
     }
+
+
 </style>
