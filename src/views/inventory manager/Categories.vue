@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-lg-7">
+        <div class="category" :class="mode === 'edit' ? 'col-lg-8' : 'col-lg-9'">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Categories</h5>
@@ -18,7 +18,7 @@
                                 <div class="input-group">
                                     <input  type="search" class="form-control" v-model="term" aria-label="Search" placeholder="Search">
                                     <div class="input-group-btn">
-                                        <button @click="searchProduct" type="submit" class="btn btn-default" >Go <span class="fa fa-arrow-right"></span></button>
+                                        <button @click="term = ''" type="submit" class="btn btn-default" > <span class="fa fa-times"></span></button>
                                     </div>
                                 </div>
                             </form>
@@ -32,13 +32,15 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Desc</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(category, index) in categories" v-bind:key="index" style="cursor: pointer">
+                            <tr v-for="(category, index) in filteredCategories" v-bind:key="index" style="cursor: pointer">
                                 <td>{{index + 1}}</td>
                                 <td>{{category.productCategoryName}}</td>
                                 <td>{{category.productCategoryDesc}}</td>
+                                <td><a @click="editCategory(category)" class="btn btn-sm " :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i> Edit</a></td>
                             </tr>
 
 <!--                            <tr>-->
@@ -50,27 +52,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
+        <div class="category" :class="mode === 'edit' ? 'col-lg-4' : 'col-lg-3'">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Add Category</h5>
+                    <h5>{{mode === 'edit' ? 'Edit' : 'Add'}} Category</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-md-12">
                             <form>
-                                <div class="form-group" :class="formDataError.name.status">
+                                <div class="form-group" :class="formDataError.productCategoryName.status">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" v-model="formData.name">
+                                    <input type="text" class="form-control" ref="categName" v-model="formData.productCategoryName">
                                     <span class="help-block">
-                                        {{formDataError.name.message}}
+                                        {{formDataError.productCategoryName.message}}
                                     </span>
                                 </div>
-                                <div class="form-group" :class="formDataError.description.status">
+                                <div class="form-group" :class="formDataError.productCategoryDesc.status">
                                     <label class="control-label">Description</label>
-                                    <input type="text" class="form-control" v-model="formData.description">
+                                    <input type="text" class="form-control" v-model="formData.productCategoryDesc">
                                     <span class="help-block">
-                                        {{formDataError.description.message}}
+                                        {{formDataError.productCategoryDesc.message}}
                                     </span>
                                 </div>
                                 <div class="form-group">
@@ -89,7 +91,7 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-primary" @click.prevent="addCategory">Add Category</button>
+                                    <button class="btn btn-block btn-primary" @click.prevent="addCategory">{{mode === 'edit' ? 'Save Category' : 'Add Category'}}</button>
                                 </div>
                             </form>
                         </div>
@@ -98,7 +100,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -111,18 +112,19 @@
         data : function(){
             return {
                 subCateg : false,
+                mode : '',
                 term : '',
                 formData : {
-                    name : '',
-                    description : '',
+                    productCategoryName : '',
+                    productCategoryDesc : '',
                     parentId : '',
                 },
                 formDataError : {
-                    name : {
+                    productCategoryName : {
                         status : '',
                         message : '',
                     },
-                    description : {
+                    productCategoryDesc : {
                         status : '',
                         message : '',
                     },
@@ -132,8 +134,8 @@
                     },
                 },
                 rules : {
-                    name : 'required',
-                    description : 'required',
+                    productCategoryName : 'required',
+                    productCategoryDesc : 'required',
                     parentId : 'optional',
                 }
             }
@@ -146,20 +148,36 @@
         methods : {
             addCategory : function(){
                 let res = window.validator.fields(this.formData, this.rules, this.formDataError);
-                // eslint-disable-next-line no-console
-                console.log(res)
                 if (res.hasErrors){
                     this.formDataError = res.errors;
                 } else {
-                    this.$store.dispatch('inventory/newCategory', this.formData)
+                    this.$store.dispatch('inventory/newCategory', this.formData);
+                    this.mode = '';
+                    this.formData = {
+                        productCategoryName : '',
+                        productCategoryDesc : '',
+                        parentId : '',
+                    }
                 }
             },
-            searchProduct : function () {
-                
-            },
-
+            editCategory : function (category) {
+                this.subCateg = !!category.parentId;
+                this.mode = 'edit';
+                this.formData = category;
+                this.$refs.categName.focus();
+            }
         },
         computed : {
+            filteredCategories(){
+              let self = this;
+              return this.term === ''
+                ? this.categories
+                  : this.categories.filter(cat => {
+                      return cat.productCategoryName ? cat.productCategoryName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                      || cat.productCategoryDesc ? cat.productCategoryDesc.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                      || cat.parentId ? cat.parentId.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                  })
+            },
             ...mapState('inventory',{
                 categories : state => state.categories,
                 loading : state => state.loading,
@@ -170,4 +188,7 @@
 </script>
 
 <style scoped>
+    .category{
+        transition: all 0.5s ease;
+    }
 </style>

@@ -144,7 +144,7 @@ const  router = new Router({
                                 path : 'categories',
                                 components : {
                                     view : () => import('./views/inventory manager/Categories'),
-                                    action : () => import('./views/inventory manager/CategoryMenu'),
+                                    // action : () => import('./views/inventory manager/CategoryMenu'),
                                 },
                                 meta : { breadcrumb : 'categories'},
                             },

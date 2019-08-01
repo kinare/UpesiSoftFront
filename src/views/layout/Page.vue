@@ -30,8 +30,6 @@
 
                         </ul>
                     </li>
-
-
                     <li>
                         <a @click="signOut">
                             <i class="fa fa-sign-out"></i> Sign out
