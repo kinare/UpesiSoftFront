@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h4>New Product</h4>
+                    <h4>{{validator.isEmptyObject(product) ? 'New' : 'Edit' }} Product</h4>
                 </div>
                 <div class="ibox-content" :class="loading ? 'sk-loading' : ''">
                     <spinner v-if="loading"/>
@@ -274,7 +274,7 @@
                     </div>
                 </div>
                 <div class="ibox-footer text-right">
-                    <button v-if="activeTab === tabCount" type="button" class="btn btn-primary m-l" @click="addProduct"><i class="fa fa-plus" ></i> Add </button>
+                    <button v-if="activeTab === tabCount" type="button" class="btn btn-primary m-l" @click="addProduct"><i class="fa" :class="validator.isEmptyObject(product) ? 'fa-plus' : 'fa-save'" ></i>{{validator.isEmptyObject(product) ? ' Add' : ' Edit' }}  </button>
                     <button v-else type="button" class="btn btn-primary m-l" @click="activeTab++">Next <i class="fa fa-arrow-right"></i>  </button>
                     <button v-if="activeTab > 1" type="button" class="btn btn-white pull-left" @click="activeTab--"><i class="fa fa-arrow-left"></i>  Back  </button>
                 </div>
@@ -295,6 +295,7 @@
                 activeTab : 1,
                 tabCount : 4,
                 category : '',
+                validator : window.validator,
                 formData : {
                     productName : '',
                     productDescription : '',
@@ -413,9 +414,14 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
+                if (!v.validator.isEmptyObject(v.product)) v.formData = v.product
                 v.$store.dispatch('inventory/getMeasurementUnits');
                 v.$store.dispatch('inventory/getCategories')
             })
+        },
+        beforeRouteLeave(to, from, next){
+            this.$store.commit('inventory/SET_PRODUCT', {});
+            next();
         },
         methods : {
             addCategory : function () {
@@ -437,6 +443,7 @@
         },
         computed : {
             ...mapState({
+                product : state => state.inventory.product,
                 units : state => state.inventory.measurementUnit,
                 categories : state => state.inventory.categories,
                 loading : state => state.inventory.loading,

@@ -4,7 +4,7 @@
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#" @click="toggle"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" action="search_results.html">
+                    <form role="search" class="navbar-form-custom" >
                         <div class="form-group">
                             <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
                         </div>
@@ -12,7 +12,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Welcome to Focus.</span>
+                        <span class="m-r-sm text-muted welcome-message">{{today.toLocaleDateString("en-US", options)}}</span>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -63,6 +63,12 @@
 <script>
     export default {
         name: "Page",
+        data : function(){
+            return {
+                today : new Date(),
+                options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+            }
+        },
         beforeCreate() {
             document.body.className = '';
         },

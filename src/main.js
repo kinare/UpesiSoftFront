@@ -17,6 +17,8 @@ import Auth from './modules/auth/Auth';
 import Validator from './modules/validation/validate'
 import Helper from './modules/helpers/helper'
 import Api from './modules/api/api'
+import Filters from './modules/filters/filters'
+
 
 Vue.config.productionTip = false
 Vue.use(fullscreen)
@@ -38,6 +40,10 @@ window.Event = new Vue;
 window.validator = new Validator();
 window.helper = new Helper();
 window.api = new Api();
+
+Filters.forEach(f => {
+    Vue.filter(f.name, f.execute);
+})
 
 new Vue({
     router,

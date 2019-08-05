@@ -8,6 +8,14 @@ const filters = [
             return value.charAt(0).toUpperCase() + value.slice(1);
         }
     },
+    {
+        name : 'currency',
+        execute : (value) => {
+            if (!value) return '';
+            value = 'KES ' + value + '.00';
+            return value;
+        }
+    },
 ];
 
 export default filters;

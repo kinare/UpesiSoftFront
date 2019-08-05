@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-7">
             <div class="row">
-                <button class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</button>
+                <a @click="editProduct(product)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</a>
             </div>
             <h2 class="font-bold m-b-xs">
                 {{product.productName}} <span class="badge badge-primary">{{product.qty}}</span>
@@ -57,6 +57,12 @@
         data : function () {
             return {
 
+            }
+        },
+        methods : {
+            editProduct : function (product) {
+                this.$store.commit('inventory/SET_PRODUCT', product);
+                this.$router.push('new')
             }
         }
     }

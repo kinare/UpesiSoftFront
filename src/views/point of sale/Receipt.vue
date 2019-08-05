@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-xs-4 ">
-                    <div class="ibox-content pos-calc" style="border: none">
+                    <div class="ibox-content" style="border: none">
                         <div class="row">
                             <div class="col-xs-12">
                                 <button @click="printDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-print"></i>  Print Receipt</button>

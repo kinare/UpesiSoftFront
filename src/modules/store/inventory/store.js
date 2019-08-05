@@ -2,6 +2,7 @@ import endpoints from "./endpoints";
 export default {
     namespaced: true,
     state : {
+        product : {},
         products : [],
         subProducts : [],
         categories : {},
@@ -15,6 +16,9 @@ export default {
         REFRESH_STORE() {},
         SET_PRODUCTS :(state, products) => {
             state.products = products
+        },
+        SET_PRODUCT :(state, product) => {
+            state.product = product
         },
         SET_SUB_PRODUCTS :(state, subs) => {
             state.subProducts = subs
@@ -98,6 +102,7 @@ export default {
             context.commit('inventory/SET_LOADING', true);
             window.api.call('post',endpoints.insert, data).then((res) => {
                 context.commit('SET_MESSAGE', {  message : res.data.status , status : ''});
+                context.commit('SET_PRODUCT', {});
                 context.commit('SET_LOADING', false);
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});

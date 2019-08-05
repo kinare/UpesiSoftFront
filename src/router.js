@@ -139,6 +139,7 @@ const  router = new Router({
                                     view : () => import('./views/inventory manager/NewProduct'),
                                 } ,
                                 meta : { breadcrumb : 'new'},
+                                props : true
                             },
                             {
                                 path : 'categories',
@@ -174,33 +175,30 @@ const  router = new Router({
                         children : [
                             {
                                 path : '',
-                                redirect : '/dashboard/accounting-management/quotes'
-                            },
-                            {
-                                path : 'quotes',
-                                component : () => import('./views/accounting manager/Quotes'),
-                                meta : { breadcrumb : 'quotes'},
-                            },
-                            {
-                                path : 'invoice',
-                                component : () => import('./views/accounting manager/Invoice'),
-                                meta : { breadcrumb : 'invoice'},
-                            },
-                            {
-                                path : 'receipts',
-                                component : () => import('./views/accounting manager/Receipts'),
-                                meta : { breadcrumb : 'receipts'},
+                                redirect : '/dashboard/accounting-management/orders'
                             },
                             {
                                 path : 'orders',
-                                component : () => import('./views/accounting manager/Orders'),
+                                components : {
+                                    view : () => import('./views/accounting manager/Orders')
+                                },
+
                                 meta : { breadcrumb : 'orders'},
                             },
                             {
-                                path : 'sales',
-                                component : () => import('./views/accounting manager/Sales'),
-                                meta : { breadcrumb : 'sales'},
-                            }
+                                path : 'invoice',
+                                components : {
+                                    view : () => import('./views/accounting manager/Invoice'),
+                                },
+                                meta : { breadcrumb : 'invoice'},
+                            },
+                            {
+                                path : 'quotes',
+                                components : {
+                                    view : () => import('./views/accounting manager/Quotes'),
+                                },
+                                meta : { breadcrumb : 'quotes'},
+                            },
                         ]
                     },
                     {

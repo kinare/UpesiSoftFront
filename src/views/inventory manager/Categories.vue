@@ -40,7 +40,15 @@
                                 <td>{{index + 1}}</td>
                                 <td>{{category.productCategoryName}}</td>
                                 <td>{{category.productCategoryDesc}}</td>
-                                <td><a @click="editCategory(category)" class="btn btn-sm " :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i> Edit</a></td>
+                                <td>
+                                    <a title="edit" @click="editCategory(category)" class="btn btn-xs" :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a title="remove" @click="removeCategory(index)" class="btn btn-white btn-xs">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
 
 <!--                            <tr>-->

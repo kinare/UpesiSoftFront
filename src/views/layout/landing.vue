@@ -1,5 +1,6 @@
 <template>
     <div id="page-wrapper" class="gray-bg">
+        {{getScope}}
         <div class="row border-bottom white-bg">
             <nav class="navbar navbar-static-top" role="navigation">
                 <div class="navbar-header">
@@ -68,7 +69,7 @@
 
 <!--                    accounting-->
                     <div class="col-lg-3">
-                        <div class="widget white-bg accounting-tile p-lg text-center"  > <!--@click="$router.push('/dashboard/accounting-management')"-->
+                        <div class="widget white-bg accounting-tile p-lg text-center" @click="$router.push('/dashboard/accounting-management')">
                             <div class="m-b-md">
                                 <i class="fa fa-file-invoice-dollar fa-4x" style="color: #AA00FF"></i>
                                 <h3 class="p-xs">Sales & Accounting</h3>
@@ -112,7 +113,6 @@
 
                 </div>
             </div>
-
         </div>
         <Footer></Footer>
     </div>
@@ -121,17 +121,26 @@
 <script>
     // @ is an alias to /src
     import Footer from '@/views/layout/Footer.vue'
+    import permissions from "../../modules/mixins/Permissions";
+
     export default {
         name: "landing",
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'inventory.products',
                 auth : window.auth
             }
+        },
+        beforeRouteEnter(to, from, next){
+            next(v => {
+                v.$store.dispatch('getRoles');
+            })
         },
         computed : {
             user(){
                 return JSON.parse(this.auth.authUser());
-            }
+            },
         },
         components: {
             Footer

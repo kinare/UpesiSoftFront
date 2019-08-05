@@ -32,7 +32,7 @@
                                 <div class="input-group">
                                     <input  type="search" class="form-control" v-model="term" aria-label="Search" placeholder="Search">
                                     <div class="input-group-btn">
-                                        <button @click="searchProduct" type="submit" class="btn btn-default" >Go <span class="fa fa-arrow-right"></span></button>
+                                        <button @click="term = ''" type="submit" class="btn btn-default" > <span class="fa fa-times"></span></button>
                                     </div>
                                 </div>
                             </form>
@@ -55,6 +55,7 @@
                                 <th>Full Items</th>
                                 <th>Pieces</th>
                                 <th>Action</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -72,7 +73,12 @@
                                 <td @click="openProduct(product)" ><span class="badge" :class="product.state ? 'badge-info' : 'badge-warning'">{{product.state ? 'Available' : 'Unavailable'}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'FULL' ? product.qty : 0}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 0}}</span></td>
-                                <td><a class="btn btn-sm btn-success" @click="restockProduct(product)">Re-stock</a> </td>
+                                <td>
+                                    <a class="btn btn-xs btn-success" @click="restockProduct(product)">Re-stock</a>
+                                </td>
+                                <td>
+                                    <a @click="editProduct(product)" class="btn btn-xs btn-white">Edit</a>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="10" v-if="validator.isEmptyObject(products)">
@@ -211,6 +217,7 @@
                         || product.salePrice ? product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         || product.measurement ? product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         || product.sellAs ? product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                        || product.productCategoryName ? product.productCategoryName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         || product.availableFrom ? product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         || product.availableTo ? product.availableTo.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
                         || product.categories ? product.categories.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
@@ -226,8 +233,9 @@
             }),
         },
         methods : {
-            searchProduct : function () {
-                
+            editProduct : function (product) {
+                this.$store.commit('inventory/SET_PRODUCT', product);
+                this.$router.push('new')
             },
 
             openProduct : function (product) {
