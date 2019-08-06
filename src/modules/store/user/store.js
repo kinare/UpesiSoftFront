@@ -56,6 +56,16 @@ export default {
                context.commit('SET_LOADING', false);
             })
         },
+        removeUser : ({commit, dispatch}, data) =>{
+            commit('SET_LOADING', true);
+            window.api.call('delete', endpoints.removeUser, data ).then(() => {
+                commit('SET_LOADING', false);
+                dispatch('getUsers');
+            }).catch(error => {
+               commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
+               commit('SET_LOADING', false);
+            })
+        },
         saveRole : (context, data) =>{
             context.commit('SET_LOADING', true);
             window.api.call('post', endpoints.saveRole, data ).then((res) => {
@@ -64,6 +74,16 @@ export default {
             }).catch(error => {
                context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
                context.commit('SET_LOADING', false);
+            })
+        },
+        removeRole : ({commit, dispatch}, data) =>{
+            commit('SET_LOADING', true);
+            window.api.call('delete', endpoints.removeRole, data ).then(() => {
+                commit('SET_LOADING', false);
+                dispatch('getRoles');
+            }).catch(error => {
+               commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
+               commit('SET_LOADING', false);
             })
         }
     }

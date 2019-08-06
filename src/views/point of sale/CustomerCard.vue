@@ -16,13 +16,14 @@
                 <div class="col-md-4">
                     <div class="ibox">
                         <div class="ibox-content product-box">
-                            <div class="product-imitation">
-                                [ IMAGE ]
+                            <div class="product-imitation" :style="'background-image : url(' + url + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: top center">
+                                {{url === '' ? '[ UPLOAD PHOTO ]' : ''}}
                             </div>
                             <div class="product-desc">
-                                <div class="">
-                                    <a class="btn btn-sm btn-outline btn-block btn-primary"><i class="fa fa-image"></i>  select image </a>
-                                </div>
+                                <label class="btn btn-block btn-white">
+                                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                    <i class="fa fa-image" ></i> upload image
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -388,6 +389,7 @@
         components: {Spinner},
         data : function () {
             return {
+                url : '',
                 mode : 'view',
                 validator : window.validator,
                 customer : {},
@@ -403,6 +405,7 @@
                     customerAddress : '',
                     isBusiness : '0',
                     customerImage : {},
+                    customerProfilePicture : {},
                 },
                 formDataError : {
                     customerFirstName : {
@@ -487,9 +490,13 @@
               if (res.hasErrors){
                   this.formDataError = res.errors;
               } else {
-                  this.$store.dispatch('pos/newCustomer', this.formData)
+                  this.$store.dispatch('pos/newCustomer', window.helper.prepareFormData(this.formData))
               }
           },
+            handleFileUpload(){
+                this.formData.customerProfilePicture = this.$refs.file.files[0];
+                this.url = URL.createObjectURL(this.formData.customerProfilePicture);
+            },
 
 
             updateCustomer : function () {
@@ -500,5 +507,7 @@
 </script>
 
 <style scoped>
-
+    input[type="file"] {
+        display: none;
+    }
 </style>

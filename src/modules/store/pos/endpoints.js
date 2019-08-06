@@ -9,6 +9,7 @@ let endpoint = {
 
     // customers
     customers : 'customers/get/all',
+    deleteCustomers : 'customer',
     insertCustomer : 'customers/new',
 
     // get document

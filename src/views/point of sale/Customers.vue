@@ -49,9 +49,10 @@
                             <td @click="selectCustomer(customer)">+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
                             <td @click="selectCustomer(customer)">{{customer.customerEmail}}</td>
                             <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
-                            <td><a @click="selectedCustomer = customer" class="btn btn-sm btn-warning"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye"></i> &nbsp; view</a> </td>
-<!--                            <td><a :to="'/pos/customers/card/' + customer.id" class="btn btn-sm btn-warning" ><i class="fa fa-eye"></i> &nbsp; view</a> </td>-->
-<!--                         <td><a class="btn btn-sm btn-default" @click="selectCustomer(customer)" ><i class="fa fa-mouse-pointer"></i> select</a> </td>-->
+                            <td>
+                                <a @click="selectedCustomer = customer" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye text-success"></i> &nbsp; view</a>
+                                <a @click="selectedCustomerId = customer.id" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerDeleteCard" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -77,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="profile-image">
-                                    <img src="/img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
+                                    <img :src="selectedCustomer.customerProfilePicture" class="img-circle circle-border m-b-md" alt="profile">
                                 </div>
                                 <div class="profile-info">
                                     <div class="">
@@ -107,6 +108,26 @@
             </div>
         </div>
 
+        <!-- confirm remove Modal-->
+        <div class="modal fadeIn" id="customerDeleteCard" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center">Confirmation</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1>Are you sure to delete?</h1>
+                        <br>
+                        <div class="row ">
+                            <a class="btn btn-primary btn-block" @click="removeCustomer(selectedCustomerId)">Yes</a>
+                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -121,6 +142,7 @@
                 selectedCustomer : {},
                 mode : 'view',
                 save : false,
+                selectedCustomerId : ''
             }
         },
         beforeRouteEnter(to, from, next){
@@ -160,6 +182,12 @@
                 // this.$router
                 this.$router.go(-1); //go where you came from
                 // this.$router.push('/pos/payment/' + this.getCurrentTab.namespace.split('/').pop())
+            },
+
+            removeCustomer : function (id) {
+                this.$store.dispatch('pos/removeCustomer',  { data : {customerId : id}})
+                // eslint-disable-next-line no-undef
+                $("#customerDeleteCard").modal('hide');
             }
         }
 

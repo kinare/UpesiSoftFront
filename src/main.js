@@ -6,6 +6,8 @@ import 'metismenu'
 import 'jquery-slimscroll/jquery.slimscroll.min'
 import 'pace-js'
 import './assets/js/inspinia'
+import PrettyCheckbox from 'pretty-checkbox-vue';
+
 
 import Vue from 'vue'
 import App from './App.vue'
@@ -22,6 +24,7 @@ import Filters from './modules/filters/filters'
 
 Vue.config.productionTip = false
 Vue.use(fullscreen)
+Vue.use(PrettyCheckbox);
 
 Vue.use(VueHtmlToPaper, {
     name: '_blank',

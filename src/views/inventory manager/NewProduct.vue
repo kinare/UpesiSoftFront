@@ -247,7 +247,6 @@
                                         </span>
                                     </div>
 
-
                                     <ul class="tag-list" style="padding: 0">
                                         <li v-for="(category, index) in formData.categories" :key="index">
                                         <a>{{category}} &nbsp; <i class="fa fa-times cat-icon" @click="formData.categories.splice(index, 1)"></i></a></li>
@@ -258,15 +257,13 @@
                                 <div class="col-xs-12 m-t-lg">
                                     <h4>Product Image</h4>
                                     <label class="btn btn-block btn-white">
-                                        <input type="file" id="file" ref="file"/>
+                                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                                         <i class="fa fa-image" ></i> upload image
                                     </label>
                                     <dd class="product-image">
-                                        <!--<a href=""><img alt="image" src="/img/a3.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a1.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a2.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a4.jpg"></a>
-                                        <a href=""><img alt="image" src="/img/a5.jpg"></a>-->
+                                        <div class="product-imitation" :style="'background-image : url(' + url + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: top center">
+                                            {{url === '' ? '[ UPLOAD PHOTO ]' : ''}}
+                                        </div>
                                     </dd>
                                 </div>
                             </div>
@@ -292,6 +289,7 @@
         components: {Spinner, DatePicker },
         data : function () {
             return {
+                url : '',
                 activeTab : 1,
                 tabCount : 4,
                 category : '',
@@ -315,6 +313,7 @@
                     customSaleUnit : 0,
                     measurement : '',
                     qty : '',
+                    productImage : {},
                 },
                 formDataError : {
                     productName : {
@@ -415,6 +414,7 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 if (!v.validator.isEmptyObject(v.product)) v.formData = v.product
+                v.url = v.product.productImage
                 v.$store.dispatch('inventory/getMeasurementUnits');
                 v.$store.dispatch('inventory/getCategories')
             })
@@ -436,8 +436,12 @@
                 if (res.hasErrors){
                     this.formDataError = res.errors
                 } else {
-                    this.$store.dispatch('inventory/newProduct', this.formData);
+                    this.$store.dispatch('inventory/newProduct', window.helper.prepareFormData(this.formData));
                 }
+            },
+            handleFileUpload(){
+                this.formData.productImage = this.$refs.file.files[0];
+                this.url = URL.createObjectURL(this.formData.productImage);
             }
 
         },

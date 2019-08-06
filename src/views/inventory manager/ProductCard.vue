@@ -1,12 +1,13 @@
 <template>
     <div class="row">
         <div class="col-md-5">
-            <div class="image-imitation">
-                [IMAGE 1]
+            <div class="image-imitation" :style="'background-image : url(' + product.productImage + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: top center"><!---->
+
             </div>
         </div>
         <div class="col-md-7">
             <div class="row">
+                <a @click="confirmDelete(product.id)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-trash text-danger"></i> &nbsp;Delete</a>
                 <a @click="editProduct(product)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</a>
             </div>
             <h2 class="font-bold m-b-xs">
@@ -38,14 +39,6 @@
                 <dt>Date Created</dt>
                 <dd>{{product.createdAt}}</dd>
             </dl>
-            <div class="text-right">
-                <div class="btn-group">
-                    <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
-                    <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with supplier </button>
-                </div>
-            </div>
-
-
         </div>
     </div>
 </template>
@@ -63,7 +56,13 @@
             editProduct : function (product) {
                 this.$store.commit('inventory/SET_PRODUCT', product);
                 this.$router.push('new')
-            }
+            },
+            confirmDelete : function(id){
+                // eslint-disable-next-line no-undef
+               if (confirm('Are you sure to delete?')){
+                   this.$store.dispatch('inventory/removeProduct',  { data : {productId : id}})
+               }
+            },
         }
     }
 </script>

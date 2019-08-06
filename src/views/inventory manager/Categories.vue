@@ -37,16 +37,16 @@
                             </thead>
                             <tbody>
                             <tr v-for="(category, index) in filteredCategories" v-bind:key="index" style="cursor: pointer">
-                                <td>{{index + 1}}</td>
-                                <td>{{category.productCategoryName}}</td>
-                                <td>{{category.productCategoryDesc}}</td>
+                                <td @click="mode = ''">{{index + 1}}</td>
+                                <td @click="mode = ''">{{category.productCategoryName}}</td>
+                                <td @click="mode = ''">{{category.productCategoryDesc}}</td>
                                 <td>
                                     <a title="edit" @click="editCategory(category)" class="btn btn-xs" :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     &nbsp;
-                                    <a title="remove" @click="removeCategory(index)" class="btn btn-white btn-xs">
-                                        <i class="fa fa-trash"></i>
+                                    <a title="remove" @click="confirmDelete(category.id)" class="btn btn-white btn-xs">
+                                        <i class="fa fa-trash text-danger"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -71,21 +71,21 @@
                             <form>
                                 <div class="form-group" :class="formDataError.productCategoryName.status">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" ref="categName" v-model="formData.productCategoryName">
+                                    <input @focus="mode = 'edit'" type="text" class="form-control" ref="categName" v-model="formData.productCategoryName">
                                     <span class="help-block">
                                         {{formDataError.productCategoryName.message}}
                                     </span>
                                 </div>
                                 <div class="form-group" :class="formDataError.productCategoryDesc.status">
                                     <label class="control-label">Description</label>
-                                    <input type="text" class="form-control" v-model="formData.productCategoryDesc">
+                                    <input @focus="mode = 'edit'" type="text" class="form-control" v-model="formData.productCategoryDesc">
                                     <span class="help-block">
                                         {{formDataError.productCategoryDesc.message}}
                                     </span>
                                 </div>
                                 <div class="form-group">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" value="option1" id="inlineCheckbox1" v-model="subCateg">
+                                        <input @focus="mode = 'edit'" type="checkbox" value="option1" id="inlineCheckbox1" v-model="subCateg">
                                         Sub Category
                                     </label>
                                 </div>
@@ -104,6 +104,26 @@
                             </form>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- category delete Modal-->
+        <div class="modal fadeIn" id="confirmCategoryDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center">Confirmation</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1>Are you sure to delete?</h1>
+                        <br>
+                        <div class="row ">
+                            <a class="btn btn-primary btn-block" @click="removeCategory(selectedCategoryId)">Yes</a>
+                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,7 +165,8 @@
                     productCategoryName : 'required',
                     productCategoryDesc : 'required',
                     parentId : 'optional',
-                }
+                },
+                selectedCategoryId : ''
             }
         },
         beforeRouteEnter(to, from, next){
@@ -173,7 +194,18 @@
                 this.mode = 'edit';
                 this.formData = category;
                 this.$refs.categName.focus();
-            }
+            },
+
+            confirmDelete : function(id){
+                this.selectedCategoryId = id
+                // eslint-disable-next-line no-undef
+                $("#confirmCategoryDelete").modal({backdrop:'static',keyboard:false, show:true});
+            },
+            removeCategory : function (id) {
+                this.$store.dispatch('inventory/removeCategory',  { data : {productCategoryId : id}})
+                // eslint-disable-next-line no-undef
+                $("#confirmCategoryDelete").modal('hide');
+            },
         },
         computed : {
             filteredCategories(){

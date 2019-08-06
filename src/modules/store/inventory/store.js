@@ -99,7 +99,7 @@ export default {
             })
         },
         newProduct : (context, data) => {
-            context.commit('inventory/SET_LOADING', true);
+            context.commit('SET_LOADING', true);
             window.api.call('post',endpoints.insert, data).then((res) => {
                 context.commit('SET_MESSAGE', {  message : res.data.status , status : ''});
                 context.commit('SET_PRODUCT', {});
@@ -112,6 +112,20 @@ export default {
         newCategory : ({context, dispatch}, data) => {
             window.api.call('post',endpoints.newCategory, data).then(() => {
                 dispatch('getCategories', { root: true });
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+            })
+        },
+        removeCategory : ({context, dispatch}, data) => {
+            window.api.call('delete',endpoints.removeCategory, data).then(() => {
+                dispatch('getCategories');
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+            })
+        },
+        removeProduct : ({context, dispatch}, data) => {
+            window.api.call('delete',endpoints.removeProduct, data).then(() => {
+                dispatch('getProducts');
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
             })

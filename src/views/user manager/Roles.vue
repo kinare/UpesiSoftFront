@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-9">
+        <div class="role" :class="mode === 'edit' ? 'col-md-8': 'col-md-9'">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Roles</h5>
@@ -32,13 +32,33 @@
                                 <th>#</th>
                                 <th>Role</th>
                                 <th>Description</th>
+                                <th>Products</th>
+                                <th>Users</th>
+                                <th>Roles</th>
+                                <th>Sales</th>
+                                <th>Make Sales</th>
+                                <th>Customers</th>
+                                <th>Actions</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(role, index) in filteredRoles" v-bind:key="index" style="cursor: pointer" @click="openUser(user)">
-                                <td>{{index + 1}}</td>
-                                <td>{{role.roleName}}</td>
-                                <td>{{role.description}}</td>
+                            <tr v-for="(role, index) in filteredRoles" v-bind:key="index" style="cursor: pointer">
+                                <td @click="mode = ''">{{index + 1}}</td>
+                                <td @click="mode = ''">{{role.roleName}}</td>
+                                <td @click="mode = ''">{{role.roleDescription}}</td>
+                                <td @click="mode = ''"><i class="fa fa-1x" :class="role.viewProducts ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td @click="mode = ''"><i class="fa" :class="role.viewUsers ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td @click="mode = ''"><i class="fa" :class="role.viewUserRoles ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td @click="mode = ''"><i class="fa" :class="role.viewSales ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td @click="mode = ''"><i class="fa" :class="role.makeSales ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td @click="mode = ''"><i class="fa" :class="role.viewCustomers ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
+                                <td>
+                                    <div class="btn-group-xs">
+                                        <button title="edit" @click="editRole(role)" class="btn btn-white" type="button" :class="mode === 'edit' ? formData.id === role.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i></button>
+                                        <button title="remove" @click="roleToDelete = role; confirmDelete()" class="btn btn-white" type="button"><i class="text-danger fa fa-trash"></i></button>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -47,10 +67,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="role" :class="mode === 'edit' ? 'col-md-4': 'col-md-3'">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>New Role</h5>
+                    <h5>{{mode === 'edit' ? 'Edit' : 'New'}} Role</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="row">
@@ -58,20 +78,83 @@
                             <form>
                                 <div class="form-group" :class="formDataError.roleName.status">
                                     <label class="control-label">Role Name</label>
-                                    <input type="text" class="form-control" v-model="formData.roleName" placeholder="Cashier">
+                                    <input @focus="mode = 'edit'" type="text" ref="RoleName" class="form-control" v-model="formData.roleName" placeholder="Cashier">
                                     <span class="help-block">{{formDataError.roleName.message}}</span>
                                 </div>
-                                <div class="form-group" :class="formDataError.description.status">
+                                <div class="form-group" :class="formDataError.roleDescription.status">
                                     <label class="control-label">Description</label>
-                                    <textarea class="form-control" v-model="formData.description" placeholder="selling items at the teller">
+                                    <textarea @focus="mode = 'edit'" class="form-control" v-model="formData.roleDescription" placeholder="selling items at the teller">
 
                                     </textarea>
-                                    <span class="help-block">{{formDataError.description.message}}</span>
+                                    <span class="help-block">{{formDataError.roleDescription.message}}</span>
                                 </div>
                                 <div class="form-group">
-                                    <a class="btn btn-md btn-primary btn-block" @click="saveRole">Add role</a>
+                                    <div class="row">
+
+                                        <div class="col-xs-12">
+                                            <div :class="mode === 'edit' ? 'col-xs-6': 'col-md-12'">
+                                                <h4>Users</h4>
+                                                <div><label><input type="checkbox" v-model="formData.viewUsers"> Can view</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.createUsers"> Can create</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.editUsers"> Can edit</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.deleteUsers"> Can delete</label></div>
+                                                <br>
+                                                <h4>Roles</h4>
+                                                <div><label><input type="checkbox" v-model="formData.viewUserRoles"> Can view</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.createUserRoles"> Can create</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.editUserRoles"> Can edit</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.deleteUserRoles"> Can delete</label></div>
+                                                <br>
+                                                <h4>Sales</h4>
+                                                <div><label><input type="checkbox" v-model="formData.viewSales"> Can view</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.makeSales"> Can create</label></div>
+                                            </div>
+                                            <div :class="mode === 'edit' ? 'col-xs-6': 'col-md-12'">
+                                                <h4>Products</h4>
+                                                <div><label><input type="checkbox" v-model="formData.viewProducts"> Can view</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.createProducts"> Can create</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.editProducts"> Can edit</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.deleteProducts"> Can delete</label></div>
+                                                <br>
+                                                <h4>Customers</h4>
+                                                <div><label><input type="checkbox" v-model="formData.viewCustomers"> Can view</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.createCustomers"> Can create</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.editCustomers"> Can edit</label></div>
+                                                <div><label><input type="checkbox" v-model="formData.deleteCustomers"> Can delete</label></div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-md btn-primary btn-block" @click="saveRole">{{mode === 'edit' ? 'Save' : 'Add'}} role</a>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Role Modal-->
+        <div class="modal fadeIn" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center">Confirmation</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1>Are you sure to delete?</h1>
+                        <br>
+                        <div class="row ">
+                            <a class="btn btn-primary btn-block" @click="removeRole(roleToDelete)">Yes</a>
+                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
                         </div>
                     </div>
                 </div>
@@ -88,16 +171,35 @@
         components: {Spinner},
         data : function(){
             return {
+                mode : '',
                 formData : {
                     roleName : '',
-                    description : '',
+                    roleDescription : '',
+                    createUsers : 0,
+                    editUsers : 0,
+                    viewUsers : 0,
+                    deleteUsers : 0,
+                    createUserRoles : 0,
+                    viewUserRoles : 0,
+                    deleteUserRoles : 0,
+                    editUserRoles : 0,
+                    createProducts : 0,
+                    editProducts : 0,
+                    viewProducts : 0,
+                    deleteProducts : 0,
+                    createCustomers : 0,
+                    editCustomers : 0,
+                    viewCustomers : 0,
+                    deleteCustomers : 0,
+                    makeSales : 0,
+                    viewSales : 0,
                 },
                 formDataError : {
                     roleName : {
                         message : '',
                         status : '',
                     },
-                    description : {
+                    roleDescription : {
                         message : '',
                         status : '',
                     },
@@ -105,16 +207,13 @@
                 },
                 rules : {
                     roleName : 'required',
-                    description : 'required',
+                    roleDescription : 'required',
                 },
                 term : '',
-                validator : window.validator
+                validator : window.validator,
+                helper : window.helper,
+                roleToDelete : {}
             }
-        },
-        beforeRouteEnter(to, from, next){
-            next(v => {
-                v.$store.dispatch('userMgt/getRoles');
-            })
         },
         computed : {
             filteredRoles(){
@@ -135,11 +234,19 @@
             }),
         },
         methods : {
-            deleteRole : function (role) {
-                //todo handle delete
+            confirmDelete : function(){
+                // eslint-disable-next-line no-undef
+                $("#confirmDelete").modal({backdrop:'static',keyboard:false, show:true});
             },
-            openRole : function (role) {
+            removeRole : function (role) {
+                this.$store.dispatch('userMgt/removeRole',  { data : {userRoleId : role.id}})
+                // eslint-disable-next-line no-undef
+                $("#confirmDelete").modal('hide');
+            },
+            editRole : function (role) {
                 this.formData = role;
+                this.mode = 'edit';
+                this.$refs.RoleName.focus();
             },
             saveRole : function () {
                 //validation
@@ -148,6 +255,7 @@
                     this.formDataError = res.errors;
                 }else {
                     this.$store.dispatch('userMgt/saveRole', this.formData);
+                    this.mode = '';
                 }
             }
         },
@@ -168,5 +276,7 @@
 </script>
 
 <style scoped>
-
+    .role{
+        transition: all 0.5s ease;
+    }
 </style>

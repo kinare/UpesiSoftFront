@@ -37,15 +37,17 @@
                                 <th>Role</th>
                                 <th>Email</th>
                                 <th>Date Created</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(user, index) in filteredUsers" v-bind:key="index" style="cursor: pointer" @click="openUser(user)">
-                                <td>{{index + 1}}</td>
-                                <td>{{user.firstName + ' ' + user.lastName}}</td>
-                                <td>{{user.roleName}}</td>
-                                <td>{{user.email}}</td>
-                                <td>{{user.createdAt}}</td>
+                            <tr v-for="(user, index) in filteredUsers" v-bind:key="index" style="cursor: pointer" >
+                                <td @click="openUser(user)" >{{index + 1}}</td>
+                                <td @click="openUser(user)" >{{user.firstName + ' ' + user.lastName}}</td>
+                                <td @click="openUser(user)" >{{user.roleName}}</td>
+                                <td @click="openUser(user)" >{{user.email}}</td>
+                                <td @click="openUser(user)" >{{user.createdAt}}</td>
+                                <td><a class="btn btn-white btn-xs" @click="confirmDelete(user.id)"><i class="fa fa-trash text-danger"></i> Remove</a> </td>
                             </tr>
                             </tbody>
                         </table>
@@ -54,8 +56,6 @@
                 </div>
             </div>
         </div>
-
-
 
 
         <!--        user modal-->
@@ -73,13 +73,16 @@
                                 <div class="col-md-4">
                                     <div class="ibox">
                                         <div class="ibox-content product-box">
-                                            <div class="product-imitation">
-                                                [ IMAGE ]
+                                            <div class="product-imitation" :style="'background-image : url(' + url + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: top center">
+                                                {{url === '' ? '[ UPLOAD PHOTO ]' : ''}}
                                             </div>
                                             <div class="product-desc">
-                                                <div class="">
-                                                    <a class="btn btn-sm btn-outline btn-block btn-primary"><i class="fa fa-image"></i>  select picture </a>
-                                                </div>
+
+                                                <label class="btn btn-block btn-white">
+                                                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                                    <i class="fa fa-image" ></i> upload image
+                                                </label>
+
                                             </div>
                                         </div>
                                     </div>
@@ -108,13 +111,12 @@
                                             <input type="email" class="form-control" v-model="formData.email" placeholder="example@email.com">
                                             <span class="help-block">{{formDataError.email.message}}</span>
                                         </div>
-                                        <div class="form-group" :class="formDataError.userRoleId.status">
+                                        <div class="form-group" :class="formDataError.roleId.status">
                                             <label class="control-label">User Role</label>
-                                            <select class="form-control" v-model="formData.userRoleId">
-                                                <option value="2">Cashier</option>
-                                                <option value="3">Accountant</option>
+                                            <select class="form-control" v-model="formData.roleId">
+                                                <option :value="role.id" v-for="(role, index) in roles" :key="index">{{role.roleName}} {{role.roleDescription ? '(' + role.roleDescription + ')': '' }}</option>
                                             </select>
-                                            <span class="help-block">{{formDataError.userRoleId.message}}</span>
+                                            <span class="help-block">{{formDataError.roleId.message}}</span>
                                         </div>
                                         <div class="form-group" :class="formDataError.password.status">
                                             <label class="control-label">Password</label>
@@ -142,6 +144,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Role Modal-->
+        <div class="modal fadeIn" id="confirmUserDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center">Confirmation</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1>Are you sure to delete?</h1>
+                        <br>
+                        <div class="row ">
+                            <a class="btn btn-primary btn-block" @click="removeUser(selectedUserId)">Yes</a>
+                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -153,13 +175,15 @@
         components: {Spinner},
         data : function(){
             return {
+                url : '',
                 formData : {
                     firstName : '',
                     lastName : '',
                     email : '',
                     password : '',
                     confirmPassword : '',
-                    userRoleId : '',
+                    roleId : '',
+                    profilePicture : {},
                 },
                 formDataError : {
                     firstName : {
@@ -182,7 +206,7 @@
                         message : '',
                         status : '',
                     },
-                    userRoleId : {
+                    roleId : {
                         message : '',
                         status : '',
                     },
@@ -193,16 +217,12 @@
                     email : 'email|required',
                     password : 'required|min:6',
                     confirmPassword : 'required|min:6',
-                    userRoleId : 'required',
+                    roleId : 'required',
                 },
                 term : '',
-                validator : window.validator
+                validator : window.validator,
+                selectedUserId : ''
             }
-        },
-        beforeRouteEnter(to, from, next){
-          next(v => {
-              v.$store.dispatch('userMgt/getUsers');
-          })
         },
         computed : {
             filteredUsers(){
@@ -212,13 +232,14 @@
                     : this.users.filter(user => {
                         return user.firstName ? user.firstName.toLowerCase().indexOf(self.term) >= 0 : ''
                             || user.lastName ? user.lastName.toLowerCase().indexOf(self.term) >= 0 : ''
-                            || user.userRoleId ? user.userRoleId.toLowerCase().indexOf(self.term) >= 0 : ''
+                            || user.roleId ? user.roleId.toLowerCase().indexOf(self.term) >= 0 : ''
                             || user.email ? user.email.toLowerCase().indexOf(self.term) >= 0 : ''
                 })
             },
 
             ...mapState('userMgt',{
                 users : state => state.users,
+                roles : state => state.roles,
                 message : state => state.message,
                 status : state => state.status,
                 loading : state => state.loading,
@@ -241,13 +262,23 @@
                         message : 'passwords do not match'
                     }
                 }else {
-                    this.$store.dispatch('userMgt/saveUser', this.formData);
+                    this.$store.dispatch('userMgt/saveUser', window.helper.prepareFormData(this.formData));
                 }
             },
-
-            deleteUser : function (user) {
-                //todo handle delete
+            confirmDelete : function(id){
+                this.selectedUserId = id
+                // eslint-disable-next-line no-undef
+                $("#confirmUserDelete").modal({backdrop:'static',keyboard:false, show:true});
             },
+            removeUser : function (id) {
+                this.$store.dispatch('userMgt/removeUser',  { data : {userId : id}})
+                // eslint-disable-next-line no-undef
+                $("#confirmUserDelete").modal('hide');
+            },
+            handleFileUpload(){
+                this.formData.profilePicture = this.$refs.file.files[0];
+                this.url = URL.createObjectURL(this.formData.profilePicture);
+            }
         },
         watch : {
             message : {
@@ -268,5 +299,7 @@
 </script>
 
 <style scoped>
-
+    input[type="file"] {
+        display: none;
+    }
 </style>

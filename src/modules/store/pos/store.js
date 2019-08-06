@@ -72,6 +72,15 @@ export default {
                 commit('SET_LOADING', false);
             })
         },
+        removeCustomer : ({commit, dispatch}, data) => {
+            commit('SET_LOADING', true);
+            window.api.call('delete', endpoint.deleteCustomers, data).then(() =>{
+                dispatch('getCustomers');
+            }).catch(error => {
+                commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                commit('SET_LOADING', false);
+            })
+        },
     }
 
 }

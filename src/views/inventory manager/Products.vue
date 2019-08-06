@@ -60,7 +60,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(product, index) in filteredProducts" v-bind:key="index" style="cursor: pointer">
-                                <td @click="openProduct(product)" class="product-avatar"><img alt="image" src="/img/p1.jpg"> </td>
+                                <td @click="openProduct(product)" class="product-avatar"><img alt="image" :src="product.productImage"> </td>
                                 <td @click="openProduct(product)" >
                                     {{product.productName}}<br>
                                     <small class="text-muted">{{product.productShortDescription}}</small>
@@ -73,11 +73,12 @@
                                 <td @click="openProduct(product)" ><span class="badge" :class="product.state ? 'badge-info' : 'badge-warning'">{{product.state ? 'Available' : 'Unavailable'}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'FULL' ? product.qty : 0}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 0}}</span></td>
-                                <td>
-                                    <a class="btn btn-xs btn-success" @click="restockProduct(product)">Re-stock</a>
-                                </td>
-                                <td>
-                                    <a @click="editProduct(product)" class="btn btn-xs btn-white">Edit</a>
+                                <td class="col-md-2">
+                                    <div class="btn-group-sm">
+                                        <button title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
+                                        <button title="edit" @click="editProduct(product)" class="btn btn-white" type="button"><i class="text-success fa fa-edit"></i></button>
+                                        <button title="remove"  @click="confirmRemoveProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -180,6 +181,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Role Modal-->
+        <div class="modal fadeIn" id="confirmProductDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center">Confirmation</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h1>Are you sure to delete?</h1>
+                        <br>
+                        <div class="row ">
+                            <a class="btn btn-primary btn-block" @click="removeProduct(selectedProductId)">Yes</a>
+                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -196,7 +217,8 @@
                 term : '',
                 validator : window.validator,
                 seletedProduct : {},
-                selectedForRestock : {}
+                selectedForRestock : {},
+                selectedProductId : ''
             }
         },
         beforeRouteEnter(to, from, next){
@@ -233,6 +255,16 @@
             }),
         },
         methods : {
+            confirmRemoveProduct : function(id){
+                this.selectedProductId = id
+                // eslint-disable-next-line no-undef
+                $("#confirmProductDelete").modal({backdrop:'static',keyboard:false, show:true});
+            },
+            removeProduct : function(id){
+                this.$store.dispatch('inventory/removeProduct',  { data : {productId : id}})
+                // eslint-disable-next-line no-undef
+                $("#confirmProductDelete").modal('hide');
+            },
             editProduct : function (product) {
                 this.$store.commit('inventory/SET_PRODUCT', product);
                 this.$router.push('new')

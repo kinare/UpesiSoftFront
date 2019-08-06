@@ -1,6 +1,5 @@
 <template>
     <div id="page-wrapper" class="gray-bg">
-        {{getScope}}
         <div class="row border-bottom white-bg">
             <nav class="navbar navbar-static-top" role="navigation">
                 <div class="navbar-header">
@@ -35,7 +34,7 @@
 
                 <div class="row">
 <!--                    pos-->
-                    <div class="col-lg-3">
+                    <div v-if="can('view', 'sales')" class="col-lg-3">
                         <div class="widget white-bg  pos-tile p-lg text-center" @click="$router.push('/pos')" >
                             <div class="m-b-md">
                                 <i class="fa fa-cash-register fa-4x" style="color: #0091EA"></i>
@@ -46,7 +45,7 @@
                     </div>
 
 <!--                    inventory-->
-                    <div class="col-lg-3">
+                    <div v-if="can('view', 'products')" class="col-lg-3">
                         <div class="widget white-bg inventory-tile p-lg text-center" @click="$router.push('/dashboard/inventory-management')">
                             <div class="m-b-md">
                                 <i class="fa fa-clipboard-list fa-4x" style="color: #FF6D00"></i>
@@ -57,7 +56,7 @@
                     </div>
 
 <!--                user-->
-                    <div class="col-lg-3">
+                    <div v-if="can('view', 'users')"  class="col-lg-3"><!-- -->
                         <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/user-management')">
                             <div class="m-b-md">
                                 <i class="fa fa-users fa-4x" style="color: #AEEA00"></i>
@@ -68,7 +67,7 @@
                     </div>
 
 <!--                    accounting-->
-                    <div class="col-lg-3">
+                    <div v-if="can('view', 'orders')" class="col-lg-3">
                         <div class="widget white-bg accounting-tile p-lg text-center" @click="$router.push('/dashboard/accounting-management')">
                             <div class="m-b-md">
                                 <i class="fa fa-file-invoice-dollar fa-4x" style="color: #AA00FF"></i>
@@ -79,7 +78,7 @@
                     </div>
 
 <!--                    supplier-->
-                    <div class="col-lg-3">
+                    <div v-if="canView()" class="col-lg-3">
                         <div class="widget white-bg supplier-tile p-lg text-center" > <!--@click="$router.push('/dashboard/supplier-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-truck fa-4x" style="color: #0091EA"></i>
@@ -90,7 +89,7 @@
                     </div>
 
 <!--                    integration-->
-                    <div class="col-lg-3">
+                    <div v-if="canView()" class="col-lg-3">
                         <div class="widget white-bg integration-tile p-lg text-center" > <!--@click="$router.push('/dashboard/integration-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-plug fa-4x" style="color: #DD2C00"></i>
@@ -101,7 +100,7 @@
                     </div>
 
 <!--                    resource-->
-                    <div class="col-lg-3">
+                    <div v-if="canView()" class="col-lg-3">
                         <div class="widget white-bg resource-tile p-lg text-center" > <!--@click="$router.push('/dashboard/resource-management')"-->
                             <div class="m-b-md">
                                 <i class="fa fa-shopping-cart fa-4x" style="color: #0091EA"></i>
@@ -128,7 +127,6 @@
         mixins : [permissions],
         data : function(){
             return {
-                scope : 'inventory.products',
                 auth : window.auth
             }
         },
