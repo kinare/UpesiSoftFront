@@ -6,11 +6,12 @@ const permissions = {
     },
     computed : {
         getScope (){
-            if (this.scope){
+            if (typeof this.scope !== 'undefined')
                 return this.$store.getters.getScope(this.scope);
-                // eslint-disable-next-line no-console
-            } else { console.log('scope not set')}
         },
+        getAllScopes (){
+            return this.$store.getters.getAllScope;
+        }
     },
 
     methods : {
@@ -28,8 +29,10 @@ const permissions = {
         canUpdate : function () {
             return this.getScope ? !!this.getScope.update : false
         },
-        can : function (ability, scope = null) {
-            return this.getScope ? this.scope !== 'all' ?  !!this.getScope[ability] : scope ? !!this.getScope[scope][ability]  : false : false
+
+        // gets scope and ability
+        can : function (ability, scope) {
+            return typeof this.getAllScopes[scope] !== "undefined" ? this.getAllScopes[scope][ability] : false
         }
     }
 };

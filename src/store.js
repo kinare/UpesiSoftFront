@@ -24,8 +24,11 @@ export default new Vuex.Store({
     roles : state => {return state.roles},
     getScope : (state) => {
       return scope => {
-        return scope !== 'all' ?  state.scope[scope] : state.scope
+        return state.scope[scope]
       }
+    },
+    getAllScope : (state) => {
+      return state.scope
     },
   },
   actions: {

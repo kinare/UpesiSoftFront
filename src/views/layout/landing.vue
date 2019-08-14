@@ -31,7 +31,6 @@
         </div>
         <div class="wrapper wrapper-content">
             <div class="container">
-
                 <div class="row">
 <!--                    pos-->
                     <div v-if="can('view', 'sales')" class="col-lg-3">
