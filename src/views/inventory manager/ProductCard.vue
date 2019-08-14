@@ -7,8 +7,8 @@
         </div>
         <div class="col-md-7">
             <div class="row">
-                <a @click="confirmDelete(product.id)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-trash text-danger"></i> &nbsp;Delete</a>
-                <a @click="editProduct(product)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</a>
+                <a v-if="canDelete" @click="confirmDelete(product.id)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-trash text-danger"></i> &nbsp;Delete</a>
+                <a v-if="canUpdate" @click="editProduct(product)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</a>
             </div>
             <h2 class="font-bold m-b-xs">
                 {{product.productName}} <span class="badge badge-primary">{{product.qty}}</span>
@@ -16,7 +16,7 @@
             <small>{{product.productDescription}}</small>
             <hr>
             <div>
-                <button class="btn btn-info pull-right"><i class="fa fa-truck-loading"></i> &nbsp;Re-stock</button>
+                <button v-if="canCreate" class="btn btn-info pull-right"><i class="fa fa-truck-loading"></i> &nbsp;Re-stock</button>
                 <h1 class="product-main-price">Ksh {{product.price}} <small>{{product.unitPrice}} Per Unit</small> </h1>
             </div>
             <hr>
@@ -44,12 +44,15 @@
 </template>
 
 <script>
+    import permissions from "../../modules/mixins/Permissions";
+
     export default {
         name: "ProductCard",
         props : ['product'],
+        mixins : [permissions],
         data : function () {
             return {
-
+                scope : 'products'
             }
         },
         methods : {

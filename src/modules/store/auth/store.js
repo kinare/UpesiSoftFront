@@ -6,32 +6,23 @@ export default {
         token : '',
         message : '',
         registered : false,
-        status : ''
+        status : '',
     },
     mutations: {
-        REFRESH_STORE() {},
-        SET_USER :(state, user) => {
-            state.user = user
-        },
-        SET_TOKEN :(state, token) => {
-            state.token = token
-        },
         SET_MESSAGE : (state, payload) => {
             state.message = payload.message
             state.status = payload.status || 'alert-warning'
         },
-
         SET_REGISTERED : (state) => {
             state.registered = true
-        }
+        },
+
     },
     getters : {},
-    actions: {
+    actions : {
         signIn : (context, data) => {
             window.api.call('post',endpoints.login, data).then((res)=> {
-                window.auth.login(res.data.data)
-                context.commit('SET_USER', res.data.data.user);
-                context.commit('SET_TOKEN', res.data.data.token);
+                window.auth.login(res.data.data);
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
                 // window.auth.login("thisismysampletokenfortesting"); //token for local development

@@ -39,6 +39,7 @@ class Auth {
     logout () {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('user');
+        window.scopes.clearScopes();
         this.token = null;
         this.user = null;
         Event.$emit('userLoggedOut');

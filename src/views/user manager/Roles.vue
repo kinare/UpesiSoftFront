@@ -55,8 +55,8 @@
                                 <td @click="mode = ''"><i class="fa" :class="role.viewCustomers ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
                                 <td>
                                     <div class="btn-group-xs">
-                                        <button title="edit" @click="editRole(role)" class="btn btn-white" type="button" :class="mode === 'edit' ? formData.id === role.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i></button>
-                                        <button title="remove" @click="roleToDelete = role; confirmDelete()" class="btn btn-white" type="button"><i class="text-danger fa fa-trash"></i></button>
+                                        <button v-if="canUpdate" title="edit" @click="editRole(role)" class="btn btn-white" type="button" :class="mode === 'edit' ? formData.id === role.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i></button>
+                                        <button v-if="canDelete" title="remove" @click="roleToDelete = role; confirmDelete()" class="btn btn-white" type="button"><i class="text-danger fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -123,15 +123,10 @@
                                                 <div><label><input type="checkbox" v-model="formData.deleteCustomers"> Can delete</label></div>
                                             </div>
                                         </div>
-
-
-
-
-
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <a class="btn btn-md btn-primary btn-block" @click="saveRole">{{mode === 'edit' ? 'Save' : 'Add'}} role</a>
+                                    <a v-if="canCreate" class="btn btn-md btn-primary btn-block" @click="saveRole">{{mode === 'edit' ? 'Save' : 'Add'}} role</a>
                                 </div>
                             </form>
                         </div>
@@ -139,7 +134,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Role Modal-->
         <div class="modal fadeIn" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -166,11 +160,14 @@
 <script>
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
+    import permissions from "../../modules/mixins/Permissions";
     export default {
         name: "Roles",
         components: {Spinner},
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'roles',
                 mode : '',
                 formData : {
                     roleName : '',

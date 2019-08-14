@@ -1,15 +1,15 @@
 class Scope {
 
-    constructor(role) {
-        this.setScope(role);
+    constructor() {
+        this.scopes = JSON.parse(localStorage.getItem('scopes'));
     }
 
-    getScope (){
-        return this.scopes;
+    getScopes (){
+        return this.hasScopes() ? this.scopes : false
     }
 
-    setScope(role){
-       return  this.scopes = {
+    setScopes(role){
+        let scopes = {
            users : {
                view : role.viewUsers,
                update : role.editUsers,
@@ -17,9 +17,9 @@ class Scope {
                create : role.createUsers,
            },
            roles : {
-               view : role.UserRoles,
+               view : role.viewUserRoles,
                update : role.editUserRoles,
-               delete : role.UserRoles,
+               delete : role.deleteUserRoles,
                create : role.createUserRoles,
            },
            products : {
@@ -65,8 +65,16 @@ class Scope {
                create : true,
            },
         }
+        window.localStorage.setItem('scopes', JSON.stringify(scopes));
+        this.scopes = scopes;
     }
 
-}
+    clearScopes(){
+        localStorage.removeItem('scopes');
+    }
 
+    hasScopes(){
+        return !!this.scopes;
+    }
+}
 export default Scope;

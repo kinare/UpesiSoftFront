@@ -8,7 +8,7 @@
                         <a class="btn btn-xs btn-white">
                             <i class="fa fa-sync-alt" @click="$store.dispatch('userMgt/getUsers')"></i>
                         </a>
-                        <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userCard">
+                        <a v-if="canCreate" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userCard">
                             <i class="fa fa-user-plus" ></i> New User
                         </a>
                     </div>
@@ -47,7 +47,7 @@
                                 <td @click="openUser(user)" >{{user.roleName}}</td>
                                 <td @click="openUser(user)" >{{user.email}}</td>
                                 <td @click="openUser(user)" >{{user.createdAt}}</td>
-                                <td><a class="btn btn-white btn-xs" @click="confirmDelete(user.id)"><i class="fa fa-trash text-danger"></i> Remove</a> </td>
+                                <td><a v-if="canDelete" class="btn btn-white btn-xs" @click="confirmDelete(user.id)"><i class="fa fa-trash text-danger"></i> Remove</a> </td>
                             </tr>
                             </tbody>
                         </table>
@@ -139,7 +139,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="saveUser">Save</button>
+                        <button v-if="canUpdate || canCreate" type="button" class="btn btn-primary" @click="saveUser">Save</button>
                     </div>
                 </div>
             </div>
@@ -170,11 +170,14 @@
 <script>
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
+    import permissions from "../../modules/mixins/Permissions";
     export default {
         name: "Users",
         components: {Spinner},
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'users',
                 url : '',
                 formData : {
                     firstName : '',

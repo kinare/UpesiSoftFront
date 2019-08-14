@@ -20,6 +20,7 @@ import Validator from './modules/validation/validate'
 import Helper from './modules/helpers/helper'
 import Api from './modules/api/api'
 import Filters from './modules/filters/filters'
+import Scopes from './modules/auth/Scope'
 
 
 Vue.config.productionTip = false
@@ -39,6 +40,7 @@ Vue.use(VueHtmlToPaper, {
     ]
 });
 window.auth = new Auth;
+window.scopes = new Scopes;
 window.Event = new Vue;
 window.validator = new Validator();
 window.helper = new Helper();

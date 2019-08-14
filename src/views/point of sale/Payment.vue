@@ -116,7 +116,7 @@
                             <div class="col-xs-5">
                                 <div class="ibox-content" style="border: none">
                                     <div class="row">
-                                        <div class="col-xs-12">
+                                        <div v-if="can('view', 'customers')" class="col-xs-12">
                                             <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
                                         </div>
                                     </div>
@@ -134,10 +134,12 @@
 <script>
     import Spinner from "../../components/Spinner";
     import Pos from "../../modules/store/pos/pos";
+    import permissions from "../../modules/mixins/Permissions";
     const posController  = new Pos()
     export default {
         name: "Payment",
         components: {Spinner},
+        mixins : [permissions],
         data : function(){
             return {
                 validator : window.validator,

@@ -75,9 +75,9 @@
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 0}}</span></td>
                                 <td class="col-md-2">
                                     <div class="btn-group-sm">
-                                        <button title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
-                                        <button title="edit" @click="editProduct(product)" class="btn btn-white" type="button"><i class="text-success fa fa-edit"></i></button>
-                                        <button title="remove"  @click="confirmRemoveProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
+                                        <button v-if="canCreate" title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
+                                        <button v-if="canUpdate" title="edit" @click="editProduct(product)" class="btn btn-white" type="button"><i class="text-success fa fa-edit"></i></button>
+                                        <button v-if="canDelete" title="remove"  @click="confirmRemoveProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -209,11 +209,14 @@
     import Spinner from "../../components/Spinner";
     import ProductCard from "./ProductCard";
     import DatePicker from 'vue2-datepicker'
+    import permissions from "../../modules/mixins/Permissions";
     export default {
         name: "Products",
         components: {ProductCard, Spinner, DatePicker},
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'products',
                 term : '',
                 validator : window.validator,
                 seletedProduct : {},

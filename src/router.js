@@ -10,8 +10,6 @@ import Activation from './views/auth/Activation';
 import RegSuccess from './views/auth/RegistrationSuccess';
 import Register from './views/auth/Register';
 import Password from './views/auth/password/Password';
-
-
 Vue.use(Router)
 const  router = new Router({
   mode: 'history',
@@ -227,7 +225,6 @@ const  router = new Router({
                     },
                 ]
             },
-
         ],
         meta : {
             middlewareAuth : true
@@ -282,6 +279,17 @@ const  router = new Router({
           middlewareAuth : false
       }
     },
+
+      {
+          path : '*',
+          component : Home,
+          children : [
+              {
+                  path : '',
+                  component : () => import('./views/error/Error')
+              }
+          ]
+      }
    ]
 })
 

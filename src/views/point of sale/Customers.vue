@@ -7,7 +7,7 @@
             <div class="col-xs-6">
                 <h2 class="text-center" style="margin-top: 10px">Customers</h2>
             </div>
-            <div class="col-xs-3">
+            <div v-if="canCreate" class="col-xs-3">
                 <router-link to="/pos/customers/card" class="btn btn-primary btn-lg pull-right"> Add Customer <i class="fa fa-user-plus"></i></router-link>
             </div>
         </div>
@@ -38,7 +38,7 @@
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Type</th>
-                            <th>Action</th>
+                            <th >Action</th>
                         </tr>
 
                         </thead>
@@ -49,9 +49,9 @@
                             <td @click="selectCustomer(customer)">+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
                             <td @click="selectCustomer(customer)">{{customer.customerEmail}}</td>
                             <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
-                            <td>
-                                <a @click="selectedCustomer = customer" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye text-success"></i> &nbsp; view</a>
-                                <a @click="selectedCustomerId = customer.id" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerDeleteCard" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
+                            <td >
+                                <a v-if="canView" @click="selectedCustomer = customer" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye text-success"></i> &nbsp; view</a>
+                                <a v-if="canDelete" @click="selectedCustomerId = customer.id" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerDeleteCard" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
                             </td>
                         </tr>
                         </tbody>
@@ -133,10 +133,14 @@
 
 <script>
     import { mapState, mapGetters } from 'vuex'
+    import permissions from "../../modules/mixins/Permissions";
+
     export default {
         name: "Customers",
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'customers',
                 namespace : '',
                 term : '',
                 selectedCustomer : {},

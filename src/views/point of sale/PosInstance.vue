@@ -77,7 +77,7 @@
                 <div class="ibox" style="margin-bottom: 0">
                     <div class="ibox-content pos-calc">
                         <div class="row">
-                            <div class="col-xs-8 col-md-12 p-sm">
+                            <div v-if="can('view', 'customers')" class="col-xs-8 col-md-12 p-sm">
                                 <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
                             </div>
                             <div class="col-xs-4 col-md-12 visible-xs p-sm">
@@ -229,13 +229,16 @@
 <script>
     import Spinner from "../../components/Spinner";
     import Pos from "../../modules/store/pos/pos";
+    import permissions from "../../modules/mixins/Permissions";
     const posController  = new Pos();
     export default {
         name: "PosInstance",
         props : ['namespace', 'id'],
         components: {Spinner},
+        mixins : [permissions],
         data : function(){
             return {
+                scope : 'customers',
                 selectedSubProducts : [],
                 selectedAllSubProducts : [],
                 selected : 0,

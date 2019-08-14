@@ -1,38 +1,26 @@
+import { mapState } from "vuex";
+
 const permissions = {
-    data : function(){
-        return {
-            scope : 'all'
-        }
+    beforeCreate(){
+        if (!this.hasScopes)
+            this.$store.dispatch('getRoles');
     },
     computed : {
-        getScope (){
-            if (typeof this.scope !== 'undefined')
-                return this.$store.getters.getScope(this.scope);
-        },
-        getAllScopes (){
-            return this.$store.getters.getAllScope;
-        }
+        getScope(){return this.scopes[this.scope]},
+        hasLocalScope(){return !!this.scope},
+        canView(){ return this.hasScopes && this.hasLocalScope ? !!this.getScope.view : false},
+        canCreate(){return this.hasScopes && this.hasLocalScope ? !!this.getScope.create : false},
+        canDelete(){return this.hasScopes && this.hasLocalScope ? !!this.getScope.delete : false},
+        canUpdate(){return this.hasScopes && this.hasLocalScope ? !!this.getScope.update : false},
+
+        ...mapState({
+            hasScopes : state => state.hasScopes,
+            scopes : state => state.scopes
+        })
     },
-
     methods : {
-        canView : function () {
-            return this.getScope ? !!this.getScope.view : false
-        },
-        canCreate : function () {
-            return this.getScope ? !!this.getScope.create : false
-        },
-        
-        canDelete : function () {
-            return this.getScope ? !!this.getScope.delete : false
-        },
-        
-        canUpdate : function () {
-            return this.getScope ? !!this.getScope.update : false
-        },
-
-        // gets scope and ability
-        can : function (ability, scope) {
-            return typeof this.getAllScopes[scope] !== "undefined" ? this.getAllScopes[scope][ability] : false
+         can : function(ability, scope){
+            return this.hasScopes ? !!this.scopes[scope][ability] : true
         }
     }
 };
