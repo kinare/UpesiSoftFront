@@ -64,7 +64,7 @@
 <!--                            last Name-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerLastName.status">
-                                    <label class="control-label">First Name</label>
+                                    <label class="control-label">Last Name</label>
                                     <input type="text" class="form-control" placeholder="Kinare"  v-model="formData.customerLastName">
                                     <span class="help-block">{{formDataError.customerLastName.message}}</span>
                                 </div>
