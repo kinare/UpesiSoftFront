@@ -151,8 +151,8 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <h5><strong>{{product.productName}}</strong></h5>
-                                    <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
-                                    <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
+                                    <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
+                                    <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.qty}}</small><br>
                                     <small>Category : {{product.productCategoryName}}</small>
                                 </div>
                                 <div class="clearfix"></div>
