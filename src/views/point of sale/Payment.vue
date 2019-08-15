@@ -9,7 +9,7 @@
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
                 </div>
                 <div class="col-xs-3">
-                    <a @click="receipt" :class="tendered >= getTotalSales ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Validate <i class="fa fa-arrow-right"></i></a>
+                    <a @click="receipt" :class="tendered >= getTotalSales ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Post order <i class="fa fa-arrow-right"></i></a>
                 </div>
 
             </div>
