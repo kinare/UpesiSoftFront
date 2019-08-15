@@ -162,13 +162,6 @@
                                         <!--                                    <DatePicker lang="en" input-class="form-control"></DatePicker>-->
                                         <span class="help-block"></span>
                                     </div>
-
-                                    <div class="form-group" >
-                                        <label class="control-label">Available to</label>
-                                        <input type="date" class="form-control" placeholder="Available to">
-                                        <!--                                    <DatePicker lang="en" input-class="form-control"></DatePicker>-->
-                                        <span class="help-block"></span>
-                                    </div>
                                 </form>
                             </div>
 
