@@ -176,7 +176,7 @@
                         <h4 class="modal-title">{{subProduct.productName}} &nbsp; <span class="badge badge-primary">{{subProducts.length}}</span> </h4>
                         <small class="font-bold">{{subProduct.productDescription}}</small>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body style-1" style="height: 400px; overflow-y: scroll">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="row">
