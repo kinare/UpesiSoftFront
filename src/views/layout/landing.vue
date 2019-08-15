@@ -215,6 +215,8 @@
 
     .widget{
         cursor: pointer;
+        height: 200px;
+        overflow: hidden;
     }
    .navy-bg:hover{
        background-color: #7B171A!important;
