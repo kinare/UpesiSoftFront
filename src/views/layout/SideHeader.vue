@@ -7,8 +7,8 @@
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{user.firstName + ' ' + user.lastName}}</strong>
                              </span> <span class="text-muted text-xs block">{{user.roleType}}<b class="caret"></b></span> </span> </a>
             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
+                <li><a>Profile</a></li>
+                <li><a>Contacts</a></li>
             </ul>
         </div>
         <div class="logo-element navy-bg" @click="$router.push('/')" style="cursor: pointer">

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-5">
-            <div class="image-imitation" :style="'background-image : url(' + product.productImage + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: top center"><!---->
+            <div class="image-imitation" :style="'background-image : url(' + (product.productImage || '/img/placeholder.jpg') + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: center center"><!---->
 
             </div>
         </div>

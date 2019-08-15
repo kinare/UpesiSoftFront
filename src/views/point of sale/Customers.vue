@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="profile-image">
-                                    <img :src="selectedCustomer.customerProfilePicture" class="img-circle circle-border m-b-md" alt="profile">
+                                    <img :src="selectedCustomer.customerProfilePicture || '/img/placeholder.jpg'" class="img-circle circle-border m-b-md" alt="profile">
                                 </div>
                                 <div class="profile-info">
                                     <div class="">

@@ -143,7 +143,7 @@
                             <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
                                 <div class="col-sm-4">
                                     <div class="text-center">
-                                        <img alt="image" class="m-t-xs img-responsive" src="img/a2.jpg">
+                                        <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
                                         <div class="m-t-xs font-bold">
                                             <span class="badge badge-info">Ksh {{product.price}}</span>
                                         </div>

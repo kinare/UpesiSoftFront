@@ -60,7 +60,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(product, index) in filteredProducts" v-bind:key="index" style="cursor: pointer">
-                                <td @click="openProduct(product)" class="product-avatar"><img alt="image" :src="product.productImage"> </td>
+                                <td @click="openProduct(product)" class="product-avatar"><img alt="image" :src="product.productImage || '/img/placeholder.jpg'"> </td>
                                 <td @click="openProduct(product)" >
                                     {{product.productName}}<br>
                                     <small class="text-muted">{{product.productShortDescription}}</small>
@@ -94,11 +94,11 @@
 <!--                    product grid-->
                     <div v-if="view === 'grid'" class="row">
                         <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in filteredProducts" v-bind:key="index">
-                            <div class="contact-box" style="padding: 5px">
+                            <div class="contact-box" style="padding: 5px; height: 100px; overflow: hidden">
                                 <a @click="openProduct(product)">
                                     <div class="col-sm-4">
                                         <div class="text-center">
-                                            <img alt="image" class="m-t-xs img-responsive" src="/img/a2.jpg">
+                                            <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
                                             <div class="m-t-xs font-bold">
                                                 <span class="badge badge-info">Ksh {{product.price}}</span>
                                             </div>
