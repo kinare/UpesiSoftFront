@@ -148,6 +148,10 @@
         beforeCreate() {
             document.body.className = 'top-navigation';
         },
+        created(){
+            //set page title
+            document.title = 'Focus ERP - ' + this.user.firstName
+        },
         methods : {
            signOut : function () {
                window.auth.logout();
