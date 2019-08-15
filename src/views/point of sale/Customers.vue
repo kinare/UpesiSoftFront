@@ -155,21 +155,37 @@
                 v.$store.dispatch('pos/getCustomers');
             })
         },
+        created(){
+            // eslint-disable-next-line no-console
+          console.log(this.sanitizeRecords)
+        },
         computed : {
             filteredCustomers(){
                 let self = this
                 return this.term === ''
                 ? this.customers
-                : this.customers.filter(customer => {
+                : this.sanitizeRecords.filter(customer => {
 
-                        return customer.customerFirstName   ? customer.customerFirstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0        : ''
-                        || customer.customerLastName        ? customer.customerLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0         : ''
-                        || customer.customerBusinessName    ? customer.customerBusinessName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0     : ''
-                        || customer.customerEmail           ? customer.customerEmail.toLowerCase().indexOf(self.term.toLowerCase()) >= 0            : ''
-                        || customer.customerPhoneNumber     ? customer.customerPhoneNumber.toLowerCase().indexOf(self.term.toLowerCase()) >= 0      : ''
-                        || customer.customerPostalAddress   ? customer.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0    : ''
-                        || customer.customerAddress         ? customer.customerAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0          : ''
+                        return  customer.customerFirstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerBusinessName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerEmail.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerPhoneNumber.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                        || customer.customerAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     })
+            },
+
+            sanitizeRecords (){
+                return this.customers.map(item => {
+                    for (let key in item){
+                        if (item[key] === null){
+                            item[key] = 'FOCUS'
+                        }
+                    }
+
+                    return item
+                })
             },
             ...mapState('pos', {
                 customers : state => state.customers,
