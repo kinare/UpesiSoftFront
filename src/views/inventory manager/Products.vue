@@ -46,7 +46,6 @@
                             <tr>
                                 <th>Thumbnail</th>
                                 <th>Name</th>
-                                <th>Description</th>
                                 <th>Category</th>
                                 <th>SKU</th>
                                 <th>Price</th>
@@ -65,7 +64,6 @@
                                     {{product.productName}}<br>
                                     <small class="text-muted">{{product.productShortDescription}}</small>
                                 </td>
-                                <td @click="openProduct(product)" >{{product.productDescription}}</td>
                                 <td @click="openProduct(product)" >{{product.productCategoryName}}</td>
                                 <td @click="openProduct(product)" >{{product.sku}}</td>
                                 <td @click="openProduct(product)" >{{product.price}}</td>
