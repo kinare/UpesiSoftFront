@@ -71,8 +71,12 @@
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-footer">
-                                            <p> Served by : {{receipt.cashierLastName + ', ' + receipt.cashierPhoneNumber}} </p>
                                             <h3 class="text-center">Thank You</h3>
+                                            <p> Served by : {{receipt.cashierFirstName + ', ' + receipt.cashierLastName}} </p>
+                                            <small class="text-center">
+                                                Made by digital 4 Africa <br>
+                                                www.digital4africa.com
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -142,5 +146,8 @@
         font-family:  monospace, sans-serif;
         font-size: 12px;
         line-height: 1;
+    }
+    .pos-receipt-footer{
+        text-align: center;
     }
 </style>
