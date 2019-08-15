@@ -56,7 +56,7 @@
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerFirstName.status">
                                     <label class="control-label">First Name</label>
-                                    <input type="text" class="form-control" placeholder="Michael" v-model="formData.customerFirstName">
+                                    <input type="text" class="form-control" placeholder="John" v-model="formData.customerFirstName">
                                     <span class="help-block">{{formDataError.customerFirstName.message}}</span>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerLastName.status">
                                     <label class="control-label">Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Kinare"  v-model="formData.customerLastName">
+                                    <input type="text" class="form-control" placeholder="Doe"  v-model="formData.customerLastName">
                                     <span class="help-block">{{formDataError.customerLastName.message}}</span>
                                 </div>
                             </div>
