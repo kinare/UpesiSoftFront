@@ -11,7 +11,7 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a aria-expanded="false" role="button" href="https://digital4africa.com"> Go to website</a>
+                            <a aria-expanded="false" role="button" target="_blank" href="/"> Go to mail</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
