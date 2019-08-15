@@ -22,8 +22,8 @@
             <hr>
             <h4>{{product.productShortDescription}}</h4>
             <dl class="dl-horizontal m-t-md small">
-                <dt>Measurment</dt>
-                <dd>{{product.measurement + ' ' + product.measurementAbbreviation}}</dd>
+                <dt>Measurement</dt>
+                <dd>{{(product.measurement || 0)+ ' ' + product.measurementAbbreviation}}</dd>
                 <dt>Categories</dt>
                 <dd>{{product.categories}}</dd>
                 <dt>Quantity</dt>
