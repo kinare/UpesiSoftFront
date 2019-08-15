@@ -69,8 +69,8 @@
                                 <td @click="openProduct(product)" >{{product.price}}</td>
                                 <td @click="openProduct(product)" >{{product.salePrice}}</td>
                                 <td @click="openProduct(product)" ><span class="badge" :class="product.state ? 'badge-info' : 'badge-warning'">{{product.state ? 'Available' : 'Unavailable'}}</span> </td>
-                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'FULL' ? product.qty : 0}}</span> </td>
-                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 0}}</span></td>
+                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.qty}}</span> </td>
+                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 'N/A'}}</span></td>
                                 <td class="col-md-2">
                                     <div class="btn-group-sm">
                                         <button v-if="canCreate" title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
