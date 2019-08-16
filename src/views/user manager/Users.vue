@@ -171,10 +171,11 @@
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
     import permissions from "../../modules/mixins/Permissions";
+    import sanitizer from "../../modules/mixins/SanitizeRecords";
     export default {
         name: "Users",
         components: {Spinner},
-        mixins : [permissions],
+        mixins : [permissions, sanitizer],
         data : function(){
             return {
                 scope : 'users',
@@ -232,11 +233,13 @@
                 let self = this;
                 return this.term === ''
                     ? this.users
-                    : this.users.filter(user => {
-                        return user.firstName ? user.firstName.toLowerCase().indexOf(self.term) >= 0 : ''
-                            || user.lastName ? user.lastName.toLowerCase().indexOf(self.term) >= 0 : ''
-                            || user.roleId ? user.roleId.toLowerCase().indexOf(self.term) >= 0 : ''
-                            || user.email ? user.email.toLowerCase().indexOf(self.term) >= 0 : ''
+                    : this.sanitize(this.users).filter(user => {
+                        return user.firstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || user.lastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || user.roleName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || user.roleType.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || user.userPhoneNumber.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            || user.email.toLowerCase().indexOf(self.term) >= 0
                 })
             },
 

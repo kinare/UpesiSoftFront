@@ -23,8 +23,8 @@ import Filters from './modules/filters/filters'
 import Scopes from './modules/auth/Scope'
 
 
-Vue.config.productionTip = false
-Vue.use(fullscreen)
+Vue.config.productionTip = false;
+Vue.use(fullscreen);
 Vue.use(PrettyCheckbox);
 
 Vue.use(VueHtmlToPaper, {

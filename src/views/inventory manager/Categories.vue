@@ -41,11 +41,11 @@
                                 <td @click="mode = ''">{{category.productCategoryName}}</td>
                                 <td @click="mode = ''">{{category.productCategoryDesc}}</td>
                                 <td>
-                                    <a title="edit" @click="editCategory(category)" class="btn btn-xs" :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'">
+                                    <a v-if="canUpdate" title="edit" @click="editCategory(category)" class="btn btn-xs" :class="mode === 'edit' ? formData.id === category.id ? 'btn-primary' : 'btn-default' : 'btn-default'">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     &nbsp;
-                                    <a title="remove" @click="confirmDelete(category.id)" class="btn btn-white btn-xs">
+                                    <a v-if="canDelete" title="remove" @click="confirmDelete(category.id)" class="btn btn-white btn-xs">
                                         <i class="fa fa-trash text-danger"></i>
                                     </a>
                                 </td>
@@ -99,7 +99,7 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-block btn-primary" @click.prevent="addCategory">{{mode === 'edit' ? 'Save Category' : 'Add Category'}}</button>
+                                    <button :disabled="!canCreate" class="btn btn-block btn-primary" @click.prevent="addCategory">{{mode === 'edit' ? 'Save Category' : 'Add Category'}}</button>
                                 </div>
                             </form>
                         </div>
@@ -134,11 +134,15 @@
 <script>
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
+    import permissions from "../../modules/mixins/Permissions";
+    import sanitizer from "../../modules/mixins/SanitizeRecords";
     export default {
         name: "Categories",
         components: {Spinner},
+        mixins : [permissions, sanitizer],
         data : function(){
             return {
+                scope : 'categories',
                 subCateg : false,
                 mode : '',
                 term : '',
@@ -195,7 +199,6 @@
                 this.formData = category;
                 this.$refs.categName.focus();
             },
-
             confirmDelete : function(id){
                 this.selectedCategoryId = id
                 // eslint-disable-next-line no-undef
@@ -212,10 +215,10 @@
               let self = this;
               return this.term === ''
                 ? this.categories
-                  : this.categories.filter(cat => {
-                      return cat.productCategoryName ? cat.productCategoryName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
-                      || cat.productCategoryDesc ? cat.productCategoryDesc.toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
-                      || cat.parentId ? cat.parentId.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0 : ''
+                  : this.sanitize(this.categories).filter(cat => {
+                      return cat.productCategoryName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                      || cat.productCategoryDesc.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                      || cat.parentId.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                   })
             },
             ...mapState('inventory',{

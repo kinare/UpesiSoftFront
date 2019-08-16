@@ -161,10 +161,11 @@
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
     import permissions from "../../modules/mixins/Permissions";
+    import sanitizer from "../../modules/mixins/SanitizeRecords";
     export default {
         name: "Roles",
         components: {Spinner},
-        mixins : [permissions],
+        mixins : [permissions, sanitizer],
         data : function(){
             return {
                 scope : 'roles',
@@ -217,9 +218,10 @@
                 let self = this;
                 return this.term === ''
                     ? this.roles
-                    : this.roles.filter(user => {
-                        return user.roleName ? user.roleName.toLowerCase().indexOf(self.term) >= 0 : ''
-                        || user.description ? user.description.toLowerCase().indexOf(self.term) >= 0 : ''
+                    : this.sanitize(this.roles).filter(user => {
+                        return user.roleName.toLowerCase().indexOf(self.term) >= 0
+                        || user.roleType.toLowerCase().indexOf(self.term) >= 0
+                        || user.roleDescription.toLowerCase().indexOf(self.term) >= 0
                     })
             },
 

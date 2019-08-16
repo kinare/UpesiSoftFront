@@ -134,10 +134,11 @@
 <script>
     import { mapState, mapGetters } from 'vuex'
     import permissions from "../../modules/mixins/Permissions";
+    import sanitizer from "../../modules/mixins/SanitizeRecords";
 
     export default {
         name: "Customers",
-        mixins : [permissions],
+        mixins : [permissions, sanitizer],
         data : function(){
             return {
                 scope : 'customers',
@@ -160,8 +161,7 @@
                 let self = this
                 return this.term === ''
                 ? this.customers
-                : this.sanitizeRecords.filter(customer => {
-
+                : this.sanitize(this.customers).filter(customer => {
                         return  customer.customerFirstName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                         || customer.customerLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                         || customer.customerBusinessName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
@@ -170,18 +170,6 @@
                         || customer.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                         || customer.customerAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     })
-            },
-
-            sanitizeRecords (){
-                return this.customers.map(item => {
-                    for (let key in item){
-                        if (item[key] === null){
-                            item[key] = 'FOCUS'
-                        }
-                    }
-
-                    return item
-                })
             },
             ...mapState('pos', {
                 customers : state => state.customers,
