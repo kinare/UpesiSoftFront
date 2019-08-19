@@ -22,11 +22,13 @@ import Api from './modules/api/api'
 import Filters from './modules/filters/filters'
 import Scopes from './modules/auth/Scope'
 import listener from './modules/mixins/Listener'
+import Toasted from 'vue-toasted';
 
 
 Vue.config.productionTip = false;
 Vue.use(fullscreen);
 Vue.use(PrettyCheckbox);
+Vue.use(Toasted)
 
 Vue.use(VueHtmlToPaper, {
     name: '_blank',
