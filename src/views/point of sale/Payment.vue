@@ -9,7 +9,7 @@
                     <h2 class="text-center" style="margin-top: 10px">Payment</h2>
                 </div>
                 <div class="col-xs-3">
-                    <a @click="receipt" :class="tendered >= getTotalSales && !validator.isEmptyObject(customer) ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Post order <i class="fa fa-arrow-right"></i></a>
+                    <a @click="receipt" :class="tendered >= getTotalSales ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Post order <i class="fa fa-arrow-right"></i></a>
                 </div>
 
             </div>
@@ -37,7 +37,7 @@
                             <div class="col-xs-3">
                                 <div class="form-group">
                                     <label for="tendered">Tendered</label>
-                                    <input type="number" class="form-control" id="tendered" v-model="tendered" autofocus>
+                                    <input type="number" ref="tendered" class="form-control" id="tendered" v-model="tendered" autofocus>
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -117,7 +117,7 @@
                                 <div class="ibox-content" style="border: none">
                                     <div class="row">
                                         <div v-if="can('view', 'customers')" class="col-xs-12">
-                                            <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
+                                            <a @click="toCustomers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -153,14 +153,23 @@
               v.namespace = to.params.namespace;
               v.method = v.method === '' ? 'CASH' : v.method
               v.tendered = v.getTendered
+              v.$refs.tendered.focus();
           })
         },
         methods : {
+            toCustomers : function(){
+                this.$router.push('/pos/customers/' + btoa(this.$route.path))
+            },
             receipt : function () {
 
                 //Get receipt if order is posted
                 if (this.documentNo !== '')
                     this.$router.push(`/pos/receipt/${this.namespace}/${this.documentNo}`)
+
+
+                if (this.validator.isEmptyObject(this.customer) ) {
+                    this.toCustomers()
+                }
 
                 //post order data
                 this.$store.dispatch('pos/' + this.namespace + '/generateDocument',

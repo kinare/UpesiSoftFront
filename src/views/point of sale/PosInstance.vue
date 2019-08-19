@@ -388,38 +388,38 @@
                 //set document type
                 this.documentType = type;
 
+                let path  = '';
+                switch(this.documentType){
+                    case "INVOICE":
+                        path = `/pos/invoice/${this.namespace.split('/').pop()}`;
+                        break;
+                    case "QUOTE":
+                        path = `/pos/quote/${this.namespace.split('/').pop()}`
+                        break;
+                }
+
+                //post order data
+                this.$store.commit(`${this.namespace}/SET_DOCUMENT`,
+                    posController.prepareDocument(
+                        type,
+                        this.customer,
+                        this.items,
+                        {
+                            total : this.getTotalSales,
+                            tendered : 0,
+                            change : 0,
+                            method : 'CASH'
+                        }
+                    )
+                );
+
+
                 // set customer before posting document
                 if (window.validator.isEmptyObject(this.customer)) {
-                    this.$router.push('/pos/customers')
+                    this.$router.push('/pos/customers/' + btoa(path))
                 }else {
-
-                    //post order data
-                    this.$store.commit(`${this.namespace}/SET_DOCUMENT` ,
-                        posController.prepareDocument(
-                            type,
-                            this.customer,
-                            this.items,
-                            {
-                                total : this.getTotalSales,
-                                tendered : 0,
-                                change : 0,
-                                method : 'CASH'
-                            }
-                        )
-                    );
-
-                    let path  = '';
-                    switch(this.documentType){
-                        case "INVOICE":
-                            path = 'invoice';
-                            break;
-                        case "QUOTE":
-                            path = 'quote'
-                            break;
-                    }
-
                     //push to document
-                    this.$router.push(`/pos/${path}/${this.namespace.split('/').pop()}`);
+                    this.$router.push(path);
                 }
             }
         },

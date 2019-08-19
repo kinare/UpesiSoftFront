@@ -4,7 +4,7 @@ const state = () => {
     return {
         items : [],
         name : 'tab module',
-        backToLink : '',
+        intended : '',
         payment : {
             tendered : 0,
             due : '',
@@ -73,8 +73,8 @@ const mutations = {
     SET_TENDERED : (state, tendered) =>{
         state.payment.tendered = tendered
     },
-    SET_BACKTO_LINK : (state, link) => {
-        state.backToLink = link
+    SET_INTENDED : (state, link) => {
+        state.intended = link
     }
 }
 const getters = {
@@ -91,7 +91,7 @@ const getters = {
     quote : state => {return state.quote.shift()},
     document : state => {return state.document},
     tendered : state => {return state.payment.tendered},
-    backToLink : state => {return state.backToLink}
+    intended : state => {return state.intended}
 
 }
 const actions = {

@@ -8,7 +8,7 @@
                 <h2 class="text-center" style="margin-top: 10px">Customers</h2>
             </div>
             <div v-if="canCreate" class="col-xs-3">
-                <router-link to="/pos/customers/card" class="btn btn-primary btn-lg pull-right"> Add Customer <i class="fa fa-user-plus"></i></router-link>
+                <router-link to="/pos/customer/card" class="btn btn-primary btn-lg pull-right"> Add Customer <i class="fa fa-user-plus"></i></router-link>
             </div>
         </div>
         <div class="hr-line-dashed"></div>
@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <a class="btn btn-primary" data-dismiss="modal" @click="selectCustomer(selectedCustomer)"><i class="fa fa-user-check"></i> Select</a> &nbsp;
-                                <router-link data-dismiss="modal" :to="'/pos/customers/card/' + selectedCustomer.id" class="btn btn-white" ><i class="fa fa-edit"></i> Edit</router-link>
+                                <router-link data-dismiss="modal" :to="'/pos/customer/card/' + selectedCustomer.id" class="btn btn-white" ><i class="fa fa-edit"></i> Edit</router-link>
                             </div>
                         </div>
                         <div class="row">
@@ -154,8 +154,8 @@
             next(v => {
                 v.namespace = to.params.namespace;
                 v.$store.dispatch('pos/getCustomers');
-                if (to.params.backto){
-                    v.$store.commit(this.getCurrentTab.namespace + '/SET_BACKTO_LINK', to.params.backto);
+                if (to.params.intended){
+                    v.$store.commit(v.getCurrentTab.namespace + '/SET_INTENDED', to.params.intended);
                 }
             })
         },
@@ -183,16 +183,17 @@
                 'getCurrentTab'
             ]),
 
-            backtoLink(){return this.$store.getters[`${this.getCurrentTab.namespace}/backToLink`]},
+            intended(){return atob(this.$store.getters[`${this.getCurrentTab.namespace}/intended`])},
         },
         methods : {
             selectCustomer : function (customer) {
                 this.$store.commit(this.getCurrentTab.namespace + '/SET_CUSTOMER', customer);
-                // this.$router
 
-                this.$route.push(this.backtoLink)
-                this.$router.go(-1); //go where you came from
-                // this.$router.push('/pos/payment/' + this.getCurrentTab.namespace.split('/').pop())
+                if (this.intended !== '') {
+                    this.$router.push(this.intended)
+                }else {
+                    this.$router.go(-1); //go where you came from
+                }
             },
 
             removeCustomer : function (id) {

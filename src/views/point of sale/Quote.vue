@@ -2,7 +2,7 @@
     <div class="col-xs-10 col-xs-push-1 m-b-md m-t-md">
         <div class="row">
             <div class="col-xs-3">
-                <a @click="$router.go(-1)" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
+                <a @click="$router.push('/pos')" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
             </div>
             <div class="col-xs-6">
                 <h2 class="text-center" style="margin-top: 10px">Quotation</h2>
@@ -32,13 +32,13 @@
                                 <h4>Quote No. {{quote.id}}</h4>
                                 <span>To:</span>
                                 <address>
-                                    <strong>{{quote.customerIsBusiness ? quote.customerBusinessName : quote.customerFirstName + ' ' + invoice.customerLastName}}</strong><br>
+                                    <strong>{{quote.customerIsBusiness ? quote.customerBusinessName : quote.customerFirstName + ' ' + quote.customerLastName}}</strong><br>
                                     +{{quote.customerCountryCode + quote.customerPhoneNumber}}<br>
                                     {{quote.customerEmail}}<br>
                                     {{quote.customerPostalAddress}}
                                 </address>
                                 <p>
-                                    <span><strong>Invoice Date:</strong> {{quote.createdAt}}</span><br>
+                                    <span><strong>Quotation Date:</strong> {{quote.createdAt}}</span><br>
                                     <!--                                <span><strong>Due Date:</strong> March 24, 2014</span>-->
                                 </p>
                             </div>
@@ -80,6 +80,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button @click="printDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-print"></i> Print Invoice</button>
+                            <button @click="mailDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Quote</button>
                         </div>
                     </div>
                 </div>
@@ -103,7 +104,13 @@
             next(v =>{
                 v.namespace = to.params.namespace;
 
-                //post invoice
+                //set customer if not set
+                if (!v.document.customerId){
+                    v.document.customerId = v.customer.id;
+                    v.document.customerDetails  = JSON.stringify(v.customer);
+                }
+
+                //post quote
                 v.$store.dispatch(`pos/${v.namespace}/generateDocument`, v.document);
             })
         },
@@ -114,11 +121,16 @@
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('invoice');
+            },
+
+            mailDoc : function () {
+                //todo Mail invoice to customer
             }
         },
         computed : {
             quote(){return this.$store.getters[`pos/${this.namespace }/quote`]},
             document(){return this.$store.getters[`pos/${this.namespace }/document`]},
+            customer(){return this.$store.getters[`pos/${this.namespace }/customer`]},
             loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
             documentNo(){return this.$store.getters[`pos/${this.namespace }/documentNo`]},
             measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},        },
