@@ -27,7 +27,7 @@ const listener = {
 
         Event.$on('ApiError', (status, messsage) => {
             let toastObject = {
-                position: "top-right",
+                position: "top-center",
                 keepOnHover: true,
                 iconPack: 'fontawesome',
                 duration: 5000,
