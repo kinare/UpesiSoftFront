@@ -15,6 +15,7 @@
                                     <th class="text-left">Qty</th>
                                     <th class="text-left">Measure</th>
                                     <th class="text-right">Price</th>
+                                    <th class="text-right"></th>
                                 </tr>
                                 </thead>
                                 <tbody>

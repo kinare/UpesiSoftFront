@@ -1,6 +1,7 @@
 <template>
     <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
+        <div class="ibox-content" :class="{'sk-loading' : loading}" style="border: none">
+            <spinner v-if="loading"/>
             <div>
 
                 <div>
@@ -17,12 +18,14 @@
             </div>
             <form class="m-t text-left" >
                 <div class="form-group" :class="formDataError.email.status">
+                    <label class="label-control">Email</label>
                     <input type="email" v-model="formData.email" class="form-control" placeholder="Username" required="">
                     <span class="help-block m-b-none">
                         {{formDataError.email.message}}
                     </span>
                 </div>
                 <div class="form-group" :class="formDataError.password.status">
+                    <label class="label-control">Password</label>
                     <input type="password" v-model="formData.password" class="form-control" placeholder="Password" required="">
                     <span class="help-block m-b-none">
                         {{formDataError.password.message}}
@@ -41,8 +44,10 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Spinner from "../../components/Spinner";
     export default {
         name: "Login",
+        components: {Spinner},
         data : function () {
             return {
                 baseUrl: process.env.BASE_URL,
@@ -86,6 +91,7 @@
             ...mapState('authModule', {
                 message : state => state.message,
                 status : state => state.status,
+                loading : state => state.loading,
             }),
         },
     }

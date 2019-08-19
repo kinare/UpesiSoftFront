@@ -6,6 +6,7 @@ export default {
         token : '',
         message : '',
         registered : false,
+        loading : false,
         status : '',
     },
     mutations: {
@@ -16,15 +17,21 @@ export default {
         SET_REGISTERED : (state) => {
             state.registered = true
         },
+        SET_LOADING : (state, status) => {
+            state.loading = status
+        }
 
     },
     getters : {},
     actions : {
         signIn : (context, data) => {
+            context.commit('SET_LOADING', true);
             window.api.call('post',endpoints.login, data).then((res)=> {
                 window.auth.login(res.data.data);
+                context.commit('SET_LOADING', false);
             }).catch((error) => {
                 context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false);
                 // window.auth.login("thisismysampletokenfortesting"); //token for local development
             })
         },

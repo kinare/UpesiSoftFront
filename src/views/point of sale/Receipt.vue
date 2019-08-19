@@ -89,6 +89,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <button @click="printDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-print"></i>  Print Receipt</button>
+                                <button @click="mailDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-envelope"></i>  Mail Receipt</button>
                             </div>
                         </div>
                     </div>
@@ -114,6 +115,10 @@
             printDoc : function () {
                 this.$htmlToPaper('receipt');
             },
+
+            mailDoc : function () {
+                
+            }
         },
         beforeRouteEnter(to, from, next){
           next(v =>{
