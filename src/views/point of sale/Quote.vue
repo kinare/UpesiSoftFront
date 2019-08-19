@@ -59,7 +59,7 @@
                                     <td>{{item.productName}}</td>
                                     <td>{{item.qty || 1}}</td>
                                     <td>{{item.soldMeasurement ? item.soldMeasurement + ' ' + measurmentAbbreviation(item.measurementUnitId) : ''}}</td>
-                                    <td>Ksh {{item.price}}</td>
+                                    <td>{{item.price | currency}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -68,7 +68,7 @@
                             <tbody>
                             <tr>
                                 <td><strong>Total :</strong></td>
-                                <td>{{quote.total}}</td>
+                                <td>{{quote.total | currency}}</td>
                             </tr>
                             </tbody>
                         </table>

@@ -12,7 +12,15 @@ const filters = [
         name : 'currency',
         execute : (value) => {
             if (!value) return '';
-            value = 'KES ' + value + '.00';
+            value = 'KES ' + parseFloat(value).toFixed(2);
+            return value;
+        }
+    },
+    {
+        name : 'number',
+        execute : (value) => {
+            if (!value) return '';
+            value = parseFloat(value).toFixed(1);
             return value;
         }
     },

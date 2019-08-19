@@ -161,15 +161,15 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.salePrice.status">
-                                                            <label class="col-sm-4 control-label">Sale Price</label>
-                                                            <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.salePrice">
-                                                                <span class="help-block">
-                                                                    {{formDataError.salePrice.message}}
-                                                                </span>
-                                                            </div>
-                                                        </div>
+<!--                                                        <div class="form-group" :class="formDataError.salePrice.status">-->
+<!--                                                            <label class="col-sm-4 control-label">Sale Price</label>-->
+<!--                                                            <div class="col-sm-8">-->
+<!--                                                                <input type="number" class="form-control" v-model="formData.salePrice">-->
+<!--                                                                <span class="help-block">-->
+<!--                                                                    {{formDataError.salePrice.message}}-->
+<!--                                                                </span>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
                                                         <div class="form-group" :class="formDataError.unitPrice.status">
                                                             <label class="col-sm-4 control-label">Price Per unit</label>
                                                             <div class="col-sm-8">
@@ -391,15 +391,15 @@
                 },
                 rules : {
                     productName : 'required',
-                    productDescription : 'required',
-                    productShortDescription : 'required',
+                    productDescription : 'optional',
+                    productShortDescription : 'optional',
                     availableFrom : 'optional',
                     availableTo : 'optional',
                     categoryId : 'required',
                     sku : 'optional',
                     price : 'required',
                     unitPrice : 'required',
-                    salePrice : 'required',
+                    salePrice : 'optional',
                     measurementUnitId : 'required',
                     taxClassId : 'required',
                     published : 'optional',

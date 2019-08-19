@@ -61,15 +61,15 @@
                                     <tbody>
                                     <tr>
                                         <td><strong>Paid :</strong></td>
-                                        <td>Ksh {{tendered}}</td>
+                                        <td>{{tendered | currency}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Amount Due :</strong></td>
-                                        <td>Ksh {{getTotalSales}}</td>
+                                        <td>{{getTotalSales | currency}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Change :</strong></td>
-                                        <td>Ksh {{change}}</td>
+                                        <td>{{change | currency}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

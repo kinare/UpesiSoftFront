@@ -23,6 +23,8 @@
                                     <td class="text-left pos-product-name"><strong>{{item.productName}}</strong><br>
                                         <small>{{item.productShortDescription}}</small>
                                     </td>
+
+<!--                                    QTY-->
                                     <td class="text-left">
                                         <input v-if="selected === index && item.sellAs !== 'CUSTOM'"
                                                :disabled="item.sellAs === 'CUSTOM'"
@@ -33,6 +35,8 @@
                                         >
                                         <span v-else>{{item.qty}}</span>
                                     </td>
+
+<!--                                    unit of measure-->
                                     <td class="text-left">
                                         <div v-if="selected === index && item.sellAs !== 'FULL'" class="input-group">
                                             <input  v-on:change="fieldUpdate(index, 'UNIT')"
@@ -49,15 +53,17 @@
                                                 {{item.measurementAbbreviation}}
                                             </span>
                                         </div>
-                                        <span v-else>{{item.soldMeasurement}}{{item.measurementAbbreviation}}</span>
+                                        <span v-else>{{item.soldMeasurement | number}}{{item.measurementAbbreviation}}</span>
                                     </td>
+
+<!--                                    price-->
                                     <td class="text-right">
                                         <input v-if="selected === index"
                                                type="number" min="1"
                                                class="form-control input-sm"
                                                v-model="item.price"
                                         >
-                                        <span v-else>{{item.price}}</span>
+                                        <span v-else>{{item.price | currency}}</span>
                                     </td>
                                     <td v-if="selected === index" ><span class="badge badge-white" @click="removeItemByIndex(index)"><i class="fa fa-times text-danger"></i> </span></td>
                                 </tr>
@@ -66,7 +72,7 @@
                         </div>
                         <div class="row m-r-xs">
                             <div class="col-xs-12">
-                                <h2 class="text-right"><strong>Total : Ksh {{getTotalSales}}</strong></h2>
+                                <h2 class="text-right"><strong>Total : {{getTotalSales | currency}}</strong></h2>
                             </div>
                         </div>
                     </div>
@@ -146,7 +152,7 @@
                                     <div class="text-center">
                                         <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
                                         <div class="m-t-xs font-bold">
-                                            <span class="badge badge-info">Ksh {{product.price}}</span>
+                                            <span class="badge badge-info">{{product.price | currency}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,8 +210,8 @@
                                                 <tr v-for="(product, index) in filteredSubProducts" v-bind:key="index">
                                                     <td><input type="checkbox" :value="product" v-model="selectedSubProducts" class="check-control"></td>
                                                     <td>{{product.productName}}</td>
-                                                    <td>{{product.measurement + ' ' + product.measurementAbbreviation}}</td>
-                                                    <td>Ksh {{product.price}}</td>
+                                                    <td>{{product.measurement | number}} {{product.measurementAbbreviation}}</td>
+                                                    <td>{{product.price | currency}}</td>
                                                 </tr>
                                             <tr>
                                                 <td colspan="4" v-if="validator.isEmptyObject(subProducts)" class="text-center">No Sub-products Found</td>
@@ -315,14 +321,13 @@
                     let prod = {...product}; // JSON.parse( JSON.stringify( product ) );
                     prod.productId = product.subproduct ? this.subProduct.id  : prod.id
                     // prod.subProductId =  prod.id;
-                    prod.soldMeasurement = prod.measurement;
+                    prod.soldMeasurement = prod.measurement ? prod.measurement : 1; //1 as the default sold measurment
                     prod.categories = '';
                     prod.measurementBefore = prod.measurement;
                     prod.measurementAfter = prod.measurement;
-                    prod.price = product.salePrice === 0 ? product.price : product.salePrice;
                     prod.qty = 1;
                     prod.maxUnit = prod.measurement;
-                    prod.minUnit = prod.customSaleUnit;
+                    prod.minUnit = prod.customSaleUnit ? prod.customSaleUnit : 1;
                     prod.itemPrice = prod.price;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }

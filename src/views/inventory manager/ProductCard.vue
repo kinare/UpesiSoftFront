@@ -17,7 +17,7 @@
             <hr>
             <div>
                 <button v-if="canCreate" class="btn btn-info pull-right"><i class="fa fa-truck-loading"></i> &nbsp;Re-stock</button>
-                <h1 class="product-main-price">Ksh {{product.price}} <small>{{product.unitPrice}} Per Unit</small> </h1>
+                <h1 class="product-main-price">{{product.price | currency}} <small>{{product.unitPrice | currency}} Per Unit</small> </h1>
             </div>
             <hr>
             <h4>{{product.productShortDescription}}</h4>

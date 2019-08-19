@@ -49,7 +49,6 @@
                                 <th>Category</th>
                                 <th>SKU</th>
                                 <th>Price</th>
-                                <th>Sale Price</th>
                                 <th>State</th>
                                 <th>Full Items</th>
                                 <th>Pieces</th>
@@ -66,8 +65,7 @@
                                 </td>
                                 <td @click="openProduct(product)" >{{product.productCategoryName}}</td>
                                 <td @click="openProduct(product)" >{{product.sku}}</td>
-                                <td @click="openProduct(product)" >{{product.price}}</td>
-                                <td @click="openProduct(product)" >{{product.salePrice}}</td>
+                                <td @click="openProduct(product)" >{{product.price | currency}}</td>
                                 <td @click="openProduct(product)" ><span class="badge" :class="product.state ? 'badge-info' : 'badge-warning'">{{product.state ? 'Available' : 'Unavailable'}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.qty}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 'N/A'}}</span></td>
@@ -98,7 +96,7 @@
                                         <div class="text-center">
                                             <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
                                             <div class="m-t-xs font-bold">
-                                                <span class="badge badge-info">Ksh {{product.price}}</span>
+                                                <span class="badge badge-info">{{product.price | currency}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -231,7 +229,7 @@
                         return product.productName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.productShortDescription.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.price.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                            || product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                            // || product.salePrice.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.measurement.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.sellAs.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                             || product.availableFrom.toLowerCase().indexOf(self.term.toLowerCase()) >= 0

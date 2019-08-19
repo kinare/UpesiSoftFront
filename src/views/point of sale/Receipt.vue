@@ -51,20 +51,20 @@
                                                        {{item.soldMeasurement ? item.soldMeasurement + ' ' + measurmentAbbreviation(item.measurementUnitId) : ''}}
                                                     </td>
                                                     <td class="no-borders">
-                                                       Ksh {{item.price}}
+                                                        {{item.price | currency}}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="no-borders"><strong>Total</strong></td>
-                                                    <td class="no-borders"><strong>Ksh {{receipt.total}}</strong></td>
+                                                    <td class="no-borders"><strong>{{receipt.total | currency}}</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="no-borders"><strong>Cash</strong></td>
-                                                    <td class="no-borders"><strong>Ksh {{receipt.tenderedAmount}}</strong></td>
+                                                    <td class="no-borders"><strong>{{receipt.tenderedAmount | currency}}</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="no-borders"><strong>Change</strong></td>
-                                                    <td class="no-borders"><strong>Ksh {{receipt.changeAmount}}</strong></td>
+                                                    <td class="no-borders"><strong>{{receipt.changeAmount | currency}}</strong></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
