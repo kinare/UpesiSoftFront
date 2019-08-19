@@ -154,6 +154,9 @@
             next(v => {
                 v.namespace = to.params.namespace;
                 v.$store.dispatch('pos/getCustomers');
+                if (to.params.backto){
+                    v.$store.commit(this.getCurrentTab.namespace + '/SET_BACKTO_LINK', to.params.backto);
+                }
             })
         },
         computed : {
@@ -178,12 +181,16 @@
             }),
             ...mapGetters('pos',[
                 'getCurrentTab'
-            ])
+            ]),
+
+            backtoLink(){return this.$store.getters[`${this.getCurrentTab.namespace}/backToLink`]},
         },
         methods : {
             selectCustomer : function (customer) {
                 this.$store.commit(this.getCurrentTab.namespace + '/SET_CUSTOMER', customer);
                 // this.$router
+
+                this.$route.push(this.backtoLink)
                 this.$router.go(-1); //go where you came from
                 // this.$router.push('/pos/payment/' + this.getCurrentTab.namespace.split('/').pop())
             },
@@ -194,7 +201,6 @@
                 $("#customerDeleteCard").modal('hide');
             }
         }
-
     }
 </script>
 

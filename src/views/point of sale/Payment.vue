@@ -126,7 +126,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -153,6 +152,7 @@
           next(v => {
               v.namespace = to.params.namespace;
               v.method = v.method === '' ? 'CASH' : v.method
+              v.tendered = v.getTendered
           })
         },
         methods : {
@@ -201,6 +201,7 @@
             payment(){return this.$store.getters['pos/' +this.namespace + '/payment']},
             customer(){return this.$store.getters['pos/' +this.namespace + '/customer']},
             documentNo(){return this.$store.getters['pos/' +this.namespace + '/documentNo']},
+            getTendered(){return this.$store.getters['pos/' +this.namespace + '/tendered']},
         },
         watch : {
             tendered : {
@@ -208,6 +209,9 @@
                 handler : function (n, o) {
                     let change = n - this.getTotalSales;
                     this.change =  change < 0 ? 0 : change
+
+                    //persist tendered to store
+                    this.$store.commit(`pos/${this.namespace}/SET_TENDERED`, n)
                 }
             },
             documentNo : {

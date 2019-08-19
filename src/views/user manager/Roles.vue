@@ -32,6 +32,7 @@
                                 <th>#</th>
                                 <th>Role</th>
                                 <th>Description</th>
+                                <th>State</th>
                                 <th>Products</th>
                                 <th>Users</th>
                                 <th>Roles</th>
@@ -47,6 +48,7 @@
                                 <td @click="mode = ''">{{index + 1}}</td>
                                 <td @click="mode = ''">{{role.roleName}}</td>
                                 <td @click="mode = ''">{{role.roleDescription}}</td>
+                                <td @click="mode = ''"><span class="label" :class="role.state ? 'label-success' : 'label-danger'">{{role.state ? 'Active' : 'Inactive'}}</span></td>
                                 <td @click="mode = ''"><i class="fa fa-1x" :class="role.viewProducts ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
                                 <td @click="mode = ''"><i class="fa" :class="role.viewUsers ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>
                                 <td @click="mode = ''"><i class="fa" :class="role.viewUserRoles ? 'fa-check text-info' : 'fa-times text-danger'"></i></td>

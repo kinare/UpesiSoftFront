@@ -4,7 +4,7 @@
             Made with <i class="fa fa-heart text-danger"></i>  <a href="https://digital4africa.com/" target="_blank" > by Digital 4 Africa</a>
         </div>
         <div>
-            <strong>Copyright</strong> Focus Glass & Alluminium © 2019
+            <strong>Copyright</strong> Focus Glass & Aluminium © 2019
         </div>
     </div>
 </template>
