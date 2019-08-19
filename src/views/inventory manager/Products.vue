@@ -68,7 +68,7 @@
                                 <td @click="openProduct(product)" >{{product.price | currency}}</td>
                                 <td @click="openProduct(product)" ><span class="badge" :class="product.state ? 'badge-info' : 'badge-warning'">{{product.state ? 'Available' : 'Unavailable'}}</span> </td>
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.qty}}</span> </td>
-                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.qty : 'N/A'}}</span></td>
+                                <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.pieces : '0'}}</span></td>
                                 <td class="col-md-2">
                                     <div class="btn-group-sm">
                                         <button v-if="canCreate" title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
@@ -102,8 +102,8 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <h5><strong>{{product.productName}}</strong></h5>
-                                        <small>Full : {{product.sellAs === 'CUSTOM' ? product.qty : 0}}</small>&nbsp;&nbsp;
-                                        <small>Pieces : {{product.sellAs === 'FULL' ? product.qty : 0}}</small><br>
+                                        <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
+                                        <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.pieces}}</small><br>
                                         <small>Category : {{product.productCategoryName}}</small>
                                     </div>
                                     <div class="clearfix"></div>

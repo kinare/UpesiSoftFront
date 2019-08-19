@@ -53,7 +53,7 @@
                                                 {{item.measurementAbbreviation}}
                                             </span>
                                         </div>
-                                        <span v-else>{{item.soldMeasurement | number}}{{item.measurementAbbreviation}}</span>
+                                        <span v-else>{{item.soldMeasurement | number}} {{item.measurementAbbreviation}}</span>
                                     </td>
 
 <!--                                    price-->
@@ -159,7 +159,7 @@
                                 <div class="col-sm-8">
                                     <h5><strong>{{product.productName}}</strong></h5>
                                     <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
-                                    <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.qty}}</small><br>
+                                    <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.pieces}}</small><br>
                                     <small>Category : {{product.productCategoryName}}</small>
                                 </div>
                                 <div class="clearfix"></div>
@@ -204,6 +204,7 @@
                                                     <th>Name</th>
                                                     <th>Units</th>
                                                     <th>Price</th>
+                                                    <th>QTY</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -249,6 +250,7 @@
                 scope : 'customers',
                 selectedSubProducts : [],
                 selectedAllSubProducts : [],
+                selectedParentProduct : {},
                 selected : 0,
                 subProduct : {},
                 operation : 'QTY',
