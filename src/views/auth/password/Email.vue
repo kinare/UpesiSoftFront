@@ -1,6 +1,7 @@
 <template>
     <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
+        <div :class="{'sk-loading' : loading}" style="border: none">
+            <spinner v-if="loading"/>
             <div>
 
                 <div>
@@ -31,8 +32,10 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Spinner from "../../../components/Spinner";
     export default {
         name: "Email",
+        components: {Spinner},
         data : function () {
             return {
                 baseUrl: process.env.BASE_URL,
@@ -61,7 +64,8 @@
         computed : {
             ...mapState('authModule', {
                 message : state => state.message,
-                status : state => state.status
+                status : state => state.status,
+                loading : state => state.loading
             }),
         },
         methods : {
