@@ -194,6 +194,12 @@
                                     </form>
                                 </div>
                                 <div class="hr-line-dashed"></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button @click="addItem(subProduct)" class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + ' (' + subProduct.qty + subProduct.measurementAbbreviation + ')'}}</button>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
                                 <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none;">
                                     <Spinner v-if="loading"/>
                                     <div class="table-responsive">
@@ -204,7 +210,6 @@
                                                     <th>Name</th>
                                                     <th>Units</th>
                                                     <th>Price</th>
-                                                    <th>QTY</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

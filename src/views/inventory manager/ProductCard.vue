@@ -4,6 +4,13 @@
             <div class="image-imitation" :style="'background-image : url(' + (product.productImage || '/img/placeholder.jpg') + ')'" style="background-repeat: no-repeat; background-size: cover; background-position: center center"><!---->
 
             </div>
+            <br>
+            <span class="label label-default m-r-sm">Category : {{product.productCategoryName}}</span>
+            <span class="label label-default m-r-sm">SKU : {{product.sku}}</span>
+            <span class="label label-default m-r-sm">Location : {{product.storageLocation}}</span> <br><br>
+            <span class="label label-default m-r-sm">Date : {{product.createdAt}}</span>
+
+
         </div>
         <div class="col-md-7">
             <div class="row">
@@ -11,34 +18,42 @@
                 <a v-if="canUpdate" @click="editProduct(product)" data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-edit"></i> &nbsp;Edit</a>
             </div>
             <h2 class="font-bold m-b-xs">
-                {{product.productName}} <span class="badge badge-primary">{{product.qty}}</span>
+                {{product.productName}} <span class="badge badge-primary">{{product.qty}} {{product.measurementAbbreviation}}</span>
             </h2>
             <small>{{product.productDescription}}</small>
+
             <hr>
-            <div>
+            <div class="m-b-sm">
                 <button v-if="canCreate" class="btn btn-info pull-right"><i class="fa fa-truck-loading"></i> &nbsp;Re-stock</button>
                 <h1 class="product-main-price">{{product.price | currency}} <small>{{product.unitPrice | currency}} Per Unit</small> </h1>
             </div>
             <hr>
-            <h4>{{product.productShortDescription}}</h4>
-            <dl class="dl-horizontal m-t-md small">
-                <dt>Measurement</dt>
-                <dd>{{(product.measurement || 0)+ ' ' + product.measurementAbbreviation}}</dd>
-                <dt>Categories</dt>
-                <dd>{{product.categories}}</dd>
-                <dt>Quantity</dt>
-                <dd>{{product.qty}}</dd>
-                <dt>Full Items</dt>
-                <dd>{{product.sellAs === 'CUSTOM' ? product.qty : 0}}</dd>
-                <dt>Pieces</dt>
-                <dd>{{product.sellAs === 'FULL' ? product.qty : 0}}</dd>
-                <dt>SKU</dt>
-                <dd>{{product.sku}}</dd>
-                <dt>Location</dt>
-                <dd>{{product.storageLocation}}</dd>
-                <dt>Date Created</dt>
-                <dd>{{product.createdAt}}</dd>
-            </dl>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive style-1" style="max-height: 200px; overflow-y: scroll">
+                        <table class="table table-striped table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Units</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(product, index) in subProducts" v-bind:key="index">
+                                <td>{{product.productName}}</td>
+                                <td>{{product.measurement | number}} {{product.measurementAbbreviation}}</td>
+                                <td>{{product.price | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" v-if="validator.isEmptyObject(subProducts)" class="text-center">No Sub-products Found</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -52,11 +67,15 @@
         mixins : [permissions],
         data : function () {
             return {
-                scope : 'products'
+                scope : 'products',
+                validator : window.validator
             }
         },
+        computed : {
+            subProducts(){return this.$store.getters['inventory/subProducts']},
+        },
         methods : {
-            editProduct : function (product) {
+            editProduct : function (product){
                 this.$store.commit('inventory/SET_PRODUCT', product);
                 this.$router.push('new')
             },
@@ -66,6 +85,14 @@
                    this.$store.dispatch('inventory/removeProduct',  { data : {productId : id}})
                }
             },
+        },
+        watch : {
+            product : {
+                handler : function (n, o) {
+                    this.$store.dispatch('inventory/getSubProducts', n.id);
+
+                }
+            }
         }
     }
 </script>

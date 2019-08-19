@@ -19,7 +19,7 @@ const filters = [
     {
         name : 'number',
         execute : (value) => {
-            if (!value) return '';
+            if (!value) return 0;
             value = parseFloat(value).toFixed(1);
             return value;
         }
