@@ -21,6 +21,7 @@ import Helper from './modules/helpers/helper'
 import Api from './modules/api/api'
 import Filters from './modules/filters/filters'
 import Scopes from './modules/auth/Scope'
+import listener from './modules/mixins/Listener'
 
 
 Vue.config.productionTip = false;
@@ -54,30 +55,6 @@ new Vue({
     router,
     store,
     render: h => h(App),
-    mounted() {
-        //Global Event Listeners
-        Event.$on('userLoggedIn', () => {
-            window.location = '/'
-            // this.$router.push('/')
-        });
-        Event.$on('userLoggedOut', () => {
-            this.$router.push('/auth/login')
-        });
-        Event.$on('userSignedUp', () => {
-            this.$router.push('/auth/success')
-        });
-        Event.$on('userActivated', () => {
-            this.$router.push('/auth/login')
-        });
-        Event.$on('userPasswordSet', () => {
-            this.$router.push('/auth/login')
-        });
-        Event.$on('customerAdded', () => {
-            this.$router.push('/pos/customers')
-        });
-        Event.$on('ApiError', () => {
-
-        });
-    }
+    mixins : [listener],
 }).$mount('#app')
 
