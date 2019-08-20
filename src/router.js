@@ -174,7 +174,15 @@ const  router = new Router({
                         children : [
                             {
                                 path : '',
-                                redirect : '/dashboard/accounting-management/orders'
+                                redirect : '/dashboard/accounting-management/stats'
+                            },
+                            {
+                                path : 'stats',
+                                components : {
+                                    view : () => import('./views/accounting manager/Charts')
+                                },
+
+                                meta : { breadcrumb : 'orders'},
                             },
                             {
                                 path : 'orders',

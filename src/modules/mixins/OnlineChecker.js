@@ -1,15 +1,10 @@
 const isOnline = {
-    data : function () {
-        return{
-            online : navigator.onLine
-        }
-    },
-
     mounted() {
-        setInterval(() =>{
-            if (!this.online)
+
+        setInterval(function () {
+            if (!navigator.onLine)
                 Event.$emit('noInternet')
-        }, 5000)
+        }, 5000);
     }
 }
 

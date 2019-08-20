@@ -4,6 +4,9 @@
         <ul class="nav metismenu" id="side-menu" style="">
             <side-header/>
             <li>
+                <router-link  to="/dashboard/accounting-management/stats"><i class="fa fa-chart-line"></i> <span class="nav-label">Summaries</span></router-link>
+            </li>
+            <li>
                 <router-link  to="/dashboard/accounting-management/orders"><i class="fa fa-cart-arrow-down"></i> <span class="nav-label">Orders</span></router-link>
             </li>
             <li>
