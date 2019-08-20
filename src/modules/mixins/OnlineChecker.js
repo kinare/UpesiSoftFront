@@ -8,16 +8,7 @@ const isOnline = {
     mounted() {
         setInterval(() =>{
             if (!this.online)
-                this.$toasted.show('No internet connection', {
-                    position: "bottom-right",
-                    keepOnHover: true,
-                    iconPack: 'fontawesome',
-                    duration: 500,
-                    type: "error",
-                    icon: 'unlink',
-                    closeOnSwipe: true,
-                    singleton : true
-                })
+                Event.$emit('noInternet')
         }, 5000)
     }
 }

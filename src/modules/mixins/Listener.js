@@ -83,6 +83,22 @@ const listener = {
 
             this.$toasted.show(messsage, toastObject)
         });
+
+        //internet connection listener
+        Event.$on('noInternet', () =>{
+            this.$toasted.show('No internet connection', {
+                position: "bottom-right",
+                keepOnHover: true,
+                iconPack: 'fontawesome',
+                fullWidth : true,
+                fitToScreen : true,
+                duration: 5000,
+                type: "error",
+                icon: 'unlink',
+                closeOnSwipe: true,
+                singleton : true
+            })
+        });
     }
 }
 

@@ -35,8 +35,6 @@ export default new Vuex.Store({
         context.commit('LOADING', false);
         context.commit('HAS_SCOPES',window.scopes.hasScopes());
         context.commit('SET_SCOPES', window.scopes.getScopes());
-      }).catch(() => {
-        alert('error getting scopes');
       })
     },
   }

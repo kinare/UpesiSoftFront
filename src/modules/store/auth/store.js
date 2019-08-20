@@ -85,8 +85,6 @@ export default {
         getBusinessTypes : (context) => {
           window.api.call('get', endpoints.businessTypes).then(res => {
               context.commit('SET_BUSINESS_TYPES', res.data.data.businessTypes)
-          }).catch(error => {
-              alert(error)
           })
         },
 
