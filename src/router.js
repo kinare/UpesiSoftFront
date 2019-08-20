@@ -182,7 +182,7 @@ const  router = new Router({
                                     view : () => import('./views/accounting manager/Charts')
                                 },
 
-                                meta : { breadcrumb : 'orders'},
+                                meta : { breadcrumb : 'stats'},
                             },
                             {
                                 path : 'orders',
