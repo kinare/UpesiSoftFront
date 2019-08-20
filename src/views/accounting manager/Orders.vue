@@ -144,7 +144,7 @@
 <script>
     import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
-    import filterItems from "../../modules/mixins/document";
+    import filterItems from "../../modules/mixins/sales";
     export default {
         name: "Orders",
         components: {Spinner},

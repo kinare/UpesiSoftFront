@@ -1,55 +1,53 @@
 <template>
     <div class="wrapper wrapper-content">
+
+<!--        cards-->
         <div class="row">
             <div class="col-lg-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-success pull-right">Monthly</span>
+<!--                        <span class="label label-success pull-right">Monthly</span>-->
                         <h5>Income</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">40 886,200</h1>
-                        <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                        <small>Total income</small>
+                        <h1 class="no-margins">{{totalIncome | currency}}</h1>
+                        <small class="text-info">{{documents.length}} Sales</small>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-info pull-right">Annual</span>
+<!--                        <span class="label label-info pull-right">Annual</span>-->
                         <h5>Orders</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">275,800</h1>
-                        <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                        <small>New orders</small>
+                        <h1 class="no-margins">{{total('ORDER').total | currency}}</h1>
+                        <small class="text-info">{{total('ORDER').count}} orders</small>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-primary pull-right">Today</span>
-                        <h5>visits</h5>
+<!--                        <span class="label label-primary pull-right">Today</span>-->
+                        <h5>Invoices</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">106,120</h1>
-                        <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                        <small>New visits</small>
+                        <h1 class="no-margins">{{total('INVOICE').total | currency}}</h1>
+                        <small class="text-info">{{total('INVOICE').count}} Invoices</small>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-danger pull-right">Low value</span>
-                        <h5>User activity</h5>
+<!--                        <span class="label label-danger pull-right">Low value</span>-->
+                        <h5>Quotations</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">80,600</h1>
-                        <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
-                        <small>In first month</small>
+                        <h1 class="no-margins">{{total('QUOTE').total | currency}}</h1>
+                        <small class="text-info">{{total('QUOTE').count}} Invoices</small>
                     </div>
                 </div>
             </div>
@@ -58,17 +56,18 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Orders</h5>
+                        <h5>Summary</h5>
                         <div class="pull-right">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-xs btn-white active">Today</button>
+                                <button type="button" class="btn btn-xs btn-white">Weekly</button>
                                 <button type="button" class="btn btn-xs btn-white">Monthly</button>
                                 <button type="button" class="btn btn-xs btn-white">Annual</button>
                             </div>
                         </div>
                     </div>
                     <div class="ibox-content">
-
+                        <LineChart :data="data" :options="options"></LineChart>
                     </div>
                 </div>
             </div>
@@ -92,178 +91,57 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label" for="product_name">Product Name</label>
-                                    <input type="text" id="product_name" name="product_name" value="" placeholder="Project Name" class="form-control">
+                                    <label class="control-label">Customer</label>
+                                    <input type="text" v-model="customer"   placeholder="Name" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label" for="price">Category</label>
-                                    <input type="text" id="price" name="price" value="" placeholder="Name" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label class="control-label" for="quantity">User</label>
-                                    <input type="text" id="quantity" name="quantity" value="" placeholder="Company" class="form-control">
+                                    <label class="control-label">Cashier</label>
+                                    <input type="text" v-model="cashier" placeholder="Cashier" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label" for="status">Status</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="1" selected="">Paid</option>
-                                        <option value="0">Pending</option>
+                                    <select v-model="type" name="status" id="status" class="form-control">
+                                        <option value="ORDER" selected="">Order</option>
+                                        <option value="INVOICE">Invoice</option>
+                                        <option value="QUOTE">Quotation</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        <hr class="hr-line-dashed">
 
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Items</th>
+                                    <th>Cashier</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Master project</td>
-                                    <td>Patrick Smith</td>
-                                    <td>$892,074</td>
-                                    <td>Inceptos Hymenaeos Ltd</td>
-                                    <td><strong>20%</strong></td>
-                                    <td>Jul 14, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Alpha project</td>
-                                    <td>Alice Jackson</td>
-                                    <td>$963,486</td>
-                                    <td>Nec Euismod In Company</td>
-                                    <td><strong>40%</strong></td>
-                                    <td>Jul 16, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Betha project</td>
-                                    <td>John Smith</td>
-                                    <td>$996,824</td>
-                                    <td>Erat Volutpat</td>
-                                    <td><strong>75%</strong></td>
-                                    <td>Jul 18, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Gamma project</td>
-                                    <td>Anna Jordan</td>
-                                    <td>$105,192</td>
-                                    <td>Tellus Ltd</td>
-                                    <td><strong>18%</strong></td>
-                                    <td>Jul 22, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Alpha project</td>
-                                    <td>Alice Jackson</td>
-                                    <td>$674,803</td>
-                                    <td>Nec Euismod In Company</td>
-                                    <td><strong>40%</strong></td>
-                                    <td>Jul 16, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Master project</td>
-                                    <td>Patrick Smith</td>
-                                    <td>$174,729</td>
-                                    <td>Inceptos Hymenaeos Ltd</td>
-                                    <td><strong>20%</strong></td>
-                                    <td>Jul 14, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Gamma project</td>
-                                    <td>Anna Jordan</td>
-                                    <td>$823,198</td>
-                                    <td>Tellus Ltd</td>
-                                    <td><strong>18%</strong></td>
-                                    <td>Jul 22, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Project <small>This is example of project</small></td>
-                                    <td>Patrick Smith</td>
-                                    <td>$778,696</td>
-                                    <td>Inceptos Hymenaeos Ltd</td>
-                                    <td><strong>20%</strong></td>
-                                    <td>Jul 14, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Alpha project</td>
-                                    <td>Alice Jackson</td>
-                                    <td>$861,063</td>
-                                    <td>Nec Euismod In Company</td>
-                                    <td><strong>40%</strong></td>
-                                    <td>Jul 16, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Betha project</td>
-                                    <td>John Smith</td>
-                                    <td>$109,125</td>
-                                    <td>Erat Volutpat</td>
-                                    <td><strong>75%</strong></td>
-                                    <td>Jul 18, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Gamma project</td>
-                                    <td>Anna Jordan</td>
-                                    <td>$600,978</td>
-                                    <td>Tellus Ltd</td>
-                                    <td><strong>18%</strong></td>
-                                    <td>Jul 22, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Alpha project</td>
-                                    <td>Alice Jackson</td>
-                                    <td>$150,161</td>
-                                    <td>Nec Euismod In Company</td>
-                                    <td><strong>40%</strong></td>
-                                    <td>Jul 16, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Project <small>This is example of project</small></td>
-                                    <td>Patrick Smith</td>
-                                    <td>$160,586</td>
-                                    <td>Inceptos Hymenaeos Ltd</td>
-                                    <td><strong>20%</strong></td>
-                                    <td>Jul 14, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Gamma project</td>
-                                    <td>Anna Jordan</td>
-                                    <td>$110,612</td>
-                                    <td>Tellus Ltd</td>
-                                    <td><strong>18%</strong></td>
-                                    <td>Jul 22, 2015</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                <tr v-for="(order, index) in filteredItems" v-bind:key="index" style="cursor: pointer">
+                                    <td>{{index + 1}}</td>
+                                    <td>{{order.customerIsBusiness ? order.customerBusinessName : order.customerFirstName + ' ' + order.customerLastName}}</td>
+                                    <td>{{order.paymentMethod}}</td>
+                                    <td><span class="label" :class="order.orderStatus === 'PAID' ? 'label-success' : 'label-warning'">{{order.orderStatus}}</span></td>
+                                    <td>{{order.total | currency}}</td>
+                                    <td><span class="badge badge-inverse">{{order.orderItems.length}}</span> </td>
+                                    <td>{{order.cashierFirstName + ' ' + order.cashierLastName}}</td>
+                                    <td>{{order.createdAt}}</td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <div v-if="validator.isEmptyObject(documents)" class="alert text-center" :class="status">{{message}}</div>
                         </div>
 
                     </div>
@@ -337,8 +215,71 @@
 </template>
 
 <script>
+    import LineChart from "../../modules/charts/LineChart";
+    import sales from "../../modules/mixins/sales";
     export default {
-        name: "Charts"
+        name: "Charts",
+        components: {LineChart},
+        mixins : [sales],
+        data : function () {
+            return {
+                customer : '',
+                cashier : '',
+                type : '',
+
+                data : {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [
+                        {
+                            label: 'Orders',
+                            borderColor: '#0091EA',
+                            fill : false,
+                            // backgroundColor : '#23c6c8',
+                            data: [40, 39, 10, 40, 39, 80, 40, 52, 63 ,48, 77, 13]
+                        },
+                        {
+                            label: 'Invoices',
+                            borderColor: '#FF6D00',
+                            fill : false,
+                            // backgroundColor : '#23c6c8',
+                            data: [20, 45, 12, 45, 34, 75, 34, 12, 47 ,86, 78, 12]
+                        },
+                        {
+                            label: 'Quotes',
+                            borderColor: '#AEEA00',
+                            fill : false,
+                            // backgroundColor : '#23c6c8',
+                            data: [22, 35, 64, 85, 76, 14, 64, 75, 10 ,24, 43, 47]
+                        }
+                    ]
+                },
+                options : {responsive: true, maintainAspectRatio: false}
+            }
+        },
+        beforeRouteEnter(to, from, next){
+            next(v => {
+                //get all sales documents
+                v.$store.dispatch('accounting/getSalesDocuments', v.param);
+            })
+        },
+
+        watch : {
+            customer : {
+                handler : function (n, o) {
+                    this.term = n
+                }
+            },
+            cashier : {
+                handler : function (n, o) {
+                    this.term = n
+                }
+            },
+            type : {
+                handler : function (n, o) {
+                    this.term = n
+                }
+            }
+        }
     }
 </script>
 

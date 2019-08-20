@@ -1,5 +1,5 @@
 let endpoint = {
-    document : param => `orders/get?orderType=${param.type}`
+    documents : param => `orders/get${param}`,
 }
 
 export default endpoint;

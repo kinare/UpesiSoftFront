@@ -2,24 +2,12 @@ import endpoints from "./endpoints";
 export default {
     namespaced: true,
     state : {
-        product : {},
-        orders : [],
-        invoices : [],
-        quotes : [],
         message : '',
         status : '',
         loading : true,
+        salesDocuments : []
     },
     mutations: {
-        SET_ORDERS :(state, orders) => {
-            state.orders = orders
-        },
-        SET_INVOICES :(state, invoices) => {
-            state.invoices = invoices
-        },
-        SET_QUOTES :(state, quotes) => {
-            state.quotes = quotes
-        },
         SET_MESSAGE : (state, payload) => {
             state.message = payload.message || 'Something went wrong'
             state.status = payload.status || 'alert-warning'
@@ -27,15 +15,43 @@ export default {
         SET_LOADING : (state, loading) => {
             state.loading = loading;
         },
+        SET_SALES_DOCUMENTS : (state, sales) => {
+            state.salesDocuments = sales;
+        },
     },
     getters : {
+        totalIncome : (state) =>{
+            let total = 0
+            state.salesDocuments.forEach(sales => {
+                total = parseFloat(total) + parseFloat(sales.total)
+            })
+            return total.toFixed(2)
+        },
 
+        total : (state) => {
+            return (type) =>{
+                let total = 0
+
+                //filter to order type
+                let orders = state.salesDocuments.filter(sales => {
+                   return  sales.orderType === type
+                })
+
+                //get total
+                orders.forEach(sales => {
+                    total = parseFloat(total) + parseFloat(sales.total)
+                })
+
+                return {total : total, count :  orders.length}
+            }
+
+        }
     },
     actions: {
-        getDocuments : (context, param) => {
+        getSalesDocuments : (context, param) => {
             context.commit('SET_LOADING', true)
-            window.api.call('get', endpoints.document(param)).then((res)=> {
-                context.commit(`SET_${param.type}S`, res.data.data);
+            window.api.call('get', endpoints.documents(param)).then((res)=> {
+                context.commit('SET_SALES_DOCUMENTS', res.data.data);
                 context.commit('SET_LOADING', false)
             }).catch((error) => {
                 context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});

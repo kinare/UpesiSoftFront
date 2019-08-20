@@ -1,6 +1,6 @@
-import { Doughnut } from 'vue-chartjs'
+import { HorizontalBar } from 'vue-chartjs'
 export default {
-    extend : Doughnut,
+    extend : HorizontalBar,
     props : ['data', 'options'],
     mounted() {
         this.renderChart(this.data, this.options)
