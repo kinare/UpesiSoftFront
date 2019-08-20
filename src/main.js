@@ -22,6 +22,7 @@ import Api from './modules/api/api'
 import Filters from './modules/filters/filters'
 import Scopes from './modules/auth/Scope'
 import listener from './modules/mixins/Listener'
+import isOnline from './modules/mixins/OnlineChecker'
 import Toasted from 'vue-toasted';
 
 
@@ -57,6 +58,6 @@ new Vue({
     router,
     store,
     render: h => h(App),
-    mixins : [listener],
+    mixins : [listener, isOnline],
 }).$mount('#app')
 

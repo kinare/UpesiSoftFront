@@ -69,12 +69,10 @@ const listener = {
                 case 404 :
                     toastObject.type = "error"
                     toastObject.icon = "exclamation-circle"
-                    messsage = 'Forbidden'
                     break
                 case 500 :
                     toastObject.type = "error"
                     toastObject.icon = "exclamation-circle"
-                    messsage = 'Not found'
                     break
                 default :
                     toastObject.type = "info"
