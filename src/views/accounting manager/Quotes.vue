@@ -6,7 +6,7 @@
                     <h5>Quotes</h5>
                     <div class="ibox-tools">
                         <a class="btn btn-xs btn-white">
-                            <i class="fa fa-sync-alt" @click="$store.dispatch('accounting/getDocuments', param)"></i>
+                            <i class="fa fa-sync-alt" @click="$store.dispatch('accounting/getSalesDocuments', `?orderType=${type}`)"></i>
                         </a>
                     </div>
                 </div>
@@ -30,19 +30,31 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Email</th>
-                                <th>Date Created</th>
+                                <th>Customer</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Items</th>
+                                <th>Cashier</th>
+                                <th>Date</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(doc, index) in filteredDocuments" v-bind:key="index" style="cursor: pointer" @click="openDocument(doc)">
-                                    <td>{{index + 1}}</td>
-                                </tr>
+                            <tr v-for="(doc, index) in filteredItems" v-bind:key="index" style="cursor: pointer" >
+                                <td @click="openDocument(doc)" >{{index + 1}}</td>
+                                <td @click="openDocument(doc)" >{{doc.customerIsBusiness ? doc.customerBusinessName : doc.customerFirstName + ' ' + doc.customerLastName}}</td>
+                                <td @click="openDocument(doc)" >{{doc.paymentMethod}}</td>
+                                <td @click="openDocument(doc)" ><span class="label" :class="doc.orderStatus === 'PAID' ? 'label-success' : 'label-warning'">{{doc.orderStatus}}</span></td>
+                                <td @click="openDocument(doc)" >{{doc.total | currency}}</td>
+                                <td @click="openDocument(doc)" ><span class="badge badge-inverse">{{doc.orderItems.length}}</span> </td>
+                                <td @click="openDocument(doc)" >{{doc.cashierFirstName + ' ' + doc.cashierLastName}}</td>
+                                <td @click="openDocument(doc)" >{{doc.createdAt}}</td>
+                                <td><a @click="convertDoc(doc)" class="btn btn-primary btn-outline btn-sm">Convert to invoice</a> </td>
+                            </tr>
                             </tbody>
                         </table>
-                        <div v-if="validator.isEmptyObject(quotes)" class="alert text-center" :class="status">{{message}}</div>
+                        <div v-if="validator.isEmptyObject(documents)" class="alert text-center" :class="status">{{message}}</div>
                     </div>
                 </div>
             </div>
@@ -54,59 +66,152 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Document Card</h4>
+                        <h4 class="modal-title">Quotation</h4>
                     </div>
                     <div class="modal-body">
                         <div class="ibox-content no-borders">
+                            <div class="p-xl pos-invoice style-1" style="height: 80vh; overflow-y: scroll" id="invoice">
+                                <div class="row">
+                                    <h2 class="text-center"><strong>Quotation</strong></h2>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h5>From:<br>
+                                            <strong>Focus Glass & Aluminium</strong>
+                                        </h5>
+                                        <address>
+                                            {{selectedDocument.cashierFirstName + ' ' + selectedDocument.cashierLastName}}<br>
+                                            {{selectedDocument.cashierEmail}}<br>
+                                        </address>
+                                    </div>
 
+                                    <div class="col-sm-6 text-right">
+                                        <h4>Invoice No. {{selectedDocument.id}}</h4>
+                                        <span>To:</span>
+                                        <address>
+                                            <strong>{{selectedDocument.customerIsBusiness ? selectedDocument.customerBusinessName : selectedDocument.customerFirstName + ' ' + selectedDocument.customerLastName}}</strong><br>
+                                            +{{selectedDocument.customerCountryCode + selectedDocument.customerPhoneNumber}}<br>
+                                            {{selectedDocument.customerEmail}}<br>
+                                            {{selectedDocument.customerPostalAddress}}
+                                        </address>
+                                        <p>
+                                            <span><strong>Quotation Date:</strong> {{selectedDocument.createdAt}}</span><br>
+                                            <!--<span><strong>Due Date:</strong> March 24, 2014</span>-->
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>QTY</th>
+                                            <th>Unit</th>
+                                            <th>Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(item, index) in selectedDocument.orderItems" :key="index">
+
+                                            <td>{{item.productName}}</td>
+                                            <td>{{item.qty || 1}}</td>
+                                            <td>{{item.soldMeasurement || 1 }} {{getUnit(item.measurementUnitId)}}</td>
+                                            <td>{{selectedDocument.total | currency}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Total :</strong></td>
+                                        <td>{{selectedDocument.total | currency}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Print</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!--Convert to invoice modal-->
+        <div class="modal  in fade" id="convertCard" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Convert to invoice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content no-borders">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h1 class="text-center m-b-md">Convert Quotation #{{docToConvert.id}} to invoice ?</h1>
+
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Customer</label>
+                                            <div class="col-lg-9">
+                                                <input disabled type="text" :value="docToConvert.customerFullNames" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Amount</label>
+                                            <div class="col-lg-9">
+                                                <input disabled type="text" :value="docToConvert.total | currency" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Invoice Date</label>
+                                            <div class="col-lg-9">
+                                                <DatePicker v-model="docToConvert.dueDate" lang="en" input-class="form-control"></DatePicker>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white m-r" data-dismiss="modal">Close</button>
+
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-exchange-alt"></i> Convert <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a data-dismiss="modal"><i class="fa fa-exchange-alt"></i> Convert</a></li>
+                                <li><a data-dismiss="modal"><i class="fa fa-envelope-open-text"></i> Convert and email</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
+    import sales from "../../modules/mixins/sales";
+    import DatePicker from 'vue2-datepicker'
     export default {
-        name: "Invoice",
-        components: {Spinner},
+        name: "Quote",
+        components: {Spinner, DatePicker},
+        mixins : [sales],
         data : function () {
             return {
-                param : {
-                    type : 'QUOTE',
-                },
-                term : '',
+                type : 'QUOTE',
                 selectedDocument : {},
+                docToConvert : {},
                 validator : window.validator
             }
-        },
-        beforeRouteEnter(to, from, next){
-            next(v =>{
-                v.$store.dispatch('accounting/getDocuments', v.param);
-            })
-        },
-        computed : {
-            filteredDocuments(){
-                let self = this;
-                return this.term === ''
-                    ? this.quotes
-                    : this.quotes.filter(order =>{
-                        return order
-                    })
-            },
-
-            ...mapState('accounting',{
-                quotes : state => state.orders,
-                loading : state => state.loading,
-                message : state => state.message,
-                status : state => state.status,
-            })
         },
         methods : {
             openDocument : function (doc) {
@@ -114,10 +219,21 @@
                 // eslint-disable-next-line no-undef
                 $("#docCard").modal('show');
             },
+
+            convertDoc : function (doc) {
+                this.docToConvert = doc;
+                this.docToConvert.customerFullNames =  doc.customerFirstName + ' ' + doc.customerLastName
+                this.docToConvert.dueDate =  new Date();
+
+                // eslint-disable-next-line no-undef
+                $("#convertCard").modal('show');
+            }
         }
     }
 </script>
 
 <style scoped>
-
+.mx-datepicker input {
+    width: 100% !important;
+}
 </style>

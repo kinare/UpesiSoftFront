@@ -132,7 +132,7 @@
                                 <tr v-for="(order, index) in filteredItems" v-bind:key="index" style="cursor: pointer">
                                     <td>{{index + 1}}</td>
                                     <td>{{order.customerIsBusiness ? order.customerBusinessName : order.customerFirstName + ' ' + order.customerLastName}}</td>
-                                    <td>{{order.paymentMethod}}</td>
+                                    <td>{{order.orderType}}</td>
                                     <td><span class="label" :class="order.orderStatus === 'PAID' ? 'label-success' : 'label-warning'">{{order.orderStatus}}</span></td>
                                     <td>{{order.total | currency}}</td>
                                     <td><span class="badge badge-inverse">{{order.orderItems.length}}</span> </td>
@@ -256,13 +256,6 @@
                 options : {responsive: true, maintainAspectRatio: false}
             }
         },
-        beforeRouteEnter(to, from, next){
-            next(v => {
-                //get all sales documents
-                v.$store.dispatch('accounting/getSalesDocuments', v.param);
-            })
-        },
-
         watch : {
             customer : {
                 handler : function (n, o) {

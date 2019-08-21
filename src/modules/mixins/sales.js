@@ -13,6 +13,7 @@ let sales = {
     beforeRouteEnter(to, from, next){
         next(v =>{
             v.$store.dispatch('accounting/getSalesDocuments', v.type ? `?orderType=${v.type}` : '');
+            v.$store.dispatch('accounting/getMeasurementUnit');
         })
     },
 
@@ -35,14 +36,11 @@ let sales = {
                     || doc.cashierLastName.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     || doc.orderStatus.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     || doc.paymentMethod.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                    || doc.total.toString().toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                     || doc.customerPostalAddress.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
+                    || JSON.stringify(doc.orderItems).toLowerCase().indexOf(self.term.toLowerCase()) >= 0
                 });
         },
-
-        measurmentAbbreviation(){
-            return this.$store.getters['inventory/getMeasurmentAbbreviation']
-        },
-
 
         ...mapState('accounting',{
             documents : state => state.salesDocuments,
@@ -53,7 +51,8 @@ let sales = {
 
         ...mapGetters('accounting',[
             'totalIncome',
-            'total'
+            'total',
+            'getUnit'
         ])
     }
 }

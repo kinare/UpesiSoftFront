@@ -6,7 +6,7 @@
                     <h5>Orders</h5>
                     <div class="ibox-tools">
                         <a class="btn btn-xs btn-white">
-                            <i class="fa fa-sync-alt" @click="$store.dispatch('accounting/getDocuments', param)"></i>
+                            <i class="fa fa-sync-alt" @click="$store.dispatch('accounting/getSalesDocuments', `?orderType=${type}`)"></i>
                         </a>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="pos-receipt-footer">
-                                            <p> Served by : {{selectedDocument.cashierLastName + ', ' + selectedDocument.cashierPhoneNumber}} </p>
+                                            <p> Served by : {{selectedDocument.cashierFirstName + ', ' + selectedDocument.cashierLastName}} </p>
                                             <h3 class="text-center">Thank You</h3>
                                         </div>
                                     </div>
@@ -142,45 +142,18 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
     import Spinner from "../../components/Spinner";
-    import filterItems from "../../modules/mixins/sales";
+    import sales from "../../modules/mixins/sales";
     export default {
         name: "Orders",
         components: {Spinner},
-        mixins : [filterItems],
+        mixins : [sales],
         data : function () {
             return {
-                param : {
-                    type : 'ORDER',
-                },
-                term : '',
+                type : 'ORDER',
                 selectedDocument : {},
                 validator : window.validator
             }
-        },
-        beforeRouteEnter(to, from, next){
-          next(v =>{
-              v.$store.dispatch('accounting/getDocuments', v.param);
-          })
-        },
-        computed : {
-            filteredOrders(){
-                let self = this;
-                return this.term === ''
-                    ? this.orders
-                    : this.orders.filter(order =>{
-                        return order.toLowerCase().indexOf(self.term.toLowerCase()) >= 0
-                    })
-            },
-
-            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},
-            ...mapState('accounting',{
-                documents : state => state.orders,
-                loading : state => state.loading,
-                message : state => state.message,
-                status : state => state.status,
-            })
         },
         methods : {
             openOrder : function (order) {

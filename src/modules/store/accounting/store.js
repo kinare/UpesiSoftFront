@@ -5,7 +5,8 @@ export default {
         message : '',
         status : '',
         loading : true,
-        salesDocuments : []
+        salesDocuments : [],
+        measurementUnits : []
     },
     mutations: {
         SET_MESSAGE : (state, payload) => {
@@ -17,6 +18,9 @@ export default {
         },
         SET_SALES_DOCUMENTS : (state, sales) => {
             state.salesDocuments = sales;
+        },
+        SET_MEASUREMENT_UNIT : (state, units) => {
+            state.measurementUnits = units;
         },
     },
     getters : {
@@ -41,10 +45,14 @@ export default {
                 orders.forEach(sales => {
                     total = parseFloat(total) + parseFloat(sales.total)
                 })
-
                 return {total : total, count :  orders.length}
             }
+        },
 
+        getUnit : state => {
+            return (id) => {
+                return state.measurementUnits.filter( unit => unit.id === parseInt(id)).shift().measurementAbbreviation
+            }
         }
     },
     actions: {
@@ -58,5 +66,11 @@ export default {
                 context.commit('SET_LOADING', false)
             })
         },
+
+        getMeasurementUnit : (context) => {
+            window.api.call('get', endpoints.measurements).then(res =>{
+                context.commit('SET_MEASUREMENT_UNIT', res.data.data)
+            })
+        }
     }
 }
