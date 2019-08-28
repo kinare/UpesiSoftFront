@@ -26,8 +26,8 @@
 
 <!--                                    QTY-->
                                     <td class="text-left">
-                                        <input v-if="selected === index && item.sellAs !== 'CUSTOM'"
-                                               :disabled="item.sellAs === 'CUSTOM'"
+                                        <input v-if="selected === index && !item.subproduct"
+                                               :disabled="item.subproduct"
                                                v-on:change="fieldUpdate(index, 'QTY')"
                                                type="number" min="1"
                                                class="form-control input-sm"
@@ -326,7 +326,9 @@
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
                     let prod = {...product}; // JSON.parse( JSON.stringify( product ) );
+
                     prod.productId = product.subproduct ? this.subProduct.id  : prod.id
+                    product.subproduct = product.subproduct ? true : false
                     // prod.subProductId =  prod.id;
                     prod.soldMeasurement = prod.measurement ? prod.measurement : 1; //1 as the default sold measurment
                     prod.categories = '';
