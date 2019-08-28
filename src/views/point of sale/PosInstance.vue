@@ -307,7 +307,7 @@
             },
 
             //Inventory
-            products(){return this.$store.getters['inventory/products']},
+            products(){return this.$store.getters['inventory/posProducts']},
             subProducts(){return this.$store.getters['inventory/subProducts']},
             units(){return this.$store.getters['inventory/measurementUnit']},
             loading(){return this.$store.getters['inventory/loading']},

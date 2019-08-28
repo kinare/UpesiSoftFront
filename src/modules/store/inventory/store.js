@@ -47,6 +47,7 @@ export default {
           }
         },
         getMeasurementUnit : (state) => {return (id) => {return state.measurementUnit.filter(unit => unit.measurementUnitId === id)}},
+        posProducts : (state) => {return state.products.filter(item => item.state === 1)},
         products : (state) => {return state.products},
         subProducts : (state) => {return state.subProducts},
         categories : (state) => {return state.categories},
