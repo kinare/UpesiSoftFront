@@ -11,28 +11,49 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
+                        <li>
+                            <a>
+                                <i class="fa fa-user-circle"></i> {{user.firstName + ' ' + user.lastName}}
+                            </a>
+                        </li>
                         <li class="active">
                             <a aria-expanded="false" role="button" target="_blank" href="/"> Go to mail</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <a>
-                                <i class="fa fa-user-circle"></i> {{user.firstName + ' ' + user.lastName}}
+                            <span class="m-r-sm text-muted welcome-message">{{today.toLocaleDateString("en-US", options)}}</span>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-envelope"></i>  <span class="label label-warning"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a title="Fullscreen" @click="toggle">
+                                <i class="fa fa-expand-arrows-alt"></i>
                             </a>
                         </li>
                         <li>
-                            <a @click="toggle">
-                                <i class="fa fa-expand-arrows-alt"></i> Fullscreen
-                            </a>
-                        </li>
-                        <li>
-                            <a @click="signOut">
-                                <i class="fa fa-sign-out"></i> Sign out
+                            <a title="Sign out" @click="signOut">
+                                <i class="fa fa-sign-out-alt"></i>
                             </a>
                         </li>
                     </ul>
                 </div>
+
             </nav>
         </div>
         <div class="wrapper wrapper-content" style="padding-top: 0">
@@ -62,7 +83,9 @@
         data : function(){
             return {
                 fullscreen: false,
-                auth : window.auth
+                auth : window.auth,
+                today : new Date(),
+                options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
             }
         },
         computed : {
@@ -98,5 +121,7 @@
 </script>
 
 <style scoped>
-
+    .navbar-static-top li a {
+        padding: 15px 10px!important;
+    }
 </style>

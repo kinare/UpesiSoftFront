@@ -11,7 +11,6 @@
                 <div class="col-xs-3">
                     <a @click="receipt" :class="tendered >= getTotalSales ? '' : 'disabled'" class="btn btn-primary btn-lg pull-right">Complete order <i class="fa fa-arrow-right"></i></a>
                 </div>
-
             </div>
             <div class="hr-line-dashed"></div>
             <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; padding: 0;">

@@ -27,8 +27,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a @click="signOut">
-                            <i class="fa fa-sign-out"></i> Sign out
+                        <a title="Sign out" @click="signOut">
+                            <i class="fa fa-sign-out-alt"></i>
                         </a>
                     </li>
                 </ul>
