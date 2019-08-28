@@ -80,6 +80,8 @@
                     });
                     return breadcrumbArray;
                 }, [])
+
+                breadcrumbs.splice(0, 1)
                 return breadcrumbs;
             }
         },
