@@ -51,7 +51,7 @@
         </div>
         <div class="wrapper wrapper-content">
             <div class="container">
-                <div class="ibox-content" style="background: none; border: none; padding: 0" :class="{'sk-loading' : loading}">
+                <div class="ibox-content" style="background: none; border: none; padding: 0; min-height: 75vh" :class="{'sk-loading' : loading}">
                     <spinner v-if="loading"/>
                     <div v-if="hasScopes" class="row">
                         <!--pos-->
