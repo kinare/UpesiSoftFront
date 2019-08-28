@@ -89,8 +89,8 @@
         watch : {
             product : {
                 handler : function (n, o) {
-                    this.$store.dispatch('inventory/getSubProducts', n.id);
-
+                    if (n.sellAs === 'CUSTOM')
+                        this.$store.dispatch('inventory/getSubProducts', n.id);
                 }
             }
         }

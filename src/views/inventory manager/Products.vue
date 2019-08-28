@@ -202,6 +202,7 @@
     import sanitizer from "../../modules/mixins/SanitizeRecords";
     export default {
         name: "Products",
+        // eslint-disable-next-line vue/no-unused-components
         components: {ProductCard, Spinner, DatePicker},
         mixins : [permissions, sanitizer],
         data : function(){
