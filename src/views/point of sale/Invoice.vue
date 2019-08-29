@@ -153,9 +153,11 @@
             customer(){return this.$store.getters[`pos/${this.namespace }/customer`]},
             loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
             documentNo(){return this.$store.getters[`pos/${this.namespace }/documentNo`]},
-            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},        },
+            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},
+        },
         watch : {
             documentNo : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     if (n){
                         let data = {

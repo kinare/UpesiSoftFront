@@ -88,6 +88,7 @@
         },
         watch : {
             product : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     if (n.sellAs === 'CUSTOM')
                         this.$store.dispatch('inventory/getSubProducts', n.id);

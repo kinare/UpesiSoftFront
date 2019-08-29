@@ -155,6 +155,7 @@
             measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},        },
         watch : {
             documentNo : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     if (n){
                         let data = {
