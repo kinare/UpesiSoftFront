@@ -70,66 +70,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="ibox-content no-borders">
-                            <div class="p-xl pos-invoice style-1" style="height: 80vh; overflow-y: scroll" id="invoice">
-                                <div class="row">
-                                    <h2 class="text-center"><strong>Invoice</strong></h2>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <h5>From:<br>
-                                            <strong>Focus Glass & Aluminium</strong>
-                                        </h5>
-                                        <address>
-                                            {{selectedDocument.cashierFirstName + ' ' + selectedDocument.cashierLastName}}<br>
-                                            {{selectedDocument.cashierEmail}}<br>
-                                        </address>
-                                    </div>
-
-                                    <div class="col-sm-6 text-right">
-                                        <h4>Invoice No. {{selectedDocument.id}}</h4>
-                                        <span>To:</span>
-                                        <address>
-                                            <strong>{{selectedDocument.customerIsBusiness ? selectedDocument.customerBusinessName : selectedDocument.customerFirstName + ' ' + selectedDocument.customerLastName}}</strong><br>
-                                            +{{selectedDocument.customerCountryCode + selectedDocument.customerPhoneNumber}}<br>
-                                            {{selectedDocument.customerEmail}}<br>
-                                            {{selectedDocument.customerPostalAddress}}
-                                        </address>
-                                        <p>
-                                            <span><strong>Invoice Date:</strong> {{selectedDocument.createdAt}}</span><br>
-                                            <!--<span><strong>Due Date:</strong> March 24, 2014</span>-->
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="table-responsive m-t">
-                                    <table class="table invoice-table">
-                                        <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>QTY</th>
-                                            <th>Unit</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr v-for="(item, index) in selectedDocument.orderItems" :key="index">
-
-                                            <td>{{item.productName}}</td>
-                                            <td>{{item.qty || 1}}</td>
-                                            <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
-                                            <td>{{selectedDocument.total | currency}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div><!-- /table-responsive -->
-                                <table class="table invoice-total">
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>Total :</strong></td>
-                                        <td>{{selectedDocument.total | currency}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <div class="invoice-box">
                                 <table cellpadding="0" cellspacing="0">
                                     <tr class="top">
@@ -141,8 +81,8 @@
                                                     </td>
 
                                                     <td>
-                                                        Invoice #: 123<br>
-                                                        Date: January 1, 2015<br>
+                                                        Invoice #: {{selectedDocument.id}}<br>
+                                                        Date: {{selectedDocument.createdAt}}<br>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -154,17 +94,17 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        Focus Glass & Alluminium.<br>
-                                                        Irene Njeri<br>
-                                                        injeri92@gmail.com
+                                                        Focus Glass & Aluminium.<br>
+                                                        {{selectedDocument.cashierFirstName + ' ' + selectedDocument.cashierLastName}}<br>
+                                                        {{selectedDocument.cashierEmail}}
                                                     </td>
 
                                                     <td>
                                                         <strong>To</strong><br>
-                                                        Nicholas Kimuli.<br>
-                                                        +254703826457<br>
-                                                        nicholaskimuli@gmail.com<br>
-                                                        Saachi Plaza, Along Argwings Kodhek Road
+                                                        <strong>{{selectedDocument.customerIsBusiness ? selectedDocument.customerBusinessName : selectedDocument.customerFirstName + ' ' + selectedDocument.customerLastName}}</strong><br>
+                                                        +{{selectedDocument.customerCountryCode + selectedDocument.customerPhoneNumber}}<br>
+                                                        {{selectedDocument.customerEmail}}<br>
+                                                        {{selectedDocument.customerPostalAddress}}
                                                     </td>
                                                 </tr>
                                             </table>
@@ -189,38 +129,11 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="item">
-                                        <td>
-                                            Flash Lock Siver
-                                        </td>
-
-                                        <td>
-                                            3
-                                        </td>
-
-                                        <td>
-                                            1M
-                                        </td>
-                                        <td>
-                                            KES 200.00
-                                        </td>
-                                    </tr>
-
-                                    <tr class="item last">
-                                        <td>
-                                            Flash Lock Siver
-                                        </td>
-
-                                        <td>
-                                            3
-                                        </td>
-
-                                        <td>
-                                            1M
-                                        </td>
-                                        <td>
-                                            KES 200.00
-                                        </td>
+                                    <tr class="item" v-for="(item, index) in selectedDocument.orderItems" :key="index">
+                                        <td>{{item.productName}}</td>
+                                        <td>{{item.qty || 1}}</td>
+                                        <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
+                                        <td>{{selectedDocument.total | currency}}</td>
                                     </tr>
 
                                     <tr class="total">
@@ -229,7 +142,7 @@
                                         <td></td>
 
                                         <td>
-                                            Total: KES 385.00
+                                            Total: {{selectedDocument.total | currency}}
                                         </td>
                                     </tr>
                                 </table>

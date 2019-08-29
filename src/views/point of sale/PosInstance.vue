@@ -180,7 +180,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" @click="showModal = false"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">{{subProduct.productName}} &nbsp; <span class="badge badge-primary">{{subProducts.length}}</span> </h4>
+                        <h4 class="modal-title">{{subProduct.productName}} &nbsp; <span class="badge badge-primary">Full : {{subProduct.qty}}</span> &nbsp; <span class="badge badge-primary">Pieces : {{subProduct.pieces}}</span> </h4>
                         <small class="font-bold">{{subProduct.productDescription}}</small>
                     </div>
                     <div class="modal-body style-1" style="height: 400px; overflow-y: scroll">
@@ -196,7 +196,7 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <button @click="addItem(subProduct)" class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + ' (' + subProduct.qty + subProduct.measurementAbbreviation + ')'}}</button>
+                                        <button @click="addItem(subProduct)" class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + '(Full)'}}</button>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>

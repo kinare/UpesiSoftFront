@@ -110,6 +110,18 @@ export default {
                 context.commit('SET_LOADING', false);
             })
         },
+
+        restockProduct : ({commit, dispatch}, data) => {
+            commit('SET_LOADING', true);
+            window.api.call('post',endpoints.restock, data).then((res) => {
+                commit('SET_MESSAGE', {  message : res.data.status , status : ''});
+                dispatch('getProducts');
+                commit('SET_LOADING', false);
+            }).catch((error) => {
+                commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                commit('SET_LOADING', false);
+            })
+        },
         newCategory : ({context, dispatch}, data) => {
             window.api.call('post',endpoints.newCategory, data).then(() => {
                 dispatch('getCategories', { root: true });

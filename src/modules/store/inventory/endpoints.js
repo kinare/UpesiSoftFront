@@ -3,6 +3,7 @@ let endpoint = {
     removeProduct : 'product',
     subProducts : id => `product/subProducts/all?productId=${id}`,
     insert : 'products/new',
+    restock : 'product/restock',
     categories : 'products/categories',
     removeCategory : 'products/category',
     newCategory : 'products/createCategory',

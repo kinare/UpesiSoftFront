@@ -71,7 +71,7 @@
                                 <td @click="openProduct(product)" ><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.pieces : '0'}}</span></td>
                                 <td class="col-md-2">
                                     <div class="btn-group-sm">
-                                        <button v-if="canCreate" title="re-stock" @click="restockProduct(product)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
+                                        <button v-if="canCreate" title="re-stock" @click="restockProduct(product.id)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
                                         <button v-if="canUpdate" title="edit" @click="editProduct(product)" class="btn btn-white" type="button"><i class="text-success fa fa-edit"></i></button>
                                         <button v-if="canDelete" title="remove"  @click="confirmRemoveProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
                                     </div>
@@ -115,7 +115,6 @@
             </div>
         </div>
 
-
 <!--        product modal-->
         <div class="modal  in fade" id="viewProduct" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
@@ -125,7 +124,7 @@
                         <h4 class="modal-title">Product Detail</h4>
                     </div>
                     <div class="modal-body">
-                        <product-card :product="seletedProduct"/>
+                        <product-card :product="selectedProduct"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -134,7 +133,6 @@
                 </div>
             </div>
         </div>
-
 
 <!--        restock modal-->
         <div class="modal in fade" id="restock" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -148,15 +146,15 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <form>
-                                    <div class="form-group">
+                                    <div class="form-group" :class="selectedForRestockErrors.restockQty.status">
                                         <label class="label-control">Quantity</label>
-                                        <input type="number" class="form-control" placeholder="Quantity">
+                                        <input type="number" v-model="selectedForRestock.restockQty" class="form-control" placeholder="Quantity">
+                                        <span class="help-block">{{selectedForRestockErrors.restockQty.message}}</span>
                                     </div>
-                                    <div class="form-group" >
+                                    <div class="form-group" :class="selectedForRestockErrors.restockDate.status" >
                                         <label class="control-label">Available From</label>
-                                        <input type="date" class="form-control" placeholder="Available from">
-                                        <!--                                    <DatePicker lang="en" input-class="form-control"></DatePicker>-->
-                                        <span class="help-block"></span>
+                                        <DatePicker v-model="selectedForRestock.restockDate" lang="en" input-class="form-control"></DatePicker>
+                                        <span class="help-block">{{selectedForRestockErrors.restockDate.message}}</span>
                                     </div>
                                 </form>
                             </div>
@@ -165,7 +163,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal" @click="closeRestockModal">Close</button>
-                        <button type="button" class="btn btn-primary">Re-stock</button>
+                        <button type="button" class="btn btn-primary" @click="restockSelectedProduct()">Re-stock</button>
                     </div>
                 </div>
             </div>
@@ -202,7 +200,6 @@
     import sanitizer from "../../modules/mixins/SanitizeRecords";
     export default {
         name: "Products",
-        // eslint-disable-next-line vue/no-unused-components
         components: {ProductCard, Spinner, DatePicker},
         mixins : [permissions, sanitizer],
         data : function(){
@@ -210,8 +207,31 @@
                 scope : 'products',
                 term : '',
                 validator : window.validator,
-                seletedProduct : {},
-                selectedForRestock : {},
+                selectedProduct : {},
+                selectedForRestock : {
+                    id : '',
+                    restockQty : '',
+                    restockDate :''
+                },
+                selectedForRestockErrors : {
+                    id : {
+                        status : '',
+                        message : '',
+                    },
+                    restockQty : {
+                        status : '',
+                        message : '',
+                    },
+                    restockDate : {
+                        status : '',
+                        message : '',
+                    },
+                },
+                restockRules : {
+                    id : 'required',
+                    restockQty : 'required|gt:0',
+                    restockDate :'required'
+                },
                 selectedProductId : ''
             }
         },
@@ -266,15 +286,35 @@
             },
 
             openProduct : function (product) {
-                this.seletedProduct = product
+                this.selectedProduct = product
                 // eslint-disable-next-line no-undef
                 $("#viewProduct").modal('show');
             },
 
-            restockProduct : function (product) {
-                this.selectedForRestock = product
+            restockProduct : function (id) {
+                this.selectedForRestock = {
+                    id : id,
+                    restockQty : 0,
+                    restockDate : new Date()
+                }
                 // eslint-disable-next-line no-undef
-                $("#restock").modal('show');
+                $("#restock").modal('show')
+
+            },
+            restockSelectedProduct : function(){
+                // validation
+                this.selectedForRestock.restockDate = window.helper.dateFix(this.selectedForRestock.restockDate);
+
+                let res = window.validator.fields(this.selectedForRestock, this.restockRules, this.selectedForRestockErrors)
+
+                if (res.hasErrors){
+                    this.selectedForRestockErrors = res.errors;
+                } else {
+                    // eslint-disable-next-line no-undef
+                    $("#restock").modal('hide')
+                    this.$store.dispatch('inventory/restockProduct', this.selectedForRestock);
+                    this.closeRestockModal();
+                }
             },
             closeRestockModal: function () {
                 this.selectedForRestock = {}
