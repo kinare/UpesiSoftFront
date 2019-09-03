@@ -24,6 +24,7 @@ export default {
         },
     },
     getters : {
+        //get total income from  orders
         totalIncome : (state) =>{
             let total = 0
             state.salesDocuments.forEach(sales => {
@@ -32,6 +33,7 @@ export default {
             return total.toFixed(2)
         },
 
+        //return function to get total per document type
         total : (state) => {
             return (type) =>{
                 let total = 0
@@ -49,6 +51,7 @@ export default {
             }
         },
 
+        //get unit measurement abbreviation by id
         getUnit : state => {
             return (id) => {
                 return state.measurementUnits.filter( unit => unit.id === parseInt(id)).shift().measurementAbbreviation

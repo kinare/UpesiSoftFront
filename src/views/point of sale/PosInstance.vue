@@ -53,7 +53,7 @@
                                                 {{item.measurementAbbreviation}}
                                             </span>
                                         </div>
-                                        <span v-else>{{item.soldMeasurement | number}} {{item.measurementAbbreviation}}</span>
+                                        <span v-else><span v-if="item.soldMeasurement !== '' && item.soldMeasurement !== null">{{item.soldMeasurement | number }}</span>  {{item.measurementAbbreviation}}</span>
                                     </td>
 
 <!--                                    price-->
@@ -330,7 +330,8 @@
                     prod.productId = product.subproduct ? this.subProduct.id  : prod.id
                     product.subproduct = product.subproduct ? true : false
                     // prod.subProductId =  prod.id;
-                    prod.soldMeasurement = prod.measurement ? prod.measurement : 1; //1 as the default sold measurment
+                    prod.measurement = prod.measurement === null ? '' : prod.measurement;
+                    prod.soldMeasurement = prod.measurement; //1 as the default sold measurment
                     prod.categories = '';
                     prod.measurementBefore = prod.measurement;
                     prod.measurementAfter = prod.measurement;

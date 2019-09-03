@@ -9,7 +9,7 @@ const sanitizer = {
                 for (let key in item){
                     if (!excludeFields.includes(key)) {
                         if (item[key] === null)
-                            item[key] = 'FOCUS'
+                            item[key] = ''
                     }
                 }
                 return item

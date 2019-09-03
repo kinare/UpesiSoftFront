@@ -436,6 +436,7 @@
                 if (res.hasErrors){
                     this.formDataError = res.errors
                 } else {
+
                     this.$store.dispatch('inventory/newProduct', window.helper.prepareFormData(this.formData));
                 }
             },

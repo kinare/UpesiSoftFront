@@ -134,6 +134,7 @@
         },
         beforeRouteLeave(to, from, next){
             this.$store.commit(`pos/${this.namespace }/RESET_STATE`);
+            this.$store.dispatch('inventory/getProducts');
             next();
         },
         computed : {

@@ -1,7 +1,9 @@
 class Api {
     baseUrl = 'https://api.upesisoft.com/v1/'
 
-    constructor () {this.intercept()}
+    constructor () {
+        this.intercept()
+    }
 
 
     async call(requestType, url, data = null){

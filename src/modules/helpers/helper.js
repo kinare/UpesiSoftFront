@@ -12,6 +12,8 @@ class Helper {
     prepareFormData (formData){
         let data = new FormData();
         for(let key in formData){
+            if (formData[key] === null)
+                formData[key] = ''
             data.append(key, formData[key]);
         }
         return data;
