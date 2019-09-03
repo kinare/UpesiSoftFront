@@ -21,9 +21,9 @@ class Helper {
 
     dateFix (date){
         if (date){
-            if (moment(date, "YYYY-MM-DD").format("YYYY-MM-DD") === date) return date;
-            let d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
-            return moment(d).format("YYYY-MM-DD");
+            if (moment(date, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss") === date) return date;
+            let d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() -3, date.getMinutes(), date.getSeconds()));
+            return moment(d).format("YYYY-MM-DD HH:mm:ss");
         }
         return '';
     }

@@ -47,11 +47,13 @@
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{total('QUOTE').total | currency}}</h1>
-                        <small class="text-info">{{total('QUOTE').count}} Invoices</small>
+                        <small class="text-info">{{total('QUOTE').count}} Quotes</small>
                     </div>
                 </div>
             </div>
         </div>
+
+<!--        chart-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
@@ -59,33 +61,34 @@
                         <h5>Summary</h5>
                         <div class="pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-xs btn-white active">Today</button>
-                                <button type="button" class="btn btn-xs btn-white">Weekly</button>
-                                <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                                <button type="button" class="btn btn-xs btn-white">Annual</button>
+                                <button type="button" :class="selected === 1 ? 'btn-primary' : 'btn-white'" @click="getByTime('day'); selected = 1" class="btn btn-xs ">Today</button>
+                                <button type="button" :class="selected === 2 ? 'btn-primary' : 'btn-white'" @click="getByTime('week'); selected = 2" class="btn btn-xs">Weekly</button>
+                                <button type="button" :class="selected === 3 ? 'btn-primary' : 'btn-white'" @click="getByTime('month'); selected = 3" class="btn btn-xs">Monthly</button>
+                                <button type="button" :class="selected === 4 ? 'btn-primary' : 'btn-white'" @click="getByTime('year'); selected = 4" class="btn btn-xs ">Annually</button>
                             </div>
+
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <LineChart :data="data" :options="options"></LineChart>
+                        <div class="row m-b">
+                           <div class="col-xs-12">
+                               <div class="form-group pull-right">
+                                   <datepicker confirm type="datetime" format="YYYY-MM-DD HH:mm:ss" v-model="dateRange" input-class="form-control " range lang="en" ></datepicker>
+                               </div>
+                           </div>
+                        </div>
+                        <LineChart :data="chartData" :options="options"></LineChart>
                     </div>
                 </div>
             </div>
         </div>
 
+<!--        orders-->
         <div class="row">
             <div class="col-lg-8">
                 <div class="ibox">
                     <div class="ibox-title">
                         <h5>Orders</h5>
-                        <div class="pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-xs btn-white active">Today</button>
-                                <button type="button" class="btn btn-xs btn-white">Weekly</button>
-                                <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                                <button type="button" class="btn btn-xs btn-white">Annual</button>
-                            </div>
-                        </div>
                     </div>
                     <div class="ibox-content">
                         <div class="row">
@@ -217,47 +220,178 @@
 <script>
     import LineChart from "../../modules/charts/LineChart";
     import sales from "../../modules/mixins/sales";
+    import datepicker from "vue2-datepicker";
+    import moment from "moment/moment";
     export default {
         name: "Charts",
-        components: {LineChart},
+        components: {LineChart, datepicker},
         mixins : [sales],
         data : function () {
             return {
+                dateRange : [],
+                selected : 0,
                 customer : '',
                 cashier : '',
                 type : '',
-
-                data : {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                params : {
+                    from : '',
+                    to : ''
+                },
+                period : '',
+            }
+        },
+        computed : {
+            options(){
+                return  {responsive: true, maintainAspectRatio: false}
+            },
+            chartData(){
+                return {
+                    labels: this.setLabels,
                     datasets: [
                         {
                             label: 'Orders',
                             borderColor: '#0091EA',
                             fill : false,
-                            // backgroundColor : '#23c6c8',
-                            data: [40, 39, 10, 40, 39, 80, 40, 52, 63 ,48, 77, 13]
+                            data: this.setPlotData(this.total('ORDER').documents)
                         },
                         {
                             label: 'Invoices',
                             borderColor: '#FF6D00',
                             fill : false,
-                            // backgroundColor : '#23c6c8',
-                            data: [20, 45, 12, 45, 34, 75, 34, 12, 47 ,86, 78, 12]
+                            data: this.setPlotData(this.total('INVOICE').documents)
                         },
                         {
                             label: 'Quotes',
                             borderColor: '#AEEA00',
                             fill : false,
-                            // backgroundColor : '#23c6c8',
-                            data: [22, 35, 64, 85, 76, 14, 64, 75, 10 ,24, 43, 47]
+                            data: this.setPlotData(this.total('QUOTE').documents)
                         }
                     ]
-                },
-                options : {responsive: true, maintainAspectRatio: false}
+                }
+            },
+            setLabels(){
+                let labels = []
+                switch (this.period) {
+                    case "day":
+                        labels = this.getHoursInDay();
+                        break;
+                    case "week":
+                        labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        break;
+                    case "month":
+                        labels = this.getDaysOfMonth();
+                        break;
+                    case "year":
+                        labels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        break;
+                    default:
+                        labels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                }
+                return labels
+            }
+        },
+        methods : {
+            getDaysOfMonth(){
+                let daysForMonth = []
+                let days = moment().daysInMonth()
+                while (days){
+                    daysForMonth.push(days)
+                    days--;
+                }
+                return daysForMonth.reverse();
+            },
+            getHoursInDay : function(){
+                let hours = 24
+                let hoursInDay = []
+                while (hours){
+                    hoursInDay.push(hours)
+                    hours--
+                }
+                return hoursInDay.reverse();
+            },
+
+            setPlotData : function(items){
+                let data = [];
+                switch (this.period) {
+                    case "day":
+                        this.setLabels.forEach(label => {
+                            data.push(
+                                items.filter(item => {
+                                   return  moment(item.createdAt).hour() === label
+                                }).length
+                            )
+                        })
+                        break;
+
+                    case "week":
+                        this.setLabels.forEach(label => {
+                            data.push(
+                                items.filter(item => {
+                                    return  label.toLowerCase().indexOf(moment(item.createdAt).format('ddd').toLowerCase()) >= 0
+                                }).length
+                            )
+                        })
+                        break;
+                    case "month":
+                        this.setLabels.forEach(label => {
+                            data.push(
+                                items.filter(item => {
+                                    return  moment(item.createdAt).date() === label
+                                }).length
+                            )
+                        })
+                        break;
+                    case "year":
+                        this.setLabels.forEach(label => {
+                            data.push(
+                                items.filter(item => {
+                                    return  label.toLowerCase().indexOf(moment(item.createdAt).format('MMM').toLowerCase()) >= 0
+                                }).length
+                            )
+                        })
+                        break;
+                    default:
+                        this.setLabels.forEach(label => {
+                            data.push(
+                                items.filter(item => {
+                                    return  label.toLowerCase().indexOf(moment(item.createdAt).format('MMM').toLowerCase()) >= 0
+                                }).length
+                            )
+                        })
+                }
+                return data;
+            },
+
+            getByTime : function(period){
+
+                // clear data before loading
+                this.$store.commit('accounting/SET_SALES_DOCUMENTS', []);
+
+                //set period filter
+                this.period = period
+
+                //reset date range filter
+                this.dateRange = [];
+
+                //get
+                this.params.from = moment().startOf(period).format("YYYY-MM-DD HH:mm:ss");
+                this.params.to = moment().endOf(period).format("YYYY-MM-DD HH:mm:ss");
+                this.getDocumentsByTime();
+            },
+            getDocumentsByTime : function(){
+                this.$store.dispatch(
+                    'accounting/getSalesDocuments',
+                    !!this.params.to && !!this.params
+                        ? `?to=${this.params.to}&from=${this.params.from}`
+                        : `?from=${this.params.from}` );
+
+                //clear variable
+                this.params = {}
             }
         },
         watch : {
             customer : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     this.term = n
                 }
@@ -270,6 +404,19 @@
             type : {
                 handler : function (n, o) {
                     this.term = n
+                }
+            },
+            dateRange : {
+                handler : function (n, o) {
+                    if (!_.isEqual(n, o)) {
+                        //reset preset filters
+                        this.selected = 0;
+
+                        this.params.to = window.helper.dateFix(n[1]);
+                        this.params.from = window.helper.dateFix(n[0]);
+                        this.getDocumentsByTime();
+
+                    }
                 }
             }
         }

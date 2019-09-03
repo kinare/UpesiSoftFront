@@ -47,7 +47,7 @@ export default {
                 orders.forEach(sales => {
                     total = parseFloat(total) + parseFloat(sales.total)
                 })
-                return {total : total, count :  orders.length}
+                return {total : total, count :  orders.length , documents : orders}
             }
         },
 
