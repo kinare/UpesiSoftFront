@@ -411,7 +411,7 @@
                 );
 
                 //clear variable
-                this.params = {}
+                this.params = {};
             }
         },
         watch : {
@@ -440,6 +440,7 @@
 
                         //reset preset filters
                         this.selected = 0;
+                        this.period = ''
 
                         this.params.to = window.helper.dateFix(n[1]);
                         this.params.from = window.helper.dateFix(n[0]);
