@@ -285,7 +285,7 @@
                         labels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                         break;
                     default:
-                        labels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        labels =  this.getDatesFromDocuments();
                 }
                 return labels
             }
@@ -300,6 +300,30 @@
                 }
                 return daysForMonth.reverse();
             },
+
+            getDatesFromDocuments : function(){
+                //get all records
+                let labels = [];
+                let recs = 0;
+                let dates =  this.filteredItems.sort((a, b) => {
+                    let dateA = moment(a.createdAt);
+                    let dateB = moment(b.createdAt);
+                    return dateA > dateB ? 1 : -1;
+                })
+
+                let from = dates.shift();
+                let to = dates.pop();
+
+                if (to && from)
+                    recs = moment(to.createdAt).diff(moment(from.createdAt), "day")
+
+                while (recs){
+                    labels.push(moment(from.createdAt).add(recs, "days").format("MMM Do YY"))
+                    recs--
+                }
+                return  labels.reverse()
+            },
+
             getHoursInDay : function(){
                 let hours = 24
                 let hoursInDay = []
@@ -322,7 +346,6 @@
                             )
                         })
                         break;
-
                     case "week":
                         this.setLabels.forEach(label => {
                             data.push(
@@ -354,7 +377,7 @@
                         this.setLabels.forEach(label => {
                             data.push(
                                 items.filter(item => {
-                                    return  label.toLowerCase().indexOf(moment(item.createdAt).format('MMM').toLowerCase()) >= 0
+                                    return  label.toString() ===  moment(item.createdAt).format("MMM Do YY").toString()
                                 }).length
                             )
                         })
@@ -378,12 +401,14 @@
                 this.params.to = moment().endOf(period).format("YYYY-MM-DD HH:mm:ss");
                 this.getDocumentsByTime();
             },
+
             getDocumentsByTime : function(){
                 this.$store.dispatch(
                     'accounting/getSalesDocuments',
                     !!this.params.to && !!this.params
                         ? `?to=${this.params.to}&from=${this.params.from}`
-                        : `?from=${this.params.from}` );
+                        : `?from=${this.params.from}`
+                );
 
                 //clear variable
                 this.params = {}
@@ -397,18 +422,22 @@
                 }
             },
             cashier : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     this.term = n
                 }
             },
             type : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n, o) {
                     this.term = n
                 }
             },
             dateRange : {
                 handler : function (n, o) {
+                    // eslint-disable-next-line no-undef
                     if (!_.isEqual(n, o)) {
+
                         //reset preset filters
                         this.selected = 0;
 
