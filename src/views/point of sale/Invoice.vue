@@ -99,7 +99,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button @click="printDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-print"></i> Print Invoice</button>
-                            <button @click="mailDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Invoice</button>
+                            <button @click="mailDoc(invoice)" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Invoice</button>
                         </div>
                     </div>
                 </div>
@@ -143,8 +143,10 @@
                 this.$htmlToPaper('invoice');
             },
 
-            mailDoc : function () {
-                //todo Mail invoice to customer
+            mailDoc : function (doc) {
+                this.$store.dispatch(
+                    `pos/${this.namespace }/mailSaleDocument`,
+                    { orderId : doc.id})
             }
         },
         computed : {

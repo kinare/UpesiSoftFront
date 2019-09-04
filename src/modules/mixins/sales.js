@@ -63,6 +63,17 @@ let sales = {
                 params : this.type ? `?orderType=${this.type}` : ''
             };
             this.$store.dispatch('accounting/updateSalesDocuments', data);
+        },
+
+        mailDocument : function (doc) {
+            this.$store.dispatch(
+                'accounting/mailSaleDocument',
+                {
+                    orderId : doc.id,
+                    params : this.type
+                        ? `?orderType=${this.type}`
+                        : ''
+                })
         }
     }
 }
