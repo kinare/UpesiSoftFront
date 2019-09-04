@@ -54,6 +54,16 @@ let sales = {
             'total',
             'getUnit'
         ])
+    },
+    methods : {
+        updateDocument : function (doc, email) {
+            let data = {
+                orderId : doc.id,
+                withEmail : email,
+                params : this.type ? `?orderType=${this.type}` : ''
+            };
+            this.$store.dispatch('accounting/updateSalesDocuments', data);
+        }
     }
 }
 

@@ -201,8 +201,8 @@
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-exchange-alt"></i> Convert <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a data-dismiss="modal"><i class="fa fa-exchange-alt"></i> Convert</a></li>
-                                <li><a data-dismiss="modal"><i class="fa fa-envelope-open-text"></i> Convert and email</a></li>
+                                <li><a @click="updateDocument(docToConvert, 'no')" data-dismiss="modal"><i class="fa fa-exchange-alt"></i> Convert</a></li>
+                                <li><a @click="updateDocument(docToConvert, 'yes')" data-dismiss="modal"><i class="fa fa-envelope-open-text"></i> Convert and email</a></li>
                             </ul>
                         </div>
                     </div>
