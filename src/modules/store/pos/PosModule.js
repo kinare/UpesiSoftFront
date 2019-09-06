@@ -114,17 +114,8 @@ const actions = {
             context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
             context.commit('SET_LOADING', false);
         })
-    },
 
-    mailSaleDocument : ({commit}, data) => {
-        commit('SET_LOADING', true)
-        window.api.call('post', endpoints.mail, data).then(()=> {
-            commit('SET_LOADING', false)
-        }).catch((error) => {
-            commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
-            commit('SET_LOADING', false)
-        })
-    },
+    }
 }
 
 export default {

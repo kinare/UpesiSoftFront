@@ -134,8 +134,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button @click="mailDocument(selectedDocument)" type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-envelope"></i> Email</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
             </div>

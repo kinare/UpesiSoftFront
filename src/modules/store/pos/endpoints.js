@@ -12,9 +12,6 @@ let endpoint = {
     deleteCustomers : 'customer',
     insertCustomer : 'customers/new',
 
-    mail :'orders/customer/email',
-
-
     // get document
     document : param => `orders/get?orderType=${param.type}&orderId=${param.id}&orderStatus=${param.status}`
 

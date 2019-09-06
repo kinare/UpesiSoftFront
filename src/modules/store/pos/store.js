@@ -81,8 +81,6 @@ export default {
                 commit('SET_LOADING', false);
             })
         },
-
-
     }
 
 }

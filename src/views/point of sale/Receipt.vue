@@ -89,7 +89,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <button @click="printDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-print"></i>  Print Receipt</button>
-                                <button @click="mailDoc(receipt)" class="btn btn-block btn-lg btn-white"><i class="fa fa-envelope"></i>  Mail Receipt</button>
+                                <button @click="mailDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-envelope"></i>  Mail Receipt</button>
                             </div>
                         </div>
                     </div>
@@ -116,10 +116,8 @@
                 this.$htmlToPaper('receipt');
             },
 
-            mailDoc : function (doc) {
-                this.$store.dispatch(
-                    `pos/${this.namespace }/mailSaleDocument`,
-                    { orderId : doc.id})
+            mailDoc : function () {
+                
             }
         },
         beforeRouteEnter(to, from, next){

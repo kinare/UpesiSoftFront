@@ -81,17 +81,6 @@ export default {
             })
         },
 
-        mailSaleDocument : ({commit, dispatch}, data) => {
-            commit('SET_LOADING', true)
-            window.api.call('post', endpoints.mail, data).then(()=> {
-                dispatch('getSalesDocuments', data.params)
-                commit('SET_LOADING', false)
-            }).catch((error) => {
-                commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
-                commit('SET_LOADING', false)
-            })
-        },
-
         getMeasurementUnit : (context) => {
             window.api.call('get', endpoints.measurements).then(res =>{
                 context.commit('SET_MEASUREMENT_UNIT', res.data.data)

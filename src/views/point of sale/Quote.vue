@@ -99,7 +99,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button @click="printDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-print"></i> Print quote</button>
-                            <button @click="mailDoc(quote)" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Quote</button>
+                            <button @click="mailDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Quote</button>
                         </div>
                     </div>
                 </div>
@@ -142,10 +142,8 @@
                 this.$htmlToPaper('quote');
             },
 
-            mailDoc : function (doc) {
-                this.$store.dispatch(
-                    `pos/${this.namespace }/mailSaleDocument`,
-                    { orderId : doc.id})
+            mailDoc : function () {
+                //todo Mail quote to customer
             }
         },
         computed : {
