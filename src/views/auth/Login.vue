@@ -5,8 +5,7 @@
             <div>
 
                 <div>
-
-                    <img :src="baseUrl + 'img/upesisoft.png'" width="250">
+                    <img :src="baseUrl + 'img/Focus Logo.png'" width="250">
                     <br>
                     <br>
                     <br>
@@ -35,8 +34,8 @@
                 <button type="submit" class="btn btn-primary block full-width m-b" @click.prevent="submit">Login</button>
 
                 <router-link  to="/auth/reset"><small>Forgot password?</small></router-link>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <router-link class="btn btn-sm btn-white btn-block" to="/auth/register">Create an account</router-link>
+<!--                <p class="text-muted text-center"><small>Do not have an account?</small></p>-->
+<!--                <router-link class="btn btn-sm btn-white btn-block" to="/auth/register">Create an account</router-link>-->
             </form>
             <p class="m-t"> <small>Focus Glass & Aluminium © 2019</small> </p>
         </div>

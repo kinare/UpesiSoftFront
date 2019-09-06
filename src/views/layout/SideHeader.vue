@@ -12,7 +12,7 @@
             </ul>
         </div>
         <div class="logo-element navy-bg" @click="$router.push('/')" style="cursor: pointer">
-            UPESI
+            FOCUS
         </div>
     </li>
 </template>
