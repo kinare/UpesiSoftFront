@@ -1,5 +1,5 @@
 class Api {
-    baseUrl = 'https://privateapi.focusaluminium.com/v1/'
+    baseUrl = 'https://api.upesisoft.com/v1/'
 
     constructor () {
         this.intercept()

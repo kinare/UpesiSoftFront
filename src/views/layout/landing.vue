@@ -172,7 +172,7 @@
         },
         created(){
             //set page title
-            document.title = 'Focus ERP - ' + this.user.firstName
+            document.title = 'Upesisoft ERP - ' + this.user.firstName
         },
         methods : {
            signOut : function () {
