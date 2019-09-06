@@ -5,7 +5,7 @@
             <div>
 
                 <div>
-                    <img :src="baseUrl + 'img/Focus Logo.png'" width="250">
+                    <img :src="baseUrl + 'img/upesisoft.png'" width="250">
                     <br>
                     <br>
                     <br>

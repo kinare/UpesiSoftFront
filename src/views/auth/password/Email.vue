@@ -5,7 +5,7 @@
             <div>
 
                 <div>
-                    <img :src="baseUrl + 'img/Focus Logo.png'" width="250">
+                    <img :src="baseUrl + 'img/upesisoft.png'" width="250">
                     <br>
                     <br>
                     <br>
@@ -24,6 +24,9 @@
                 </span>
                 </div>
                 <a class="btn btn-sm btn-primary btn-block" @click.prevent="initiate">Send Link</a>
+                <br>
+                <p class="text-muted text-center"><small>Have an account?</small></p>
+                <router-link class="btn btn-sm btn-white btn-block" to="/auth/login">Log In</router-link>
             </form>
             <p class="m-t"> <small>Focus Glass & Aluminium © 2019</small> </p>
         </div>

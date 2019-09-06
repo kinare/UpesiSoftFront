@@ -7,7 +7,7 @@
                     <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <router-link to="/" class="navbar-brand" >FOCUS</router-link>
+                    <router-link to="/" class="navbar-brand" >UPESISOFT</router-link>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -61,16 +61,7 @@
                 <router-view/>
             </div>
         </div>
-        <div class="footer">
-            <div class="footer">
-                <div class="pull-right">
-                    Made with <i class="fa fa-heart text-danger"></i>  <a href="https://digital4africa.com/" target="_blank" > by Digital 4 Africa</a>
-                </div>
-                <div>
-                    <strong>Copyright</strong> Focus Glass & Alluminium © 2019
-                </div>
-            </div>
-        </div>
+       <Footer/>
     </div>
     </fullscreen>
 </template>
@@ -78,9 +69,11 @@
 <script>
     import inventory from '../../modules/store/inventory/store';
     import pos from '../../modules/store/pos/store';
+    import Footer from "../layout/Footer";
         export default {
         name: "Pos",
-        data : function(){
+            components: {Footer},
+            data : function(){
             return {
                 fullscreen: false,
                 auth : window.auth,

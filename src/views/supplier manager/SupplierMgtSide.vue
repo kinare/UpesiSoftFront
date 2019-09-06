@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link to="/" class="btn btn-block btn-primary side-home" style="padding: 20px 25px;"><i class="fa fa-arrow-left"></i> &nbsp;&nbsp;FOCUS</router-link>
+        <router-link to="/" class="btn btn-block btn-primary side-home" style="padding: 20px 25px;"><i class="fa fa-arrow-left"></i> &nbsp;&nbsp; UPESISOFT</router-link>
         <ul class="nav metismenu" id="side-menu" style="">
         <side-header/>
         <li>
