@@ -47,7 +47,7 @@
                                 <td @click="openUser(user)" >{{user.roleName}}</td>
                                 <td @click="openUser(user)" >{{user.email}}</td>
                                 <td @click="openUser(user)" >{{user.createdAt}}</td>
-                                <td><a v-if="canDelete" class="btn btn-white btn-xs" @click="confirmDelete(user.id)"><i class="fa fa-trash text-danger"></i> Remove</a> </td>
+                                <td><a v-if="canDelete" class="btn btn-white btn-xs" @click="removeUser(user.id)"><i class="fa fa-trash text-danger"></i> Remove</a> </td>
                             </tr>
                             </tbody>
                         </table>
@@ -140,26 +140,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                         <button v-if="canUpdate || canCreate" type="button" class="btn btn-primary" @click="saveUser">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Role Modal-->
-        <div class="modal fadeIn" id="confirmUserDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title text-center">Confirmation</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h1>Are you sure to delete?</h1>
-                        <br>
-                        <div class="row ">
-                            <a class="btn btn-primary btn-block" @click="removeUser(selectedUserId)">Yes</a>
-                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
-                        </div>
                     </div>
                 </div>
             </div>
@@ -271,15 +251,14 @@
                     this.$store.dispatch('userMgt/saveUser', window.helper.prepareFormData(this.formData));
                 }
             },
-            confirmDelete : function(id){
-                this.selectedUserId = id
-                // eslint-disable-next-line no-undef
-                $("#confirmUserDelete").modal({backdrop:'static',keyboard:false, show:true});
-            },
             removeUser : function (id) {
-                this.$store.dispatch('userMgt/removeUser',  { data : {userId : id}})
-                // eslint-disable-next-line no-undef
-                $("#confirmUserDelete").modal('hide');
+                this.$confirm.show({
+                    title : 'Confirmation',
+                    text : 'Are you sure to remove user',
+                    onConfirm : () => {
+                        this.$store.dispatch('userMgt/removeUser',  { data : {userId : id}})
+                    }
+                })
             },
             handleFileUpload(){
                 this.formData.profilePicture = this.$refs.file.files[0];
