@@ -24,6 +24,7 @@ import Scopes from './modules/auth/Scope'
 import listener from './modules/mixins/Listener'
 import isOnline from './modules/mixins/OnlineChecker'
 import Toasted from 'vue-toasted';
+import ConfirmationModal from './components/Confirmation';
 
 
 Vue.config.productionTip = false;
@@ -54,9 +55,12 @@ Filters.forEach(f => {
     Vue.filter(f.name, f.execute);
 })
 
+// Vue.component('confirmation-modal', ConfirmationModal).default;
+
 new Vue({
     router,
     store,
+    components : {ConfirmationModal},
     render: h => h(App),
     mixins : [listener, isOnline],
 }).$mount('#app')

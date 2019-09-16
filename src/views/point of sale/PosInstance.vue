@@ -94,8 +94,8 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" :to="'/pos/payment/' + namespace.split('/').pop()" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                <a @click="postDocument('INVOICE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
-                                <a @click="postDocument('QUOTE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
+                                <a @click="confirmPosting('INVOICE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
+                                <a @click="confirmPosting('QUOTE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
                             </div>
                             <div class="col-xs-8">
                                 <div class="row no-pad">
@@ -236,6 +236,8 @@
                 </div>
             </div>
         </div>
+
+        <confirmation></confirmation>
     </div>
 </template>
 
@@ -244,11 +246,12 @@
     import Pos from "../../modules/store/pos/pos";
     import permissions from "../../modules/mixins/Permissions";
     import sanitizer from "../../modules/mixins/SanitizeRecords";
+    import Confirmation from "../../components/Confirmation";
     const posController  = new Pos();
     export default {
         name: "PosInstance",
         props : ['namespace', 'id'],
-        components: {Spinner},
+        components: {Confirmation, Spinner},
         mixins : [permissions, sanitizer],
         data : function(){
             return {
@@ -399,7 +402,22 @@
                     }
                 )
             },
+            confirmPosting : function(type){
+             const params = {
+                 title : 'Confirmation',
+                 text : `Are you sure to post ${type.toLowerCase()}?`,
+                 onConfirm : () => {
+                     return this.postDocument(type)
+                 }
+             };
+
+             Event.$emit('confirmation', params);
+
+            },
             postDocument : function (type) {
+
+                //confirmation
+
 
                 //set document type
                 this.documentType = type;

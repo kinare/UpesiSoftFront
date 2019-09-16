@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <!-- Role Modal-->
+        <!-- delete confirm Modal-->
         <div class="modal fadeIn" id="confirmProductDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
