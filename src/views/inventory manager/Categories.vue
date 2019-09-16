@@ -45,7 +45,7 @@
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     &nbsp;
-                                    <a v-if="canDelete" title="remove" @click="confirmDelete(category.id)" class="btn btn-white btn-xs">
+                                    <a v-if="canDelete" title="remove" @click="removeCategory(category.id)" class="btn btn-white btn-xs">
                                         <i class="fa fa-trash text-danger"></i>
                                     </a>
                                 </td>
@@ -199,15 +199,14 @@
                 this.formData = category;
                 this.$refs.categName.focus();
             },
-            confirmDelete : function(id){
-                this.selectedCategoryId = id
-                // eslint-disable-next-line no-undef
-                $("#confirmCategoryDelete").modal({backdrop:'static',keyboard:false, show:true});
-            },
             removeCategory : function (id) {
-                this.$store.dispatch('inventory/removeCategory',  { data : {productCategoryId : id}})
-                // eslint-disable-next-line no-undef
-                $("#confirmCategoryDelete").modal('hide');
+                this.$confirm.show({
+                    title : 'Confirmation',
+                    text : 'Are you sure to remove category?',
+                    onConfirm : () => {
+                        this.$store.dispatch('inventory/removeCategory',  { data : {productCategoryId : id}})
+                    }
+                })
             },
         },
         computed : {
