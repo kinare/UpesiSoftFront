@@ -58,7 +58,7 @@
                                 <td>
                                     <div class="btn-group-xs">
                                         <button v-if="canUpdate" title="edit" @click="editRole(role)" class="btn btn-white" type="button" :class="mode === 'edit' ? formData.id === role.id ? 'btn-primary' : 'btn-default' : 'btn-default'"><i class="fa fa-edit"></i></button>
-                                        <button v-if="canDelete" title="remove" @click="roleToDelete = role; confirmDelete()" class="btn btn-white" type="button"><i class="text-danger fa fa-trash"></i></button>
+                                        <button v-if="canDelete" title="remove" @click="removeRole(role.id)" class="btn btn-white" type="button"><i class="text-danger fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -131,26 +131,6 @@
                                     <a v-if="canCreate" class="btn btn-md btn-primary btn-block" @click="saveRole">{{mode === 'edit' ? 'Save' : 'Add'}} role</a>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Role Modal-->
-        <div class="modal fadeIn" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title text-center">Confirmation</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h1>Are you sure to delete?</h1>
-                        <br>
-                        <div class="row ">
-                            <a class="btn btn-primary btn-block" @click="removeRole(roleToDelete)">Yes</a>
-                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
                         </div>
                     </div>
                 </div>
@@ -235,14 +215,14 @@
             }),
         },
         methods : {
-            confirmDelete : function(){
-                // eslint-disable-next-line no-undef
-                $("#confirmDelete").modal({backdrop:'static',keyboard:false, show:true});
-            },
-            removeRole : function (role) {
-                this.$store.dispatch('userMgt/removeRole',  { data : {userRoleId : role.id}})
-                // eslint-disable-next-line no-undef
-                $("#confirmDelete").modal('hide');
+            removeRole : function (id) {
+                this.$confirm.show({
+                    title : 'Confirmation',
+                    text : 'Are you sure to remove role',
+                    onConfirm : () => {
+                        this.$store.dispatch('userMgt/removeRole',  { data : {userRoleId : id}})
+                    }
+                })
             },
             editRole : function (role) {
                 this.formData = role;
