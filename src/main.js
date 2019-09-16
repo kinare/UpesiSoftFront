@@ -24,13 +24,13 @@ import Scopes from './modules/auth/Scope'
 import listener from './modules/mixins/Listener'
 import isOnline from './modules/mixins/OnlineChecker'
 import Toasted from 'vue-toasted';
-import ConfirmationModal from './components/Confirmation';
-
+import Confirmation from './modules/plugins/Confirmation';
 
 Vue.config.productionTip = false;
 Vue.use(fullscreen);
 Vue.use(PrettyCheckbox);
 Vue.use(Toasted)
+Vue.use(Confirmation)
 
 Vue.use(VueHtmlToPaper, {
     name: '_blank',
@@ -59,7 +59,6 @@ Filters.forEach(f => {
 new Vue({
     router,
     store,
-    components : {ConfirmationModal},
     render: h => h(App),
     mixins : [listener, isOnline],
 }).$mount('#app')

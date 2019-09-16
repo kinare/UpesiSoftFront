@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import Confirm from '../modules/plugins/Confirmation'
     export default {
         name: "Confirmation",
         data : function(){
@@ -33,20 +34,20 @@
                 params : {
                     title : '',
                     text : '',
-                    onConfirm : () => {
-                        this.hide()
-                    }
+                    onConfirm : {}
                 }
             }
         },
+
         mounted(){
-            Event.$on('confirmation', (params) => {
-                this.params = params;
-                this.show();
+            Confirm.EventBus.$on('show', (params) => {
+                this.show(params);
             });
         },
+
         methods : {
-            show : function(){
+            show : function(params){
+                this.params = params;
                 // eslint-disable-next-line no-undef
                 $("#confirmationModal").modal({backdrop:'static',keyboard:false, show:true});
             },

@@ -73,7 +73,7 @@
                                     <div class="btn-group-sm">
                                         <button v-if="canCreate" title="re-stock" @click="restockProduct(product.id)" class="btn btn-white" type="button"><i class="text-info fa fa-truck-loading"></i></button>
                                         <button v-if="canUpdate" title="edit" @click="editProduct(product)" class="btn btn-white" type="button"><i class="text-success fa fa-edit"></i></button>
-                                        <button v-if="canDelete" title="remove"  @click="confirmRemoveProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
+                                        <button v-if="canDelete" title="remove"  @click="removeProduct(product.id)" class="btn btn-white" type="button" ><i class="fa fa-trash text-danger"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -169,25 +169,6 @@
             </div>
         </div>
 
-        <!-- delete confirm Modal-->
-        <div class="modal fadeIn" id="confirmProductDelete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title text-center">Confirmation</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h1>Are you sure to delete?</h1>
-                        <br>
-                        <div class="row ">
-                            <a class="btn btn-primary btn-block" @click="removeProduct(selectedProductId)">Yes</a>
-                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -270,16 +251,18 @@
             }),
         },
         methods : {
-            confirmRemoveProduct : function(id){
-                this.selectedProductId = id
-                // eslint-disable-next-line no-undef
-                $("#confirmProductDelete").modal({backdrop:'static',keyboard:false, show:true});
-            },
             removeProduct : function(id){
-                this.$store.dispatch('inventory/removeProduct',  { data : {productId : id}})
-                // eslint-disable-next-line no-undef
-                $("#confirmProductDelete").modal('hide');
+                const params = {
+                    title : 'Confirmation',
+                    text : `Are you sure to delete?`,
+                    onConfirm : () => {
+                        this.$store.dispatch('inventory/removeProduct',  { data : {productId : id}})
+                    }
+                };
+
+                this.$confirm.show(params);
             },
+
             editProduct : function (product) {
                 this.$store.commit('inventory/SET_PRODUCT', product);
                 this.$router.push('new')

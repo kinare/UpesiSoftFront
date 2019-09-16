@@ -2,6 +2,9 @@
   <div id="app">
     <div id="wrapper">
       <router-view/>
+
+<!--      global components-->
+      <confirmation-modal/>
     </div>
   </div>
 </template>
