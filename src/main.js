@@ -55,7 +55,6 @@ Filters.forEach(f => {
     Vue.filter(f.name, f.execute);
 })
 
-// Vue.component('confirmation-modal', ConfirmationModal).default;
 
 new Vue({
     router,
