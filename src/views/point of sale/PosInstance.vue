@@ -326,7 +326,7 @@
         methods : {
             addItem : function (product) {
                 if (this.items.filter(item => item.id === product.id).length === 0){
-                    let prod = {...product}; // JSON.parse( JSON.stringify( product ) );
+                    let prod = {...product};
 
                     prod.productId = product.subproduct ? this.subProduct.id  : prod.id
                     product.subproduct = product.subproduct ? true : false
