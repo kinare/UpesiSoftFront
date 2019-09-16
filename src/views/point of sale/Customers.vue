@@ -51,7 +51,7 @@
                             <td @click="selectCustomer(customer)"><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
                             <td >
                                 <a v-if="canView" @click="selectedCustomer = customer" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye text-success"></i> &nbsp; view</a>
-                                <a v-if="canDelete" @click="selectedCustomerId = customer.id" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerDeleteCard" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
+                                <a v-if="canDelete" @click="removeCustomer(customer.id)" class="btn btn-xs btn-white" ><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
                             </td>
                         </tr>
                         </tbody>
@@ -107,27 +107,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- confirm remove Modal-->
-        <div class="modal fadeIn" id="customerDeleteCard" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title text-center">Confirmation</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h1>Are you sure to delete?</h1>
-                        <br>
-                        <div class="row ">
-                            <a class="btn btn-primary btn-block" @click="removeCustomer(selectedCustomerId)">Yes</a>
-                            <a class="btn btn-white btn-block" data-dismiss="modal">No</a> &nbsp;&nbsp;
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -197,9 +176,13 @@
             },
 
             removeCustomer : function (id) {
-                this.$store.dispatch('pos/removeCustomer',  { data : {customerId : id}})
-                // eslint-disable-next-line no-undef
-                $("#customerDeleteCard").modal('hide');
+                this.$confirm.show({
+                    title : 'Confirmation',
+                    text : 'Are you sure to remove customer',
+                    onConfirm : () => {
+                        this.$store.dispatch('pos/removeCustomer',  { data : {customerId : id}})
+                    }
+                })
             }
         }
     }
