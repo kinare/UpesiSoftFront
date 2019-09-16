@@ -251,10 +251,11 @@
                     this.$store.dispatch('userMgt/saveUser', window.helper.prepareFormData(this.formData));
                 }
             },
+
             removeUser : function (id) {
                 this.$confirm.show({
                     title : 'Confirmation',
-                    text : 'Are you sure to remove user',
+                    text : 'Are you sure to remove user?',
                     onConfirm : () => {
                         this.$store.dispatch('userMgt/removeUser',  { data : {userId : id}})
                     }
