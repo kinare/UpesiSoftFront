@@ -99,7 +99,7 @@
                         </div>
 
                         <!--supplier-->
-                        <div v-if="canView" class="col-lg-3">
+                        <div v-if="canView"  class="col-lg-3">
                             <div class="widget white-bg supplier-tile p-lg text-center" > <!--@click="$router.push('/dashboard/supplier-management')"-->
                                 <div class="m-b-md">
                                     <i class="fa fa-truck fa-4x" style="color: #0091EA"></i>
