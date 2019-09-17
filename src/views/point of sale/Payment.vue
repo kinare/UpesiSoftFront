@@ -161,13 +161,16 @@
             },
             receipt : function () {
 
+
+
                 //Get receipt if order is posted
                 if (this.documentNo !== '')
                     this.$router.push(`/pos/receipt/${this.namespace}/${this.documentNo}`)
 
 
                 if (this.validator.isEmptyObject(this.customer) ) {
-                    this.toCustomers()
+                    this.toCustomers();
+                    return;
                 }
 
                 //post order data

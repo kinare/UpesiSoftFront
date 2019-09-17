@@ -11,7 +11,7 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="row">
-                <div class="col-xs-8 border-right">
+                <div class="col-xs-7 border-right">
                     <div class="row" id="receipt">
                         <div class="col-xs-6 col-xs-push-3" >
                             <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; width : 340px " >
@@ -84,12 +84,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4 ">
+                <div class="col-xs-5 ">
                     <div class="ibox-content" style="border: none">
                         <div class="row">
                             <div class="col-xs-12">
-                                <button @click="printDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-print"></i>  Print Receipt</button>
-                                <button @click="mailDoc" class="btn btn-block btn-lg btn-white"><i class="fa fa-envelope"></i>  Mail Receipt</button>
+                                <button @click="printDoc" class="btn btn-block btn-lg btn-primary"><i class="fa fa-print"></i>  Print Receipt</button>
+
+                                <div class="input-group input-group-lg m-t">
+                                    <input class="form-control" v-model="receipt.customerEmail">
+                                    <div class="input-group-btn" >
+                                        <button @click="mailDoc" class="btn btn-lg btn-primary" type="button"><i class="fa fa-envelope"></i> Send</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

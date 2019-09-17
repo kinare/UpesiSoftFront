@@ -137,8 +137,11 @@
                 <div class="row m-b">
                     <div class="col-xs-10 col-xs-push-1">
                         <form>
-                            <div class="input-group-lg">
+                            <div class="input-group input-group-lg">
                                 <input type="text" placeholder="Search Item" v-model="term" autofocus class="form-control">
+                                <div class="input-group-btn" >
+                                    <button @click="term = ''"  class="btn btn-default" type="button">Clear</button>
+                                </div>
                             </div>
                         </form>
                     </div>
