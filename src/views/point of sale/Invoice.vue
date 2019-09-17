@@ -77,7 +77,7 @@
                                     <td>{{item.productName}}</td>
                                     <td>{{item.qty || 1}}</td>
                                     <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
-                                    <td>{{invoice.total | currency}}</td>
+                                    <td>{{item.price | currency}}</td>
                                 </tr>
 
                                 <tr class="total">
@@ -135,9 +135,12 @@
             })
         },
         beforeRouteLeave(to, from, next){
-            this.$store.commit(`pos/${this.namespace }/SET_DOC_NO`, '');
+            this.$store.commit(`pos/${this.namespace }/RESET_STATE`);
+            this.$store.dispatch('inventory/getProducts');
+
             next();
         },
+
         methods : {
             printDoc : function () {
                 this.$htmlToPaper('invoice');

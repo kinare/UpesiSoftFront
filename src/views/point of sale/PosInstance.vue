@@ -199,7 +199,7 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <button @click="addItem(subProduct)" class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + '(Full)'}}</button>
+                                        <button @click="addItem(subProduct); showModal = false"  class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + '(Full)'}}</button>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -328,10 +328,13 @@
         },
         methods : {
             addItem : function (product) {
-                if (this.items.filter(item => item.id === product.id).length === 0){
-                    let prod = {...product};
 
-                    prod.productId = product.subproduct ? this.subProduct.id  : prod.id
+                // check for item in sale
+                let item = this.items.filter(item => item.id === product.id)
+
+                if (item.length === 0){ // if item not in sale add...
+                    let prod = {...product};
+                    prod.productId = product.subproduct ? this.subProduct.id  : prod.id;
                     product.subproduct = product.subproduct ? true : false
                     // prod.subProductId =  prod.id;
                     prod.measurement = prod.measurement === null ? '' : prod.measurement;
@@ -344,6 +347,26 @@
                     prod.minUnit = prod.customSaleUnit ? prod.customSaleUnit : 1;
                     prod.itemPrice = prod.price;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
+                }else {
+                    if (item[0].sellAs === "FULL"){
+                        item[0].qty++ ; // get item
+                        item[0].price = item[0].qty * item[0].unitPrice ; // get item
+                    } else {
+                        let prod = {...product};
+                        prod.productId = product.subproduct ? this.subProduct.id  : prod.id;
+                        product.subproduct = product.subproduct ? true : false
+                        // prod.subProductId =  prod.id;
+                        prod.measurement = prod.measurement === null ? '' : prod.measurement;
+                        prod.soldMeasurement = prod.measurement; //1 as the default sold measurment
+                        prod.categories = '';
+                        prod.measurementBefore = prod.measurement;
+                        prod.measurementAfter = prod.measurement;
+                        prod.qty = 1;
+                        prod.maxUnit = prod.measurement;
+                        prod.minUnit = prod.customSaleUnit ? prod.customSaleUnit : 1;
+                        prod.itemPrice = prod.price;
+                        this.$store.commit(this.namespace + '/SET_ITEMS', prod)
+                    }
                 }
             },
             addSubProducts : function(){

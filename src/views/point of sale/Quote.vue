@@ -77,7 +77,7 @@
                                     <td>{{item.productName}}</td>
                                     <td>{{item.qty || 1}}</td>
                                     <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
-                                    <td>{{quote.total | currency}}</td>
+                                    <td>{{item.price | currency}}</td>
                                 </tr>
 
                                 <tr class="total">
@@ -134,7 +134,9 @@
             })
         },
         beforeRouteLeave(to, from, next){
-            this.$store.commit(`pos/${this.namespace }/SET_DOC_NO`, '');
+            this.$store.commit(`pos/${this.namespace }/RESET_STATE`);
+            this.$store.dispatch('inventory/getProducts');
+
             next();
         },
         methods : {
@@ -152,7 +154,9 @@
             customer(){return this.$store.getters[`pos/${this.namespace }/customer`]},
             loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
             documentNo(){return this.$store.getters[`pos/${this.namespace }/documentNo`]},
-            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},        },
+            measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},
+        },
+
         watch : {
             documentNo : {
                 // eslint-disable-next-line no-unused-vars
