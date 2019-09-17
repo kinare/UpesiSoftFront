@@ -50,7 +50,10 @@
                                 <td @click="openDocument(doc)"><span class="badge badge-inverse">{{doc.orderItems.length}}</span> </td>
                                 <td @click="openDocument(doc)">{{doc.cashierFirstName + ' ' + doc.cashierLastName}}</td>
                                 <td @click="openDocument(doc)">{{doc.createdAt}}</td>
-                                <td><a @click="postDoc(doc)" class="btn btn-primary btn-outline btn-sm">Complete order</a> </td>
+                                <td>
+                                    <a @click="postDoc(doc)" class="btn btn-primary btn-outline btn-sm">Complete order</a>
+                                    <a @click="deleteDoc(doc.id)" class="btn btn-primary btn-outline btn-sm m-l"><i class="fa fa-trash"></i> </a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

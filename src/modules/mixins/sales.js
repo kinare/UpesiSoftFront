@@ -64,6 +64,13 @@ let sales = {
             };
             this.$store.dispatch('accounting/updateSalesDocuments', data);
         }
+    },
+
+    deleteDoc : function (id) {
+        let data = {
+            orderId : id,
+        };
+        this.$store.dispatch('accounting/deleteSalesDocuments', data);
     }
 }
 
