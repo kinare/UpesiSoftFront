@@ -7,7 +7,7 @@
                     <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <router-link to="/" class="navbar-brand" >FOCUS</router-link>
+                    <router-link to="/" class="navbar-brand" >{{appName}}</router-link>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">

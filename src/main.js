@@ -50,6 +50,7 @@ window.Event = new Vue;
 window.validator = new Validator();
 window.helper = new Helper();
 window.api = new Api();
+Vue.prototype.appName = 'FOCUS';
 
 Filters.forEach(f => {
     Vue.filter(f.name, f.execute);

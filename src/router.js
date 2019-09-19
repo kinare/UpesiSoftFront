@@ -78,6 +78,27 @@ const  router = new Router({
                         redirect : '/dashboard/user-management'
                     },
                     {
+                        path : 'company-management',
+                        components : {
+                            side : () => import('./views/company manager/CompanyMgtSide'),
+                            content : () => import('./views/company manager/CompanyManager')
+                        },
+                        meta : { breadcrumb : 'Company management'},
+                        children : [
+                            {
+                                path : '',
+                                redirect : '/dashboard/company-management/companies'
+                            },
+                            {
+                                path : 'companies',
+                                components : {
+                                    view : () => import('./views/company manager/Companies'),
+                                },
+                                meta : { breadcrumb : 'companies'},
+                            },
+                        ]
+                    },
+                    {
                         path : 'user-management',
                         components : {
                             side : () => import('./views/user manager/UserMgtSide'),

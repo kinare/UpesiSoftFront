@@ -6,7 +6,7 @@
                     <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a class="navbar-brand">FOCUS</a>
+                    <a class="navbar-brand">{{appName}}</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -72,6 +72,17 @@
                                     <i class="fa fa-clipboard-list fa-4x" style="color: #FF6D00"></i>
                                     <h3 class="p-xs">Inventory</h3>
                                     <small class="tile-subtext">Add new stock, check what’s left and more</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--commpanies-->
+                        <div class="col-lg-3"><!-- todo persmission for company v-if="can('view', 'users')"-->
+                            <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/company-management')">
+                                <div class="m-b-md">
+                                    <i class="fa fa-building fa-4x" style="color: #42b983"></i>
+                                    <h3 class="p-xs">Companies</h3>
+                                    <small class="tile-subtext">Manage and create company information</small>
                                 </div>
                             </div>
                         </div>
