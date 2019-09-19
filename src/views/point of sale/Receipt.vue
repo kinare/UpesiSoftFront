@@ -123,7 +123,13 @@
             },
 
             mailDoc : function () {
-                
+                // customerEmail
+
+                let data = {
+                    orderId : this.receipt.id ,
+                    customerEmail : this.receipt.customerEmail
+                }
+                this.$store.dispatch(`pos/${this.namespace}/mailDoc`, data);
             }
         },
         beforeRouteEnter(to, from, next){
