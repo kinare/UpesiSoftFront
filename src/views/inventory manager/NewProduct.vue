@@ -232,8 +232,8 @@
                                 <!--categories-->
                                 <div class="col-xs-12">
                                     <h4 class="tag-title">Categories</h4>
-                                    <div class="form-group" :class="formDataError.categoryId.status">
-                                        <select class="form-control" v-model="formData.categoryId">
+                                    <div class="form-group" :class="formDataError.productCategoryId.status">
+                                        <select class="form-control" v-model="formData.productCategoryId">
                                             <option v-for="(category, index) in categories" :value="category.id" :key="index">{{category.productCategoryName}}</option>
                                         </select>
 <!--                                        <div class="input-group" >-->
@@ -243,7 +243,7 @@
 <!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
 <!--                                        </div>-->
                                         <span class="help-block">
-                                            {{formDataError.categoryId.message}}
+                                            {{formDataError.productCategoryId.message}}
                                         </span>
                                     </div>
 
@@ -298,7 +298,7 @@
                     productName : '',
                     productDescription : '',
                     productShortDescription : '',
-                    categoryId : '',
+                    productCategoryId : '',
                     availableFrom : '',
                     availableTo : '',
                     sku : '',
@@ -328,7 +328,7 @@
                         status : '',
                         message : '',
                     },
-                    categoryId : {
+                    productCategoryId : {
                         status : '',
                         message : '',
                     },
@@ -395,7 +395,7 @@
                     productShortDescription : 'optional',
                     availableFrom : 'optional',
                     availableTo : 'optional',
-                    categoryId : 'required',
+                    productCategoryId : 'required',
                     sku : 'optional',
                     price : 'required',
                     unitPrice : 'required',
@@ -425,13 +425,18 @@
         },
         methods : {
             addCategory : function () {
-                if (this.formData.categoryId.filter(cat => cat === this.category).length === 0 && this.category !== '') {
+                if (this.formData.productCategoryId.filter(cat => cat === this.category).length === 0 && this.category !== '') {
                     this.formData.categories.push(this.category);
                     this.category = ''
                 }
             },
             addProduct : function () {
-                //validation
+                // Hack ---> formating values
+                this.formData.published = this.formData.published ? 1 : 0;
+                this.formData.availableFrom = this.formData.availableFrom ? window.helper.dateFix(this.formData.availableFrom) : this.formData.availableFrom
+                this.formData.availableTo = this.formData.availableTo ? window.helper.dateFix(this.formData.availableTo) : this.formData.availableTo
+
+               // validation
                 let res = window.validator.fields(this.formData, this.rules, this.formDataError)
                 if (res.hasErrors){
                     this.formDataError = res.errors
