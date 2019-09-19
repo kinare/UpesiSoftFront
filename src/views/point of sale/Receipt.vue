@@ -48,7 +48,7 @@
                                                         {{item.qty || 1}}
                                                     </td>
                                                     <td class="no-borders">
-                                                       {{item.soldMeasurement ? item.soldMeasurement + ' ' + measurmentAbbreviation(item.measurementUnitId) : ''}}
+                                                       {{item.soldMeasurement | number}}{{measurmentAbbreviation(item.measurementUnitId)}}
                                                     </td>
                                                     <td class="no-borders">
                                                         {{item.price | currency}}
