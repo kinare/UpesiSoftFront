@@ -102,12 +102,15 @@
 
     export default {
         name: "SalesDocument",
+        props : ['document'],
         data : function () {
             return {
                 salesDocument : {}
             }
         },
         mounted(){
+            this.salesDocument = this.document;
+
             SalesDoc.DocEvent.$on('InitSalesDocument', (params) => {
                 this.initDoc(params);
             });
@@ -130,7 +133,7 @@
             printDoc : function () {
                 //print document
             }
-        }
+        },
     }
 </script>
 

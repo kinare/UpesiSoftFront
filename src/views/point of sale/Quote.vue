@@ -13,9 +13,7 @@
             <div class="col-xs-8" >
                 <div class="ibox-content p-xl pos-quote style-1" :class="loading ? 'sk-loading' : ''" style="height: 80vh; overflow-y: scroll" id="quote">
                     <spinner v-if="loading"/>
-                    <div v-if="!validator.isEmptyObject(quote)">
-                        <sales-document/>
-                    </div>
+                    <sales-document  :document="quote" v-if="!validator.isEmptyObject(quote)"/>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -60,7 +58,6 @@
         beforeRouteLeave(to, from, next){
             this.$store.commit(`pos/${this.namespace }/RESET_STATE`);
             this.$store.dispatch('inventory/getProducts');
-
             next();
         },
         methods : {
@@ -90,18 +87,12 @@
                             type : this.document.orderType,
                             id : n,
                             status : this.document.orderStatus,
-                        }
-
+                        };
                         this.$store.dispatch(`pos/${this.namespace}/getDocument`, data);
                     }
                 }
             },
-            document : {
-                // eslint-disable-next-line no-unused-vars
-                handler : function (n, o) {
-                    this.$salesDoc.initDoc(n);
-                }
-            }
+
         }
     }
 </script>
