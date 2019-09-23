@@ -14,83 +14,7 @@
                 <div class="ibox-content p-xl pos-quote style-1" :class="loading ? 'sk-loading' : ''" style="height: 80vh; overflow-y: scroll" id="quote">
                     <spinner v-if="loading"/>
                     <div v-if="!validator.isEmptyObject(quote)">
-                        <div class="quote-box">
-                            <table cellpadding="0" cellspacing="0">
-                                <tr class="top">
-                                    <td colspan="4">
-                                        <table>
-                                            <tr>
-                                                <td class="title">
-                                                    <img src="https://www.focus.upesisoft.com/img/Focus%20Logo.png" style="width:100%; max-width:300px;">
-                                                </td>
-
-                                                <td>
-                                                    quote #: {{quote.id}}<br>
-                                                    Date: {{quote.createdAt}}<br>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <tr class="information">
-                                    <td colspan="4">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    Focus Glass & Aluminium.<br>
-                                                    {{quote.cashierFirstName + ' ' + quote.cashierLastName}}<br>
-                                                    {{quote.cashierEmail}}
-                                                </td>
-
-                                                <td>
-                                                    <strong>To</strong><br>
-                                                    <strong>{{quote.customerIsBusiness ? quote.customerBusinessName : quote.customerFirstName + ' ' + quote.customerLastName}}</strong><br>
-                                                    +{{quote.customerCountryCode + quote.customerPhoneNumber}}<br>
-                                                    {{quote.customerEmail}}<br>
-                                                    {{quote.customerPostalAddress}}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <tr class="heading">
-                                    <td>
-                                        Item
-                                    </td>
-
-                                    <td>
-                                        QTY
-                                    </td>
-
-                                    <td>
-                                        Unit
-                                    </td>
-
-                                    <td>
-                                        Price
-                                    </td>
-                                </tr>
-
-                                <tr class="item" v-for="(item, index) in quote.orderItems" :key="index">
-                                    <td>{{item.productName}}</td>
-                                    <td>{{item.qty || 1}}</td>
-                                    <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
-                                    <td>{{item.price | currency}}</td>
-                                </tr>
-
-                                <tr class="total">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td>
-                                        Total: {{quote.total | currency}}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                        <sales-document/>
                     </div>
                 </div>
             </div>
@@ -170,6 +94,12 @@
 
                         this.$store.dispatch(`pos/${this.namespace}/getDocument`, data);
                     }
+                }
+            },
+            document : {
+                // eslint-disable-next-line no-unused-vars
+                handler : function (n, o) {
+                    this.$salesDoc.initDoc(n);
                 }
             }
         }

@@ -96,7 +96,6 @@ const getters = {
 }
 const actions = {
     generateDocument : (context, data) => {
-        console.log(data);
         context.commit('SET_LOADING', true);
         window.api.call('post',endpoints.generateReceipt, data).then((res) => {
             context.commit('SET_DOC_NO', res.data.data.orderId)

@@ -2,7 +2,7 @@ import ConfirmationModal from '../../components/Confirmation'
 
 const  Confirm = {
 
-    install(Vue, options){
+    install(Vue){
 
         this.EventBus = new Vue();
 

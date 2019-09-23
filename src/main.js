@@ -25,12 +25,14 @@ import listener from './modules/mixins/Listener'
 import isOnline from './modules/mixins/OnlineChecker'
 import Toasted from 'vue-toasted';
 import Confirmation from './modules/plugins/Confirmation';
+import SalesDocument from './modules/plugins/SalesDocument';
 
 Vue.config.productionTip = false;
 Vue.use(fullscreen);
 Vue.use(PrettyCheckbox);
-Vue.use(Toasted)
-Vue.use(Confirmation)
+Vue.use(Toasted);
+Vue.use(Confirmation);
+Vue.use(SalesDocument);
 
 Vue.use(VueHtmlToPaper, {
     name: '_blank',
@@ -54,7 +56,7 @@ Vue.prototype.appName = 'FOCUS';
 
 Filters.forEach(f => {
     Vue.filter(f.name, f.execute);
-})
+});
 
 
 new Vue({
@@ -62,5 +64,5 @@ new Vue({
     store,
     render: h => h(App),
     mixins : [listener, isOnline],
-}).$mount('#app')
+}).$mount('#app');
 

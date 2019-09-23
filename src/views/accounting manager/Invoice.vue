@@ -73,83 +73,102 @@
                     </div>
                     <div class="modal-body">
                         <div class="ibox-content no-borders">
-                            <div class="invoice-box">
-                                <table cellpadding="0" cellspacing="0">
-                                    <tr class="top">
-                                        <td colspan="4">
-                                            <table>
-                                                <tr>
-                                                    <td class="title">
-                                                        <img src="https://www.focus.upesisoft.com/img/Focus%20Logo.png" style="width:100%; max-width:300px;">
-                                                    </td>
+                            <sales-document/>
+<!--                            <div class="invoice-box">-->
+<!--                                <table cellpadding="0" cellspacing="0">-->
+<!--                                    <tr class="top">-->
+<!--                                        <td colspan="5">-->
+<!--                                            <table>-->
+<!--                                                <tr>-->
+<!--                                                    <td class="title">-->
+<!--                                                        <img src="https://www.focus.upesisoft.com/img/Focus%20Logo.png" style="width:100%; max-width:150px;">-->
+<!--                                                    </td>-->
 
-                                                    <td>
-                                                        Invoice #: {{selectedDocument.id}}<br>
-                                                        Date: {{selectedDocument.createdAt}}<br>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+<!--                                                    <td>-->
+<!--                                                        Invoice #: {{selectedDocument.id}}<br>-->
+<!--                                                        Date: {{selectedDocument.createdAt}}<br>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            </table>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
 
-                                    <tr class="information">
-                                        <td colspan="4">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        Focus Glass & Aluminium.<br>
-                                                        {{selectedDocument.cashierFirstName + ' ' + selectedDocument.cashierLastName}}<br>
-                                                        {{selectedDocument.cashierEmail}}
-                                                    </td>
+<!--                                    <tr class="information">-->
+<!--                                        <td colspan="5">-->
+<!--                                            <table>-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <strong>Focus Glass & Aluminium LTD.</strong><br>-->
+<!--                                                        {{selectedDocument.cashierFirstName + ' ' + selectedDocument.cashierLastName}}<br>-->
+<!--                                                        {{selectedDocument.cashierEmail}}-->
+<!--                                                    </td>-->
 
-                                                    <td>
-                                                        <strong>To</strong><br>
-                                                        <strong>{{selectedDocument.customerIsBusiness ? selectedDocument.customerBusinessName : selectedDocument.customerFirstName + ' ' + selectedDocument.customerLastName}}</strong><br>
-                                                        +{{selectedDocument.customerCountryCode + selectedDocument.customerPhoneNumber}}<br>
-                                                        {{selectedDocument.customerEmail}}<br>
-                                                        {{selectedDocument.customerPostalAddress}}
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+<!--                                                    <td>-->
+<!--                                                        <strong>To</strong><br>-->
+<!--                                                        <strong>{{selectedDocument.customerIsBusiness ? selectedDocument.customerBusinessName : selectedDocument.customerFirstName + ' ' + selectedDocument.customerLastName}}</strong><br>-->
+<!--                                                        +{{selectedDocument.customerCountryCode + selectedDocument.customerPhoneNumber}}<br>-->
+<!--                                                        {{selectedDocument.customerEmail}}<br>-->
+<!--                                                        {{selectedDocument.customerPostalAddress}}-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <tr>-->
+<!--                                                    <td colspan="2">-->
+<!--                                                        <h2 style="text-align: center">{{selectedDocument.orderType}}</h2>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            </table>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
 
-                                    <tr class="heading">
-                                        <td>
-                                            Item
-                                        </td>
+<!--                                    <tr class="heading">-->
+<!--                                        <td>-->
+<!--                                            No.-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            Item-->
+<!--                                        </td>-->
 
-                                        <td>
-                                            QTY
-                                        </td>
+<!--                                        <td>-->
+<!--                                            QTY-->
+<!--                                        </td>-->
 
-                                        <td>
-                                            Unit
-                                        </td>
+<!--&lt;!&ndash;                                        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            Unit&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </td>&ndash;&gt;-->
 
-                                        <td>
-                                            Price
-                                        </td>
-                                    </tr>
+<!--                                        <td>-->
+<!--                                            Price-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            Total-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
 
-                                    <tr class="item" v-for="(item, index) in selectedDocument.orderItems" :key="index">
-                                        <td>{{item.productName}}</td>
-                                        <td>{{item.qty || 1}}</td>
-                                        <td>{{item.soldMeasurement ? item.soldMeasurement  : ''}}</td>
-                                        <td>{{selectedDocument.total | currency}}</td>
-                                    </tr>
+<!--                                    <tr class="item" v-for="(item, index) in selectedDocument.orderItems" :key="index">-->
+<!--                                        <td>{{index + 1}}</td>-->
+<!--                                        <td>{{item.productName}}</td>-->
+<!--                                        <td>{{item.qty || 1}}</td>-->
+<!--&lt;!&ndash;                                        <td>{{ item.soldMeasurement ? item.soldMeasurement  : ''}}</td>&ndash;&gt;-->
+<!--                                        <td>{{item.price | currency}}</td>-->
+<!--                                        <td>{{item.total | currency}}</td>-->
+<!--                                    </tr>-->
 
-                                    <tr class="total">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+<!--                                    <tr class="total">-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
 
-                                        <td>
-                                            Total: {{selectedDocument.total | currency}}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+<!--                                        <td>-->
+<!--                                            Total: {{selectedDocument.total | currency}}-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td style="text-align: left" colspan="4">-->
+<!--                                            Prepared by : <u>{{selectedDocument.cashierFirstName + ' ' +selectedDocument.cashierLastName}}</u>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -229,14 +248,13 @@
         data : function () {
             return {
                 type : 'INVOICE',
-                selectedDocument : {},
                 docToPost : {},
                 validator : window.validator
             }
         },
         methods : {
             openDocument : function (doc) {
-                this.selectedDocument = doc;
+                this.$salesDoc.initDoc(doc);
                 // eslint-disable-next-line no-undef
                 $("#docCard").modal('show');
             },
@@ -251,97 +269,4 @@
     }
 </script>
 
-<style scoped>
-    .invoice-box {
-        max-width: 800px;
-        min-height: 842px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #eee;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-        font-size: 16px;
-        line-height: 24px;
-        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        color: #555;
-    }
-
-    .invoice-box table {
-        width: 100%;
-        line-height: inherit;
-        text-align: left;
-    }
-
-    .invoice-box table td {
-        padding: 5px;
-        vertical-align: top;
-    }
-
-    .invoice-box table tr td:last-child {
-        text-align: right;
-    }
-
-    .invoice-box table tr.top table td {
-        padding-bottom: 20px;
-    }
-
-    .invoice-box table tr.top table td.title {
-        font-size: 45px;
-        line-height: 45px;
-        color: #333;
-    }
-
-    .invoice-box table tr.information table td {
-        padding-bottom: 40px;
-    }
-
-    .invoice-box table tr.heading td {
-        background: #eee;
-        border-bottom: 1px solid #ddd;
-        font-weight: bold;
-    }
-
-    .invoice-box table tr.details td {
-        padding-bottom: 20px;
-    }
-
-    .invoice-box table tr.item td{
-        border-bottom: 1px solid #eee;
-    }
-
-    .invoice-box table tr.item.last td {
-        border-bottom: none;
-    }
-
-    .invoice-box table tr.total td:last-child {
-        border-top: 2px solid #eee;
-        font-weight: bold;
-    }
-
-    @media only screen and (max-width: 600px) {
-        .invoice-box table tr.top table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-
-        .invoice-box table tr.information table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-    }
-
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-
-    .rtl table {
-        text-align: right;
-    }
-
-    .rtl table tr td:last-child {
-        text-align: left;
-    }
-</style>
+<style scoped></style>
