@@ -84,6 +84,7 @@ const  router = new Router({
                             content : () => import('./views/company manager/CompanyManager')
                         },
                         meta : { breadcrumb : 'Company management'},
+                        props : true,
                         children : [
                             {
                                 path : '',

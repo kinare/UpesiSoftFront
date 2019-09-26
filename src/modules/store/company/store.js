@@ -2,7 +2,20 @@ import endpoints from "./endpoints";
 export default {
     namespaced : true,
     state : {
-        companies : [],
+        companies : [{
+            id : 1,
+            name : 'Focus Glass & Aluminium LTD',
+            owner : 'Irene',
+            email : 'my@mail.com',
+            phone : '0708338855',
+            address : '3881 30100',
+            physicalLocation : 'Nightrose appartment room 2',
+            kraPin : 'A0254888L',
+            vatNo : '548548',
+            users : 5,
+            value : 2000000,
+            dateCreated : '2019-9-25'
+        }],
         message : '',
         status : '',
         loading : false,
