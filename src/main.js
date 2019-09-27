@@ -51,8 +51,8 @@ window.scopes = new Scopes;
 window.Event = new Vue;
 window.validator = new Validator();
 window.helper = new Helper();
-window.api = new Api();
-Vue.prototype.appName = 'UPESISOFT';
+window.api = new Api(process.env.VUE_APP_API);
+Vue.prototype.appName = process.env.VUE_APP_NAME;
 
 Filters.forEach(f => {
     Vue.filter(f.name, f.execute);

@@ -6,7 +6,7 @@
                     <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a class="navbar-brand">{{appName}}</a>
+                    <a class="navbar-brand">{{ appName }}</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -183,7 +183,7 @@
         },
         created(){
             //set page title
-            document.title = 'Focus ERP - ' + this.user.firstName
+            document.title = `${this.appName} - ${this.user.firstName}`
         },
         methods : {
            signOut : function () {
