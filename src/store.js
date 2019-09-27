@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     loading : false,
     hasScopes : '',
-    scopes : {}
+    scopes : {},
+    plans : []
   },
   mutations: {
     LOADING : (state, loading) => {
@@ -18,10 +19,14 @@ export default new Vuex.Store({
     },
     SET_SCOPES : (state, payload) => {
       state.scopes  = payload
+    },
+    SET_PLANS : (state, payload) => {
+      state.plans  = payload
     }
   },
   getters: {
-    loading : state => state.loading
+    loading : state => state.loading,
+    plans : state => state.plans
   },
   actions: {
     //get roles for user persmissions
@@ -37,5 +42,13 @@ export default new Vuex.Store({
         context.commit('SET_SCOPES', window.scopes.getScopes());
       })
     },
+
+    getPricingPlans : (context) => {
+      context.commit('LOADING', false); //todo reset to true :::testing
+      window.api.call('get', endpoints.plans).then(res =>{
+        context.commit('SET_PLANS', res.data.data);
+        context.commit('LOADING', false);
+      })
+    }
   }
 })

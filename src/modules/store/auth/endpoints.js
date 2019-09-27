@@ -5,8 +5,9 @@ let endpoint = {
     reset : 'users/reset/initiate',
     complete : 'users/reset/complete',
     roles : 'b/roles/get',
+    plans : 'b/plans/get',
     businessTypes : 'b/businessTypes'
 
-}
+};
 
 export default endpoint;

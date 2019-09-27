@@ -10,6 +10,10 @@ import Activation from './views/auth/Activation';
 import RegSuccess from './views/auth/RegistrationSuccess';
 import Register from './views/auth/Register';
 import Password from './views/auth/password/Password';
+import Pricing from "./views/layout/Pricing";
+import Plans from "./views/pricing/Plans";
+import Checkout from "./views/pricing/Checkout";
+import Invoice from "./views/pricing/Invoice";
 Vue.use(Router)
 const  router = new Router({
   mode: 'history',
@@ -25,6 +29,25 @@ const  router = new Router({
                 name : 'home',
                 component: Landing,
                 meta : { breadcrumb : 'home'}
+            },
+            {
+                path : 'pricing',
+                component : Pricing,
+                meta : {breadcrumb  : 'pricing'},
+                children : [
+                    {
+                        path : '',
+                        component : Plans
+                    },
+                    {
+                        path : 'checkout',
+                        component : Checkout
+                    },
+                    {
+                        path : 'invoice',
+                        component : Invoice
+                    }
+                ]
             },
             {
                 path : 'pos',
