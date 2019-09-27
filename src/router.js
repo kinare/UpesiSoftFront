@@ -81,7 +81,6 @@ const  router = new Router({
                         path : 'customers/:intended?',
                         component : () => import('./views/point of sale/Customers'),
                     },
-
                     {
                         path : 'payment',
                         component : () => import('./views/point of sale/Payment'),

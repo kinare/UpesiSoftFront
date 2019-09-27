@@ -6,7 +6,7 @@
                         <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                             <i class="fa fa-reorder"></i>
                         </button>
-                        <a class="navbar-brand">{{ appName }}</a>
+                        <router-link to="/" class="navbar-brand">{{ appName }}</router-link>
                     </div>
                     <div class="navbar-collapse collapse" id="navbar">
                         <ul class="nav navbar-nav">
@@ -54,7 +54,9 @@
                     <div class="ibox-content" style="background: none; border: none; padding: 0; min-height: 75vh" :class="{'sk-loading' : loading}">
                         <spinner v-if="loading"/>
                         <div class="row">
-                            <router-view/>
+                            <div class="landing-page">
+                                <router-view/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +94,7 @@
             })
         },
         beforeCreate() {
-            document.body.className = 'top-navigation landing-page no-skin-config  pace-done';
+            document.body.className = 'top-navigation';
         },
         created(){
             //set page title
