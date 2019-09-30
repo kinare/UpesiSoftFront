@@ -168,6 +168,16 @@
                 options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
             }
         },
+        // beforeRouteEnter(to, from, next){
+        //     next(v => {
+        //         //todo check for active plan
+        //          if (v.user.plan) {
+        //              Event.$emit('businessPricing');
+        //          }else {
+        //              Event.$emit('userLoggedIn');
+        //          }
+        //     })
+        // },
         computed : {
             user(){
                 return JSON.parse(this.auth.authUser());

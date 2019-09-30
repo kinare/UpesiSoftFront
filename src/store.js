@@ -8,7 +8,9 @@ export default new Vuex.Store({
     loading : false,
     hasScopes : '',
     scopes : {},
-    plans : []
+    plans : [],
+    selectedPlan : {},
+    businessDetails : {}
   },
   mutations: {
     LOADING : (state, loading) => {
@@ -22,6 +24,12 @@ export default new Vuex.Store({
     },
     SET_PLANS : (state, payload) => {
       state.plans  = payload
+    },
+    SET_BUSINESS_DETAILS : (state, payload) => {
+      state.businessDetails  = payload
+    },
+    SELECT_PLAN : (state, plan) => {
+     state.selectedPlan = plan
     }
   },
   getters: {
@@ -47,6 +55,13 @@ export default new Vuex.Store({
       context.commit('LOADING', false); //todo reset to true :::testing
       window.api.call('get', endpoints.plans).then(res =>{
         context.commit('SET_PLANS', res.data.data);
+        context.commit('LOADING', false);
+      })
+    },
+    getBusinessDetails : (context) => {
+      context.commit('LOADING', false); //todo reset to true :::testing
+      window.api.call('get', endpoints.businessDetails).then(res =>{
+        context.commit('SET_BUSINESS_DETAILS', res.data.data);
         context.commit('LOADING', false);
       })
     }

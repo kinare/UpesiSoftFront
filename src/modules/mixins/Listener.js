@@ -5,6 +5,10 @@ const listener = {
             window.location = '/'
         });
 
+        Event.$on('businessPricing', () => {
+            window.location = '/pricing'
+        });
+
         Event.$on('userLoggedOut', () => {
             this.$router.push('/auth/login')
         });

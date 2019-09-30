@@ -147,6 +147,11 @@
                 loading : state => state.loading,
                 plans : state => state.plans
             })
+        },
+        methods : {
+            selectPlan : function (plan) {
+                this.$store.commit('SELECT_PLAN', plan);
+            }
         }
     }
 </script>

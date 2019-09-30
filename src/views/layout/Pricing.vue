@@ -82,6 +82,7 @@
         beforeRouteEnter(to, from, next){
           next(v => {
               v.$store.dispatch('getPricingPlans');
+              v.$store.dispatch('getBusinessDetails');
           })
         },
         computed : {

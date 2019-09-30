@@ -6,7 +6,8 @@ let endpoint = {
     complete : 'users/reset/complete',
     roles : 'b/roles/get',
     plans : 'b/plans/get',
-    businessTypes : 'b/businessTypes'
+    businessTypes : 'b/businessTypes',
+    businessDetails : 'businesses/single'
 
 };
 

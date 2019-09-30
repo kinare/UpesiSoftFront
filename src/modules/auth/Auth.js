@@ -33,6 +33,14 @@ class Auth {
         window.localStorage.setItem('user', JSON.stringify(data.user));
         this.token = data.token;
         this.user = JSON.stringify(data.user);
+
+        //todo check for active plan
+       /* if (data.user.plan) {
+            Event.$emit('businessPricing');
+        }else {
+            Event.$emit('userLoggedIn');
+        }*/
+
         Event.$emit('userLoggedIn');
     }
 
