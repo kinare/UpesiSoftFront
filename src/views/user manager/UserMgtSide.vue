@@ -1,8 +1,6 @@
 <template>
     <div>
-        <router-link to="/" class="btn btn-block btn-primary side-home" style="padding: 20px 25px;">
-            <i class="fa fa-arrow-left"></i> &nbsp;&nbsp;{{appName}}</router-link>
-
+        <side-link-back-action/>
         <ul class="nav metismenu" id="side-menu" style="">
             <side-header/>
             <li v-if="can('view', 'users')">
@@ -21,10 +19,11 @@
 <script>
     import SideHeader from "../layout/SideHeader";
     import permissions from "../../modules/mixins/Permissions";
+    import SideLinkBackAction from "../../components/SideLinkBackAction";
     export default {
         name: "UserMgt",
         mixins : [permissions],
-        components: {SideHeader}
+        components: {SideLinkBackAction, SideHeader}
     }
 </script>
 

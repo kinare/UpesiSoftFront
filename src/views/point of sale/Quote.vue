@@ -16,7 +16,7 @@
                     <sales-document  :document="quote" v-if="!validator.isEmptyObject(quote)"/>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div class="row">
                     <div class="row">
                         <div class="col-xs-12">

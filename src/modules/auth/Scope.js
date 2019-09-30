@@ -10,6 +10,12 @@ class Scope {
 
     setScopes(role){
         let scopes = {
+            business : {
+                view : role.viewBusinessDetails,
+                update : role.editBusinessDetails,
+                delete : role.editBusinessDetails,
+                create : role.editBusinessDetails,
+            },
            users : {
                view : role.viewUsers,
                update : role.editUsers,

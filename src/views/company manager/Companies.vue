@@ -31,19 +31,19 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Owner</th>
-                                <th>Email</th>
+                                <th>Type</th>
+                                <th>Country</th>
+                                <th>Physical Location</th>
                                 <th>Phone</th>
                                 <th>Address</th>
-                                <th>Physical Location</th>
                                 <th>KRA PIN</th>
                                 <th>VAT NO</th>
-                                <th>No. of Users</th>
-                                <th>Value</th>
+                                <th>Currency</th>
                                 <th>Date Created</th>
                             </tr>
                             </thead>
                            <tbody>
+<<<<<<< HEAD
                             <tr v-for="(company, index) in filteredCompanies" v-bind:key="index" style="cursor: pointer" @click="openCompany(company.id)">
                                 <td>{{index + 1}}</td>
                                 <td>{{company.name}}</td>
@@ -57,6 +57,20 @@
                                 <td>{{company.users}}</td>
                                 <td>{{company.value}}</td>
                                 <td>{{company.dateCreated}}</td>
+=======
+                            <tr v-for="(company, index) in filteredCompanies" v-bind:key="index" style="cursor: pointer" @click="openCompany(company)" >
+                                <td>{{index + 1}}</td>
+                                <td>{{company.businessName}}</td>
+                                <td>{{company.businessTypeName}}</td>
+                                <td>{{company.businessCountry}}</td>
+                                <td>{{company.businessPhysicalAddress}}</td>
+                                <td>{{company.businessPhoneNumber}}</td>
+                                <td>{{company.businessPostalAddress}}</td>
+                                <td>{{company.businessKraPin}}</td>
+                                <td>{{company.businessVatNumber}}</td>
+                                <td>{{company.businessCurrency}}</td>
+                                <td>{{company.createdAt}}</td>
+>>>>>>> businessDetails
                             </tr>
                             </tbody>
                         </table>
@@ -95,7 +109,7 @@
                                 <form>
                                     <div class="form-group">
                                         <label class="control-label">Name</label>
-                                        <input type="text" class="form-control">
+                                         <input type="text" class="form-control" v-model="selectedCompany.businessName">
                                         <span class="help-block"></span>
                                     </div>
 
@@ -107,7 +121,7 @@
                                         </div></div>
                                         <div class="col-md-6"><div class="form-group">
                                             <label class="control-label">Phone</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="selectedCompany.businessPhoneNumber">
                                             <span class="help-block"></span>
                                         </div></div>
                                     </div>
@@ -115,12 +129,12 @@
                                     <div class="row">
                                         <div class="col-md-6"> <div class="form-group">
                                             <label class="control-label">Address</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="selectedCompany.businessPostalAddress">
                                             <span class="help-block"></span>
                                         </div></div>
                                         <div class="col-md-6"><div class="form-group">
                                             <label class="control-label">Physical Location</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="selectedCompany.businessPhysicalAddress">
                                             <span class="help-block"></span>
                                         </div></div>
                                     </div>
@@ -128,18 +142,18 @@
                                     <div class="row">
                                         <div class="col-md-6"><div class="form-group">
                                             <label class="control-label">KRA PIN</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="selectedCompany.businessKraPin">
                                             <span class="help-block"></span>
                                         </div></div>
                                         <div class="col-md-6"><div class="form-group">
                                             <label class="control-label">VAT NO.</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="selectedCompany.businessVatNumber">
                                             <span class="help-block"></span>
                                         </div></div>
                                     </div>
                                 </form>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -148,7 +162,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -163,14 +176,77 @@
         mixins : [permissions, sanitizer],
         data : function(){
             return {
-                url : '',
-                scope : 'companies',
+                scope : 'business',
                 term : '',
                 selectedCompany : '',
                 validator : window.validator,
-                formData :{
-                    logo : ''
+                url : '',
+                selectedCompany : {
+                    businessName: '',
+                    businessTypeId:'',
+                    businessKraPin:'',
+                    businessVatNumber:'',
+                    businessCurrency:'',
+                    businessCountryCode:'',
+                    businessPhoneNumber:'',
+                    businessCountry:'',
+                    businessPhysicalAddress:'',
+                    businessPostalAddress:'',
                 },
+                formDataError : {
+                    businessName: {
+                        status : '',
+                        message : '',
+                    },
+                    businessTypeId:{
+                        status : '',
+                        message : '',
+                    },
+                    businessKraPin:{
+                        status : '',
+                        message : '',
+                    },
+                    businessVatNumber:{
+                        status : '',
+                        message : '',
+                    },
+                    businessCurrency:{
+                        status : '',
+                        message : '',
+                    },
+                    businessCountryCode:{
+                        status : '',
+                        message : '',
+                    },
+                    businessPhoneNumber:{
+                        status : '',
+                        message : '',
+                    },
+                    businessCountry:{
+                        status : '',
+                        message : '',
+                    },
+                    businessPhysicalAddress:{
+                        status : '',
+                        message : '',
+                    },
+                    businessPostalAddress:{
+                        status : '',
+                        message : '',
+                    },
+                },
+                rules : {
+                    businessName: 'required',
+                    businessTypeId:'required',
+                    businessKraPin:'required',
+                    businessVatNumber:'required',
+                    businessCurrency:'required',
+                    businessCountryCode:'required',
+                    businessPhoneNumber:'required',
+                    businessCountry:'required',
+                    businessPhysicalAddress:'required',
+                    businessPostalAddress:'required',
+                }
             }
         },
         beforeRouteEnter(to, from, next){
@@ -198,17 +274,27 @@
         methods : {
             openCompany : function(company){
                 this.selectedCompany = company;
+                this.url = company.businessLogoImage;
 
                 // eslint-disable-next-line no-undef
                 $("#companyModal").modal('show')
             },
             saveCompanyInfo : function () {
-
+                //validate
+                let res = window.validator.fields(this.selectedCompany, this.rules, this.formDataError)
+                if (res.hasErrors){
+                    this.formDataError = res.errors;
+                } else {
+                    this.$store.dispatch('companyMgt/updateCompanyInfo', window.helper.prepareFormData(this.selectedCompany));
+                    // eslint-disable-next-line no-undef
+                    $("#companyModal").modal('hide')
+                    this.selectedCompany = {};
+                }
             },
 
             handleFileUpload(){
-                this.formData.logo = this.$refs.file.files[0];
-                this.url = URL.createObjectURL(this.formData.logo);
+                this.selectedCompany.businessLogoImage = this.$refs.file.files[0];
+                this.url = URL.createObjectURL(this.selectedCompany.businessLogoImage);
             },
         },
     }
