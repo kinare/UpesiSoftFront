@@ -15,13 +15,16 @@ export default {
         SET_LOADING : (state, loading) => {
             state.loading = loading;
         },
+        SET_COMPANY : (state, payload) => {
+            state.companies = payload;
+        },
     },
     getters : {},
     actions: {
         getCompanies : (context) =>{
             context.commit('SET_LOADING', true);
             window.api.call('get', endpoints.companies ).then(res => {
-                context.commit('SET_USERS', res.data.data);
+                context.commit('SET_COMPANY', res.data.data.businessDetails);
                 context.commit('SET_LOADING', false);
             }).catch(error => {
                 context.commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});

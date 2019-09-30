@@ -34,20 +34,30 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Owner</th>
-                                <th>Email</th>
+                                <th>Type</th>
+                                <th>Country</th>
+                                <th>Physical Location</th>
                                 <th>Phone</th>
                                 <th>Address</th>
-                                <th>Physical Location</th>
                                 <th>KRA PIN</th>
                                 <th>VAT NO</th>
-                                <th>No. of Users</th>
-                                <th>Value</th>
+                                <th>Currency</th>
                                 <th>Date Created</th>
                             </tr>
                             </thead>
                            <tbody>
                             <tr v-for="(company, index) in filteredCompanies" v-bind:key="index" style="cursor: pointer" >
+                                <td>{{index + 1}}</td>
+                                <td>{{company.businessName}}</td>
+                                <td>{{company.businessTypeName}}</td>
+                                <td>{{company.businessCurrency}}</td>
+                                <td>{{company.businessPhysicalAddress}}</td>
+                                <td>{{company.businessPhoneNumber}}</td>
+                                <td>{{company.businessPostalAddress}}</td>
+                                <td>{{company.businessKraPin}}</td>
+                                <td>{{company.businessVatNumber}}</td>
+                                <td>{{company.businessCountry}}</td>
+                                <td>{{company.createdAt}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -70,7 +80,7 @@
         mixins : [permissions, sanitizer],
         data : function(){
             return {
-                scope : 'companies',
+                scope : 'business',
                 term : '',
                 validator : window.validator,
             }

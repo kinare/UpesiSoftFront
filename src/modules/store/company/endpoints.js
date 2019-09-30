@@ -1,5 +1,5 @@
 let endpoint = {
-    companies : 'get/companies'
+    companies : 'businesses/single'
 }
 
 export default endpoint;
