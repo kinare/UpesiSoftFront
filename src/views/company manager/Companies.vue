@@ -270,7 +270,7 @@
                 } else {
                     this.$store.dispatch('companyMgt/updateCompanyInfo', window.helper.prepareFormData(this.selectedCompany));
                     // eslint-disable-next-line no-undef
-                    $("#companyModal").modal('hide')
+                    $("#companyModal").modal('hide');
                     this.selectedCompany = {};
                 }
             },
