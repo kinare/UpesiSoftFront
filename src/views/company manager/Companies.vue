@@ -178,7 +178,6 @@
             return {
                 scope : 'business',
                 term : '',
-                selectedCompany : '',
                 validator : window.validator,
                 url : '',
                 selectedCompany : {
