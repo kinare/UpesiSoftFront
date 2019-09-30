@@ -43,21 +43,6 @@
                             </tr>
                             </thead>
                            <tbody>
-<<<<<<< HEAD
-                            <tr v-for="(company, index) in filteredCompanies" v-bind:key="index" style="cursor: pointer" @click="openCompany(company.id)">
-                                <td>{{index + 1}}</td>
-                                <td>{{company.name}}</td>
-                                <td>{{company.owner}}</td>
-                                <td>{{company.email}}</td>
-                                <td>{{company.phone}}</td>
-                                <td>{{company.address}}</td>
-                                <td>{{company.physicalLocation}}</td>
-                                <td>{{company.kraPin}}</td>
-                                <td>{{company.vatNo}}</td>
-                                <td>{{company.users}}</td>
-                                <td>{{company.value}}</td>
-                                <td>{{company.dateCreated}}</td>
-=======
                             <tr v-for="(company, index) in filteredCompanies" v-bind:key="index" style="cursor: pointer" @click="openCompany(company)" >
                                 <td>{{index + 1}}</td>
                                 <td>{{company.businessName}}</td>
@@ -70,7 +55,6 @@
                                 <td>{{company.businessVatNumber}}</td>
                                 <td>{{company.businessCurrency}}</td>
                                 <td>{{company.createdAt}}</td>
->>>>>>> businessDetails
                             </tr>
                             </tbody>
                         </table>
