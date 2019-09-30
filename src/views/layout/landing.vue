@@ -77,7 +77,7 @@
                         </div>
 
                         <!--commpanies-->
-                        <div class="col-lg-3"><!-- todo persmission for company v-if="can('view', 'users')"-->
+                        <div class="col-lg-3" v-if="can('view', 'business')">
                             <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/company-management')">
                                 <div class="m-b-md">
                                     <i class="fa fa-building fa-4x" style="color: #42b983"></i>

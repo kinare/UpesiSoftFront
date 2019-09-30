@@ -31,5 +31,15 @@ export default {
                 context.commit('SET_LOADING', false);
             })
         },
+        updateCompanyInfo : ({commit, dispatch}, data) =>{
+            commit('SET_LOADING', true);
+            window.api.call('post', endpoints.companies, data).then(() => {
+                commit('SET_LOADING', false);
+                dispatch('getCompanies');
+            }).catch(error => {
+                commit('SET_MESSAGE',{  message : error.response.data.message, status : 'alert-warning'});
+                commit('SET_LOADING', false);
+            })
+        },
     }
 }

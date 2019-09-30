@@ -13,73 +13,10 @@
             <div class="row">
                 <div class="col-xs-7 border-right">
                     <div class="row" id="receipt">
-                        <div class="col-xs-6 col-xs-push-3" >
+                        <div class="col-xs-10 col-xs-push-1" >
                             <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; width : 340px " >
                                 <spinner v-if="loading"/>
-                                <div class="row">
-                                    <div class="pos-receipt" v-if="!validator.isEmptyObject(receipt)" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
-                                        <div class="pos-receipt-header">
-                                            <h5 class="text-center">
-                                                <strong>Focus Glass & Aluminium</strong><br>
-                                                Receipt No: {{receipt.id}}<br>
-                                                Date : {{receipt.createdAt}}
-                                            </h5>
-                                            <p>Name : {{receipt.customerIsBusiness ? receipt.customerBusinessName : receipt.customerFirstName + ' ' + receipt.customerLastName}}</p>
-                                            <p>Phone : {{receipt.customerPhoneNumber}}</p>
-                                            <p>Email : {{receipt.customerEmail}}</p>
-                                        </div>
-                                        <div class="hr-line-dashed"></div>
-                                        <div class="pos-receipt-content">
-                                            <table class="table small table-condensed">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Item</th>
-                                                        <th>QTY</th>
-                                                        <th>Unit</th>
-                                                        <th>Price</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr v-for="(item, index) in receipt.orderItems" :key="index" >
-                                                    <td class="no-borders">
-                                                       {{item.productName}}
-                                                    </td>
-                                                    <td class="no-borders">
-                                                        {{item.qty || 1}}
-                                                    </td>
-                                                    <td class="no-borders">
-                                                       {{item.soldMeasurement | number}}{{measurmentAbbreviation(item.measurementUnitId)}}
-                                                    </td>
-                                                    <td class="no-borders">
-                                                        {{item.price | currency}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="no-borders"><strong>Total</strong></td>
-                                                    <td class="no-borders"><strong>{{receipt.total | currency}}</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="no-borders"><strong>Cash</strong></td>
-                                                    <td class="no-borders"><strong>{{receipt.tenderedAmount | currency}}</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="no-borders"><strong>Change</strong></td>
-                                                    <td class="no-borders"><strong>{{receipt.changeAmount | currency}}</strong></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="hr-line-dashed"></div>
-                                        <div class="pos-receipt-footer">
-                                            <h3 class="text-center">Thank You</h3>
-                                            <p> Served by : {{receipt.cashierFirstName + ', ' + receipt.cashierLastName}} </p>
-                                            <small class="text-center">
-                                                Made by digital 4 Africa <br>
-                                                www.digital4africa.com
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
+                                <sales-document  :document="receipt" v-if="!validator.isEmptyObject(receipt)"/>
                             </div>
                         </div>
                     </div>
