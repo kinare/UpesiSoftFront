@@ -5,7 +5,8 @@ let endpoint = {
     reset : 'users/reset/initiate',
     complete : 'users/reset/complete',
     roles : 'b/roles/get',
-    businessTypes : 'b/businessTypes'
+    businessTypes : 'b/businessTypes',
+    businessDetails : 'businesses/single'
 
 }
 

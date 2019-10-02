@@ -1,99 +1,172 @@
 <template>
-    <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            <tr class="top">
-                <td colspan="5">
-                    <table>
-                        <tr>
-                            <td class="title">
-                                <img src="https://www.focus.upesisoft.com/img/Focus%20Logo.png" style="width:100%; max-width:150px;">
-                            </td>
+    <div v-if="!validator.isEmptyObject(salesDocument)" class="row">
 
-                            <td>
-                                {{salesDocument.orderType | capitalize}} #: {{salesDocument.id}}<br>
-                                Date: {{salesDocument.createdAt}}<br>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+<!--        receipt view-->
+        <div v-if="salesDocument.orderType === 'ORDER'" class="row" id="receipt">
+            <div class="col-xs-12" >
+                <div class="row">
+                    <div class="pos-receipt" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
+                        <div class="pos-receipt-header">
+                            <h3 class="text-center"><strong>Focus Glass & Aluminium</strong></h3>
+                            <h5 class="text-center">
+                                Receipt No: {{salesDocument.id}}<br>
+                                Date : {{salesDocument.createdAt}}
+                            </h5>
+                            <p>Name : {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</p>
+                            <p>Phone : {{salesDocument.customerPhoneNumber}}</p>
+                            <p>Email : {{salesDocument.customerEmail}}</p>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="pos-receipt-content">
+                            <table class="table small table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>QTY</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(item, index) in salesDocument.orderItems" :key="index" >
+                                    <td class="no-borders">
+                                        {{item.productName}}
+                                    </td>
+                                    <td class="no-borders">
+                                        {{item.qty || 1}}
+                                    </td>
+                                    <td class="no-borders">
+                                        {{item.soldMeasurement ? item.soldMeasurement  : ''}}
+                                    </td>
+                                    <td class="no-borders">
+                                        {{item.price | currency}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="no-borders"><strong>Total</strong></td>
+                                    <td class="no-borders"><strong>{{salesDocument.total | currency}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="no-borders"><strong>Cash</strong></td>
+                                    <td class="no-borders"><strong>{{salesDocument.tenderedAmount | currency}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="no-borders"><strong>Change</strong></td>
+                                    <td class="no-borders"><strong>{{salesDocument.changeAmount | currency}}</strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="pos-receipt-footer">
+                            <p class="text-center"> <strong>Served by</strong> : {{salesDocument.cashierFirstName + ' ' + salesDocument.cashierLastName}} </p>
+                            <h3 class="text-center">Thank You</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <tr class="information">
-                <td colspan="5">
-                    <table>
-                        <tr>
-                            <td>
-                                <strong>Focus Glass & Aluminium LTD.</strong><br>
-                                {{salesDocument.cashierFirstName + ' ' + salesDocument.cashierLastName}}<br>
-                                {{salesDocument.cashierEmail}}
-                            </td>
+<!--        invoice view-->
+        <div v-else class="invoice-box">
+            <table cellpadding="0" cellspacing="0">
+                <tr class="top">
+                    <td colspan="5">
+                        <table>
+                            <tr>
+                                <td class="title">
+                                    <img :src="business.businessLogoImage" style="width:100%; max-width:150px;">
+                                </td>
 
-                            <td>
-                                <strong>To</strong><br>
-                                <strong>{{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</strong><br>
-                                +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
-                                {{salesDocument.customerEmail}}<br>
-                                {{salesDocument.customerPostalAddress}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <h2 style="text-align: center"><strong>{{salesDocument.orderType}}</strong></h2>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+                                <td>
+                                    {{salesDocument.orderType | capitalize}} #: {{salesDocument.id}}<br>
+                                    Date: {{salesDocument.createdAt}}<br>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-            <tr class="heading">
-                <td>
-                    No.
-                </td>
-                <td>
-                    Item
-                </td>
+                <tr class="information">
+                    <td colspan="5">
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong>{{business.businessName}}</strong><br>
+                                    {{business.businessPostalAddress}}, {{business.businessCountry}}<br>
+                                    {{business.businessPhysicalAddress}},<br>
+                                    {{business.businessPhoneNumber}}<br>
+                                    KRA : {{business.businessKraPin}}<br>
+                                    VAT No. : {{business.businessVatNumber}}
+                                </td>
 
-                <td>
-                    QTY
-                </td>
+                                <td>
+                                    <strong>To</strong><br>
+                                    <strong>{{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</strong><br>
+                                    +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
+                                    {{salesDocument.customerEmail}}<br>
+                                    {{salesDocument.customerPostalAddress}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h2 style="text-align: center"><strong>{{salesDocument.orderType}}</strong></h2>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-                <!--                                        <td>-->
-                <!--                                            Unit-->
-                <!--                                        </td>-->
+                <tr class="heading">
+                    <td>
+                        No.
+                    </td>
+                    <td>
+                        Item
+                    </td>
 
-                <td>
-                    Price
-                </td>
-                <td>
-                    Total
-                </td>
-            </tr>
+                    <td>
+                        QTY
+                    </td>
 
-            <tr class="item" v-for="(item, index) in salesDocument.orderItems" :key="index">
-                <td>{{index + 1}}</td>
-                <td>{{item.productName}}</td>
-                <td>{{item.qty || 1}}</td>
-                <!--                                        <td>{{ item.soldMeasurement ? item.soldMeasurement  : ''}}</td>-->
-                <td>{{item.price | currency}}</td>
-                <td>{{item.total | currency}}</td>
-            </tr>
+                    <!--                                        <td>-->
+                    <!--                                            Unit-->
+                    <!--                                        </td>-->
 
-            <tr class="total">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                    <td>
+                        Price
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                </tr>
 
-                <td>
-                    Total: {{salesDocument.total | currency}}
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: left" colspan="4">
-                    Prepared by : <u>{{salesDocument.cashierFirstName + ' ' +salesDocument.cashierLastName}}</u>
-                </td>
-            </tr>
-        </table>
+                <tr class="item" v-for="(item, index) in salesDocument.orderItems" :key="index">
+                    <td>{{index + 1}}</td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.qty || 1}}</td>
+                    <!--                                        <td>{{ item.soldMeasurement ? item.soldMeasurement  : ''}}</td>-->
+                    <td>{{item.price | currency}}</td>
+                    <td>{{item.total | currency}}</td>
+                </tr>
+
+                <tr class="total">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td>
+                        Total: {{salesDocument.total | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left" colspan="4">
+                        Prepared by : <u>{{salesDocument.cashierFirstName + ' ' +salesDocument.cashierLastName}}</u>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -105,7 +178,9 @@
         props : ['document'],
         data : function () {
             return {
-                salesDocument : {}
+                salesDocument : {},
+                auth : window.auth,
+                validator : window.validator
             }
         },
         mounted(){
@@ -117,6 +192,11 @@
         },
         destroyed(){
           this.unsetDoc();
+        },
+        computed : {
+          business(){
+              return JSON.parse(this.auth.business());
+          }
         },
         methods : {
             initDoc : function (doc) {
