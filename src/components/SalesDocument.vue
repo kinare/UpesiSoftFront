@@ -146,8 +146,8 @@
                     <td>{{item.productName}}</td>
                     <td>{{item.qty || 1}}</td>
                     <!--                                        <td>{{ item.soldMeasurement ? item.soldMeasurement  : ''}}</td>-->
+                    <td>{{item.productDefaultPrice | currency}}</td>
                     <td>{{item.price | currency}}</td>
-                    <td>{{item.total | currency}}</td>
                 </tr>
 
                 <tr class="total">
