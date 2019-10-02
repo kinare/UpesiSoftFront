@@ -8,123 +8,28 @@
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center m-t-xs">
                     <div class="btn-group">
-                        <button class="btn btn-primary" type="button">Monthly</button>
-                        <button class="btn btn-white" type="button">Yearly</button>
+                        <button class="btn" :class="periodType === 'monthly' ? 'btn-primary' : 'btn-white'" @click="periodType = 'monthly'" type="button">Monthly</button>
+                        <button class="btn" :class="periodType === 'yearly' ? 'btn-primary' : 'btn-white'" @click="periodType = 'yearly'" type="button">Yearly</button>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 wow zoomIn animated" style="visibility: visible;">
+                <div v-for="(plan, index) in plans" :key="index" class="col-lg-4 wow zoomIn animated" style="visibility: visible;">
                     <ul class="pricing-plan list-unstyled selected">
-                        <li class="pricing-title">
-                            STARTER
+                        <li class="pricing-title text-uppercase">
+                            {{plan.paymentPlanName}}
                         </li>
                         <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                            {{plan.paymentPlanDescription}}
                         </li>
                         <li class="pricing-price">
-                            <span>{{2000 | currency}}</span> / month
+                            <span>{{payment(plan.paymentPlanPeriods).paymentPlanPeriodPrice | currency}}</span> / {{ payment(plan.paymentPlanPeriods).paymentPlanPeriodName}}
                         </li>
-                        <li>
-                            POS
-                        </li>
-                        <li>
-                            Inventory
-                        </li>
-                        <li>
-                            Accounting
-                        </li>
-                        <li>
-                            User Management
-                        </li>
-                        <li>
-                            Notification
+                        <li v-for="(feature, index) in plan.paymentPlanFeatures" :key="index">
+                            {{feature.paymentPlanFeatureName}}
                         </li>
                         <li class="plan-action">
-                            <router-link to="/pricing/invoice" class="btn btn-primary btn-block">Select</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 wow zoomIn animated" style="visibility: visible;">
-                    <ul class="pricing-plan list-unstyled selected">
-                        <li class="pricing-title">
-                            PROFESSIONAL
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>{{4000 | currency}}</span> / month
-                        </li>
-                        <li>
-                            POS
-                        </li>
-                        <li>
-                            Inventory
-                        </li>
-                        <li>
-                            Accounting
-                        </li>
-                        <li>
-                            Payments
-                        </li>
-                        <li>
-                            User Management
-                        </li>
-                        <li>
-                           Reporting
-                        </li>
-                        <li>
-                            Multi store
-                        </li>
-                        <li>
-                            Reporting
-                        </li>
-                        <li class="plan-action">
-                            <router-link to="/pricing/invoice" class="btn btn-primary btn-block">Select</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 wow zoomIn animated" style="visibility: visible;">
-                    <ul class="pricing-plan list-unstyled selected">
-                        <li class="pricing-title">
-                            ENTERPRISE
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>{{8000 | currency}}</span> / month
-                        </li>
-                        <li>
-                            POS
-                        </li>
-                        <li>
-                            Inventory
-                        </li>
-                        <li>
-                            Accounting
-                        </li>
-                        <li>
-                            Payments
-                        </li>
-                        <li>
-                            User Management
-                        </li>
-                        <li>
-                            Reporting
-                        </li>
-                        <li>
-                            Multi store
-                        </li>
-                        <li>
-                            Reporting
-                        </li>
-                        <li>
-                            Web Integration
-                        </li>
-                        <li class="plan-action">
-                            <router-link to="/pricing/invoice" class="btn btn-primary btn-block">Select</router-link>
+                            <a @click="selectPlan(plan)"  class="btn btn-primary btn-block">Select</a>
                         </li>
                     </ul>
                 </div>
@@ -142,6 +47,11 @@
     import {mapState} from "vuex";
     export default {
         name: "Plans",
+        data : function(){
+          return {
+              periodType : 'yearly',
+          };
+        },
         computed : {
             ...mapState({
                 loading : state => state.loading,
@@ -149,8 +59,23 @@
             })
         },
         methods : {
+            payment : function(payment){
+                let self = this;
+                // eslint-disable-next-line no-console
+                console.log(payment)
+                return payment.filter(pay => {
+                    return pay.paymentPlanPeriodType === self.periodType
+                }).shift();
+            },
+
             selectPlan : function (plan) {
-                this.$store.commit('SELECT_PLAN', plan);
+                let data = {
+                    plan : plan,
+                    period : this.periodType
+                };
+
+                this.$store.commit('SELECT_PLAN', data);
+                this.$router.push('/pricing/invoice');
             }
         }
     }

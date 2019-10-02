@@ -4,6 +4,7 @@ class Auth {
     constructor(){
         this.token = window.localStorage.getItem('token');
         this.user = window.localStorage.getItem('user');
+        this.paymentPlan = window.localStorage.getItem('paymentPlan');
 
         //Set axios global headers
         window.axios.defaults.headers.common['Accept'] = 'Application/json';
@@ -31,22 +32,23 @@ class Auth {
     login (data){
         window.localStorage.setItem('token', data.token);
         window.localStorage.setItem('user', JSON.stringify(data.user));
+        window.localStorage.setItem('paymentPlan', JSON.stringify(data.paymentPlan));
         this.token = data.token;
         this.user = JSON.stringify(data.user);
 
         //todo check for active plan
-       /* if (data.user.plan) {
+        if (!data.paymentPlan) {
             Event.$emit('businessPricing');
         }else {
             Event.$emit('userLoggedIn');
-        }*/
+        }
 
-        Event.$emit('userLoggedIn');
     }
 
     logout () {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('user');
+        window.localStorage.removeItem('paymentPlan');
         window.scopes.clearScopes();
         this.token = null;
         this.user = null;

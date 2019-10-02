@@ -168,19 +168,19 @@
                 options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
             }
         },
-        // beforeRouteEnter(to, from, next){
-        //     next(v => {
-        //         //todo check for active plan
-        //          if (v.user.plan) {
-        //              Event.$emit('businessPricing');
-        //          }else {
-        //              Event.$emit('userLoggedIn');
-        //          }
-        //     })
-        // },
+        beforeRouteEnter(to, from, next){
+            next(v => {
+                 if (!v.plan) {
+                     Event.$emit('businessPricing');
+                 }
+            })
+        },
         computed : {
             user(){
                 return JSON.parse(this.auth.authUser());
+            },
+            plan(){
+                return JSON.parse(this.auth.paymentPlan);
             },
 
             ...mapState({

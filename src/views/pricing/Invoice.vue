@@ -12,10 +12,11 @@
                     <div class="col-sm-6">
                         <h5>From:</h5>
                         <address>
-                            <strong>Inspinia, Inc.</strong><br>
-                            106 Jorg Avenu, 600/10<br>
-                            Chicago, VT 32456<br>
-                            <abbr title="Phone">P:</abbr> (123) 601-4590
+                            <strong>Digital 4 Africa.</strong><br>
+                            The Mirage Towers(Nairobi Garage), <br>
+                            Chiromo Rd, Westlands, Nairobi<br>
+                            0743830663<br>
+                            hello@digital4africa.com<br>
                         </address>
                     </div>
 
@@ -30,8 +31,7 @@
                             <abbr title="Phone">P:</abbr> (120) 9000-4321
                         </address>
                         <p>
-                            <span><strong>Invoice Date:</strong> Marh 18, 2014</span><br>
-                            <span><strong>Due Date:</strong> March 24, 2014</span>
+                            <span><strong>Invoice Date:</strong> {{new Date()}}</span><br>
                         </p>
                     </div>
                 </div>
@@ -40,19 +40,15 @@
                     <table class="table invoice-table">
                         <thead>
                         <tr>
-                            <th>Item List</th>
-                            <th>Unit Price</th>
-                            <th>Tax</th>
+                            <th>Plan</th>
                             <th>Total Price</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><div><strong>Admin Theme with psd project layouts</strong></div>
-                                <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small></td>
-                            <td>$26.00</td>
-                            <td>$5.98</td>
-                            <td>$31,98</td>
+                            <td><div><strong>{{plan.paymentPlanName}}s</strong></div>
+                                <small>{{plan.paymentPlanDescription}}</small></td>
+                            <td>{{payment(plan.paymentPlanPeriods).paymentPlanPeriodPrice}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -61,25 +57,13 @@
                 <table class="table invoice-total">
                     <tbody>
                     <tr>
-                        <td><strong>Sub Total :</strong></td>
-                        <td>$1026.00</td>
-                    </tr>
-                    <tr>
-                        <td><strong>TAX :</strong></td>
-                        <td>$235.98</td>
-                    </tr>
-                    <tr>
                         <td><strong>TOTAL :</strong></td>
-                        <td>$1261.98</td>
+                        <td>{{payment(plan.paymentPlanPeriods).paymentPlanPeriodPrice}}</td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="text-right">
                     <router-link to="/pricing/checkout" class="btn btn-primary"><i class="fa fa-dollar"></i> Make A Payment</router-link>
-                </div>
-
-                <div class="well m-t"><strong>Comments</strong>
-                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
                 </div>
             </div>
         </div>
@@ -90,9 +74,25 @@
     import { mapState } from 'vuex';
     export default {
         name: "Invoice",
+        data : function(){
+            return {
+               // business : window.auth.
+            }
+        },
+        methods : {
+            payment : function(payment){
+                let self = this;
+                // eslint-disable-next-line no-console
+                console.log(payment)
+                return payment.filter(pay => {
+                    return pay.paymentPlanPeriodType === self.period
+                }).shift();
+            },
+        },
         computed : {
             ...mapState({
-                plan : state => state.selectedPlan,
+                plan : state => state.selectedPlan.plan,
+                period : state => state.selectedPlan.period,
                 business : state => state.businessDetails
             })
         }
