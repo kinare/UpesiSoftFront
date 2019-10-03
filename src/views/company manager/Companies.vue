@@ -1,9 +1,9 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <div class="ibox float-e-margins">
+            <div class="ibox float-e-margins">99bv
                 <div class="ibox-title">
-                    <h5>Users</h5>
+                    <h5>Business</h5>
                     <div class="ibox-tools">
                         <a class="btn btn-xs btn-white">
                             <i class="fa fa-sync-alt" @click="$store.dispatch('companyMgt/getCompanies')"></i>
