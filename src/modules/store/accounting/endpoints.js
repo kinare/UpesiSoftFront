@@ -3,6 +3,8 @@ let endpoint = {
     measurements :'products/measurementUnits',
     update :'order/state/update',
     delete :'',
+    mailDoc : 'orders/customer/email',
+
 }
 
 export default endpoint;

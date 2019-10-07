@@ -96,11 +96,16 @@
                                          <input type="text" class="form-control" v-model="selectedCompany.businessName">
                                         <span class="help-block"></span>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Tagline</label>
+                                        <input type="text" class="form-control" v-model="selectedCompany.businessTagline">
+                                        <span class="help-block"></span>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-6"><div class="form-group">
                                             <label class="control-label">Email</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" v-model="selectedCompany.businessEmail" class="form-control">
                                             <span class="help-block"></span>
                                         </div></div>
                                         <div class="col-md-6"><div class="form-group">
@@ -135,6 +140,11 @@
                                             <span class="help-block"></span>
                                         </div></div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Terms & Conditions</label>
+                                        <vue-editor v-model="selectedCompany.businessTerms" />
+                                        <span class="help-block"></span>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -166,6 +176,8 @@
                 url : '',
                 selectedCompany : {
                     businessName: '',
+                    businessTagline: '',
+                    businessEmail: '',
                     businessTypeId:'',
                     businessKraPin:'',
                     businessVatNumber:'',
@@ -175,6 +187,7 @@
                     businessCountry:'',
                     businessPhysicalAddress:'',
                     businessPostalAddress:'',
+                    businessTerms:'',
                 },
                 formDataError : {
                     businessName: {

@@ -71,7 +71,17 @@ let sales = {
             orderId : id,
         };
         this.$store.dispatch('accounting/deleteSalesDocuments', data);
+    },
+
+    mailDoc : function () {
+        let data = {
+            orderId : this.selectedDoc.id,
+            customerEmail : this.selectedDoc.customerEmail
+        };
+
+        this.$store.dispatch(`accounting/mailDoc`, data)
     }
+
 }
 
 export default sales;

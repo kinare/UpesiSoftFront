@@ -21,7 +21,12 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button @click="printDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-print"></i> Print quote</button>
-                            <button @click="mailDoc" class="btn btn-block btn-lg btn-default"><i class="fa fa-envelope"></i> Email Quote</button>
+                            <div class="input-group input-group-lg m-t">
+                                <input class="form-control" v-model="email">
+                                <div class="input-group-btn" >
+                                    <button @click="mailDoc" class="btn btn-lg btn-primary" type="button"><i class="fa fa-envelope"></i> Send</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,6 +44,7 @@
             return {
                 namespace : '',
                 validator : window.validator,
+                email : ''
             }
         },
         beforeRouteEnter(to, from, next){
@@ -50,6 +56,8 @@
                     v.document.customerId = v.customer.id;
                     v.document.customerDetails  = JSON.stringify(v.customer);
                 }
+
+                v.email = v.customer.customerEmail;
 
                 //post quote
                 v.$store.dispatch(`pos/${v.namespace}/generateDocument`, v.document);
@@ -66,8 +74,12 @@
             },
 
             mailDoc : function () {
-                //todo Mail quote to customer
-            }
+                let data = {
+                    orderId : this.quote.id,
+                    customerEmail : this.email
+                };
+
+                this.$store.dispatch(`pos/${this.namespace }/mailDoc`, data)            }
         },
         computed : {
             quote(){return this.$store.getters[`pos/${this.namespace }/quote`]},

@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
 <!--        sales display-->
-        <div class="col-sm-5 border-right">
+        <div class="col-sm-6 border-right">
 <!--            pos display-->
             <div class="row">
                 <div class="ibox" style="margin-bottom: 0;">
@@ -94,37 +94,42 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <router-link :class="totalSale === 0 ? 'disabled' : ''" :to="'/pos/payment/' + namespace.split('/').pop()" class="btn btn-lg btn-block btn-info pay-btn">Payment</router-link>
-                                <a @click="postDocument('INVOICE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white btn-block">Invoice</a>
-                                <a @click="postDocument('QUOTE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white btn-block">Quote</a>
                             </div>
-                            <div class="col-xs-8">
-                                <div class="row no-pad">
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(1)">1</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(4)">4</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(7)">7</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate('+/-')">+/-</button>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(2)">2</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(5)">5</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(8)">8</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(0)">0</button>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(3)">3</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(6)">6</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(9)">9</button>
-                                        <button class="btn btn-lg btn-white btn-block" @click="calculate('.')">.</button>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-success' : 'btn-white'" @click="setOperation('QTY')">Qty</button>
-                                        <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-success' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>
-                                        <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-success' : 'btn-white'" @click="setOperation('PRICE')">Price</button>
-                                        <button class="btn btn-lg btn-danger btn-block" @click="removeItem()"><i class="fa fa-backspace"></i> </button>
-                                    </div>
-                                </div>
+                            <div class="col-xs-4">
+                                <a @click="postDocument('INVOICE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/invoice" class="btn btn-lg btn-block btn-white pay-btn btn-block">Invoice</a>
+
                             </div>
+                            <div class="col-xs-4">
+                                <a @click="postDocument('QUOTE')" :class="totalSale === 0 ? 'disabled' : ''" to="/pos/quote" class="btn btn-lg btn-block btn-white pay-btn btn-block">Quote</a>
+                            </div>
+<!--                            <div class="col-xs-8">-->
+<!--                                <div class="row no-pad">-->
+<!--                                    <div class="col-xs-3">-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(1)">1</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(4)">4</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(7)">7</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate('+/-')">+/-</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-xs-3">-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(2)">2</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(5)">5</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(8)">8</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(0)">0</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-xs-3">-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(3)">3</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(6)">6</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate(9)">9</button>-->
+<!--                                        <button class="btn btn-lg btn-white btn-block" @click="calculate('.')">.</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-xs-3">-->
+<!--                                        <button class="btn btn-lg btn-block" :class="operation === 'QTY' ? 'btn-success' : 'btn-white'" @click="setOperation('QTY')">Qty</button>-->
+<!--                                        <button class="btn btn-lg btn-block" :class="operation === 'UNIT' ? 'btn-success' : 'btn-white'" @click="setOperation('UNIT')">Unit</button>-->
+<!--                                        <button class="btn btn-lg btn-block" :class="operation === 'PRICE' ? 'btn-success' : 'btn-white'" @click="setOperation('PRICE')">Price</button>-->
+<!--                                        <button class="btn btn-lg btn-danger btn-block" @click="removeItem()"><i class="fa fa-backspace"></i> </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -132,46 +137,98 @@
         </div>
 
 <!--        product display-->
-        <div class="col-sm-7 col-xs-12">
-            <div class="col-xs-12">
-                <div class="row m-b">
-                    <div class="col-xs-10 col-xs-push-1">
-                        <form>
-                            <div class="input-group input-group-lg">
-                                <input type="text" placeholder="Search Item" v-model="term" autofocus class="form-control">
-                                <div class="input-group-btn" >
-                                    <button @click="term = ''"  class="btn btn-default" type="button">Clear</button>
-                                </div>
-                            </div>
-                        </form>
+        <div class="col-sm-6 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Products</h5>
+                    <div class="ibox-tools">
+                        <a class="btn btn-xs" :class="view === 'list' ? 'btn-primary' : 'btn-white'" @click="$store.commit('inventory/SET_VIEW', 'list')">
+                            <i class="fa fa-list"></i>
+                        </a>
+                        <a class="btn btn-xs " :class="view === 'grid' ? 'btn-primary' : 'btn-white'" @click="$store.commit('inventory/SET_VIEW', 'grid')">
+                            <i class="fa fa-th-large"></i>
+                        </a>
+                        <a class="btn btn-xs btn-white">
+                            <i class="fa fa-sync-alt" @click="$store.dispatch('inventory/getProducts')"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="ibox-content search-items style-1"  :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none; padding: 0; margin: 0">
+                <div class="ibox-content "  :class="loading ? 'sk-loading' : ''">
                     <Spinner v-if="loading"/>
-                    <div class="col-xs-6" v-for="(product, index) in filteredProducts" v-bind:key="index">
-                        <div class="contact-box" style="padding: 5px">
-                            <a @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
-                                <div class="col-sm-4">
-                                    <div class="text-center">
-                                        <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
-                                        <div class="m-t-xs font-bold">
-                                            <span class="badge badge-info">{{product.price | currency}}</span>
+
+                    <div class="row m-b m-t" style="position: sticky">
+                        <div class="col-xs-10 col-xs-push-1">
+                            <form>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search Item" v-model="term" autofocus class="form-control">
+                                    <div class="input-group-btn" >
+                                        <button @click="term = ''"  class="btn btn-default" type="button">Clear</button>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="search-items style-1">
+                        <div v-if="view === 'list'" class="table-responsive product-list">
+                            <table class="table table-hover table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Thumbnail</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Full Items</th>
+                                    <th>Pieces</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(product, index) in filteredProducts" v-bind:key="index" @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)" style="cursor: pointer">
+                                    <td class="product-avatar"><img alt="image" :src="product.productImage || '/img/placeholder.jpg'"> </td>
+                                    <td>
+                                        {{product.productName}}<br>
+                                        <small class="text-muted">{{product.productShortDescription}}</small>
+                                    </td>
+                                    <td>{{product.productCategoryName}}</td>
+                                    <td>{{product.price | currency}}</td>
+                                    <td><span class="badge badge-white">{{product.qty}}</span> </td>
+                                    <td><span class="badge badge-white">{{product.sellAs === 'CUSTOM' ? product.pieces : '0'}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="10" v-if="validator.isEmptyObject(products)">
+                                        <div class="alert" :class="status">
+                                            {{message}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div v-if="view === 'grid'" class="row">
+                            <div class="col-lg-6" v-for="(product, index) in filteredProducts" v-bind:key="index" style="cursor: pointer">
+                                <div class="prod-widget widget style1 white-bg" @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
+                                    <div class="row">
+                                        <div class="col-xs-4" style="position: relative">
+                                            <span class="badge badge-info price-tag">{{product.price | currency}}</span>
+                                            <img alt="image" class="m-t-md img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <span> <strong>{{product.productName}}</strong></span><br>
+                                            <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
+                                            <small v-if="product.sellAs === 'CUSTOM' ">Piece : {{product.pieces}}</small><br>
+                                            <small title="category"><i class="fa fa-tag"></i> : {{product.productCategoryName}}</small>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <h5><strong>{{product.productName}}</strong></h5>
-                                    <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
-                                    <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.pieces}}</small><br>
-                                    <small>Category : {{product.productCategoryName}}</small>
-                                </div>
-                                <div class="clearfix"></div>
-                            </a>
+                            </div>
+                            <div v-if="validator.isEmptyObject(products)" class="aler alert-warning text-center m-t-lg p-lg">
+                                <h1>No Products Found</h1>
+                                <p>Contact Inventory manager for more info</p>
+                            </div>
                         </div>
-                    </div>
-                    <div v-if="validator.isEmptyObject(products)" class="aler alert-warning text-center m-t-lg p-lg">
-                        <h1>No Products Found</h1>
-                        <p>Contact Inventory manager for more info</p>
                     </div>
                 </div>
             </div>
@@ -317,6 +374,7 @@
             loading(){return this.$store.getters['inventory/loading']},
             message(){return this.$store.getters['inventory/message']},
             status(){return this.$store.getters['inventory/status']},
+            view(){return this.$store.getters['inventory/view']},
             getUom(){return this.$store.getters['inventory/getMeasurementUnit']},
 
 
@@ -494,6 +552,7 @@
     }
 </script>
 <style scoped>
+
     .prod-image{
         padding: 50px 0;
         background-repeat:no-repeat;
@@ -579,10 +638,10 @@
         border:  1px solid #e7eaec;
     }
     .pos-items{
-        height: 40vh;
+        height: 44vh;
         position: relative;
         overflow-y: scroll;
-        padding: 10px;
+        /*padding: 10px;*/
     }
     .pos-display{
         border:  1px solid #e7eaec;
@@ -595,7 +654,7 @@
 
 
     .search-items{
-        height: 80vh;
+        height: 52vh;
         overflow-y: scroll;
     }
 
