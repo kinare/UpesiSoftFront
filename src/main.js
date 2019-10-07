@@ -26,6 +26,9 @@ import isOnline from './modules/mixins/OnlineChecker'
 import Toasted from 'vue-toasted';
 import Confirmation from './modules/plugins/Confirmation';
 import SalesDocument from './modules/plugins/SalesDocument';
+import Vue2Editor from "vue2-editor";
+
+Vue.use(Vue2Editor);
 
 Vue.config.productionTip = false;
 Vue.use(fullscreen);

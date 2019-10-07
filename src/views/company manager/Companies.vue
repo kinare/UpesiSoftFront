@@ -145,7 +145,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Terms & Conditions</label>
-                                        <textarea class="form-control" v-model="selectedCompany.businessTerms"></textarea>
+                                        <vue-editor v-model="selectedCompany.businessTerms" />
+                                        <textarea class="form-control" ></textarea>
                                         <span class="help-block"></span>
                                     </div>
                                 </form>

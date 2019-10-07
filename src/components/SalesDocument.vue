@@ -7,7 +7,10 @@
                 <div class="row">
                     <div class="pos-receipt" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
                         <div class="pos-receipt-header">
-                            <h3 class="text-center"><strong>Focus Glass & Aluminium</strong></h3>
+                            <h2 class="text-center">
+                                <strong>{{business.businessName}}</strong><br>
+                                <small><i>{{business.businessTagline}}</i></small><br>
+                            </h2>
                             <h5 class="text-center">
                                 Receipt No: {{salesDocument.id}}<br>
                                 Date : {{salesDocument.createdAt}}
@@ -23,7 +26,6 @@
                                 <tr>
                                     <th>Item</th>
                                     <th>QTY</th>
-                                    <th>Unit</th>
                                     <th>Price</th>
                                 </tr>
                                 </thead>
@@ -36,22 +38,19 @@
                                         {{item.qty || 1}}
                                     </td>
                                     <td class="no-borders">
-                                        {{item.soldMeasurement ? item.soldMeasurement  : ''}}
-                                    </td>
-                                    <td class="no-borders">
                                         {{item.price | currency}}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="no-borders"><strong>Total</strong></td>
+                                    <td colspan="2" class="no-borders"><strong>Total</strong></td>
                                     <td class="no-borders"><strong>{{salesDocument.total | currency}}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="no-borders"><strong>Cash</strong></td>
+                                    <td colspan="2" class="no-borders"><strong>Cash</strong></td>
                                     <td class="no-borders"><strong>{{salesDocument.tenderedAmount | currency}}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="no-borders"><strong>Change</strong></td>
+                                    <td colspan="2" class="no-borders"><strong>Change</strong></td>
                                     <td class="no-borders"><strong>{{salesDocument.changeAmount | currency}}</strong></td>
                                 </tr>
                                 </tbody>
@@ -93,6 +92,7 @@
                             <tr>
                                 <td>
                                     <strong>{{business.businessName}}</strong><br>
+                                    <small><i>{{business.businessTagline}}</i></small><br>
                                     {{business.businessPostalAddress}}, {{business.businessCountry}}<br>
                                     {{business.businessPhysicalAddress}},<br>
                                     {{business.businessPhoneNumber}}<br>
@@ -166,6 +166,11 @@
                     </td>
                 </tr>
             </table>
+            <div class="well m-t-lg">
+                <strong>Terms & Conditions</strong>
+                <div :v-html="business.businessTerms"></div>
+
+            </div>
         </div>
     </div>
 </template>
