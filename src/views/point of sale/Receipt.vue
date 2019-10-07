@@ -66,7 +66,7 @@
                 let data = {
                     orderId : this.receipt.id ,
                     customerEmail : this.email
-                }
+                };
                 this.$store.dispatch(`pos/${this.namespace}/mailDoc`, data);
             }
         },
@@ -80,7 +80,7 @@
                   status : 'PAID',
               }
 
-              v.email = v.customer.customerEmail;
+              // v.email = v.receipt.customerEmail;
               v.$store.dispatch(`pos/${v.namespace}/getDocument`, data);
           })
         },
@@ -94,6 +94,13 @@
             loading(){return this.$store.getters[`pos/${this.namespace }/loading`]},
             measurmentAbbreviation(){return this.$store.getters['inventory/getMeasurmentAbbreviation']},
         },
+        watch : {
+            receipt : {
+                handler : function (n,o) {
+                    this.email = n.customerEmail
+                }
+            }
+        }
     }
 </script>
 
