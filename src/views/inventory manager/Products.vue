@@ -89,27 +89,26 @@
                     </div>
 <!--                    product grid-->
                     <div v-if="view === 'grid'" class="row">
-                        <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in filteredProducts" v-bind:key="index">
-                            <div class="contact-box" style="padding: 5px; height: 100px; overflow: hidden">
-                                <a @click="openProduct(product)">
-                                    <div class="col-sm-4">
-                                        <div class="text-center">
-                                            <img alt="image" class="m-t-xs img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
-                                            <div class="m-t-xs font-bold">
-                                                <span class="badge badge-info">{{product.price | currency}}</span>
-                                            </div>
-                                        </div>
+
+
+                        <div class="col-xs-6 col-md-4 col-lg-3" v-for="(product, index) in filteredProducts" v-bind:key="index" style="cursor: pointer">
+                            <div class="prod-widget widget style1 white-bg" @click="product.sellAs === 'CUSTOM' ? getSubProducts(product) : addItem(product)">
+                                <div class="row">
+                                    <div class="col-xs-4" style="position: relative">
+                                        <span class="badge badge-info price-tag">{{product.price | currency}}</span>
+                                        <img alt="image" class="m-t-md img-responsive" :src="product.productImage || '/img/placeholder.jpg'">
                                     </div>
-                                    <div class="col-sm-8">
-                                        <h5><strong>{{product.productName}}</strong></h5>
+                                    <div class="col-xs-8">
+                                        <span> <strong>{{product.productName}}</strong></span><br>
                                         <small>Full : {{product.qty}}</small>&nbsp;&nbsp;
-                                        <small v-if="product.sellAs === 'CUSTOM' ">Pieces : {{product.pieces}}</small><br>
-                                        <small>Category : {{product.productCategoryName}}</small>
+                                        <small v-if="product.sellAs === 'CUSTOM' ">Piece : {{product.pieces}}</small><br>
+                                        <small title="category"><i class="fa fa-tag"></i> : {{product.productCategoryName}}</small>
                                     </div>
-                                    <div class="clearfix"></div>
-                                </a>
+                                </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -322,12 +321,7 @@
         border-right: 1px solid #e7eaec;
         border-bottom: 1px solid #e7eaec;
     }
-    .product-avatar img {
-        width: 28px;
-        height: 28px;
-        border-radius: 0!important;
-        margin-left: 18px;
-    }
+
    .available{
        position: absolute;
        display: inline-block;

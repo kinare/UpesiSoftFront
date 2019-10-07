@@ -23,7 +23,6 @@
                                 <tr>
                                     <th>Item</th>
                                     <th>QTY</th>
-                                    <th>Unit</th>
                                     <th>Price</th>
                                 </tr>
                                 </thead>
@@ -34,9 +33,6 @@
                                     </td>
                                     <td class="no-borders">
                                         {{item.qty || 1}}
-                                    </td>
-                                    <td class="no-borders">
-                                        {{item.soldMeasurement ? item.soldMeasurement  : ''}}
                                     </td>
                                     <td class="no-borders">
                                         {{item.price | currency}}
@@ -92,7 +88,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <strong>{{business.businessName}}</strong><br>
+                                    <h2 style="margin-bottom: 0"><strong>{{business.businessName}}</strong></h2><br>
                                     {{business.businessPostalAddress}}, {{business.businessCountry}}<br>
                                     {{business.businessPhysicalAddress}},<br>
                                     {{business.businessPhoneNumber}}<br>
@@ -124,17 +120,11 @@
                     <td>
                         Item
                     </td>
-
                     <td>
                         QTY
                     </td>
-
-                    <!--                                        <td>-->
-                    <!--                                            Unit-->
-                    <!--                                        </td>-->
-
                     <td>
-                        Price
+                        Unit Price
                     </td>
                     <td>
                         Total
@@ -145,7 +135,6 @@
                     <td>{{index + 1}}</td>
                     <td>{{item.productName}}</td>
                     <td>{{item.qty || 1}}</td>
-                    <!--                                        <td>{{ item.soldMeasurement ? item.soldMeasurement  : ''}}</td>-->
                     <td>{{item.productDefaultPrice | currency}}</td>
                     <td>{{item.price | currency}}</td>
                 </tr>
@@ -155,7 +144,6 @@
                     <td></td>
                     <td></td>
                     <td></td>
-
                     <td>
                         Total: {{salesDocument.total | currency}}
                     </td>
