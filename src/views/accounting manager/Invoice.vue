@@ -154,12 +154,14 @@
             return {
                 type : 'INVOICE',
                 docToPost : {},
-                validator : window.validator
+                validator : window.validator,
+                selectedDoc : {}
             }
         },
         methods : {
             openDocument : function (doc) {
                 this.$salesDoc.initDoc(doc);
+                this.selectedDoc = doc;
                 // eslint-disable-next-line no-undef
                 $("#docCard").modal('show');
             },

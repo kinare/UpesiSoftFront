@@ -96,6 +96,17 @@ export default {
             window.api.call('get', endpoints.measurements).then(res =>{
                 context.commit('SET_MEASUREMENT_UNIT', res.data.data)
             })
+        },
+
+        mailDoc : (context, param) => {
+            context.commit('SET_LOADING', true);
+            window.api.call('post',endpoints.mailDoc, param).then(() => {
+                context.commit('SET_LOADING', false);
+            }).catch((error) => {
+                context.commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
+                context.commit('SET_LOADING', false);
+            })
+
         }
     }
 }

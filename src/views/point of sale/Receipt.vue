@@ -28,7 +28,7 @@
                                 <button @click="printDoc" class="btn btn-block btn-lg btn-primary"><i class="fa fa-print"></i>  Print Receipt</button>
 
                                 <div class="input-group input-group-lg m-t">
-                                    <input class="form-control" v-model="receipt.customerEmail">
+                                    <input class="form-control" v-model="email">
                                     <div class="input-group-btn" >
                                         <button @click="mailDoc" class="btn btn-lg btn-primary" type="button"><i class="fa fa-envelope"></i> Send</button>
                                     </div>
@@ -52,6 +52,7 @@
               validator : window.validator,
               namespace : '',
               orderId : '',
+              email : ''
           }
         },
         methods : {
@@ -64,7 +65,7 @@
 
                 let data = {
                     orderId : this.receipt.id ,
-                    customerEmail : this.receipt.customerEmail
+                    customerEmail : this.email
                 }
                 this.$store.dispatch(`pos/${this.namespace}/mailDoc`, data);
             }
@@ -78,6 +79,8 @@
                   id : v.orderId,
                   status : 'PAID',
               }
+
+              v.email = v.customer.customerEmail;
               v.$store.dispatch(`pos/${v.namespace}/getDocument`, data);
           })
         },
