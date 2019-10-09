@@ -161,15 +161,15 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-<!--                                                        <div class="form-group" :class="formDataError.salePrice.status">-->
-<!--                                                            <label class="col-sm-4 control-label">Sale Price</label>-->
-<!--                                                            <div class="col-sm-8">-->
-<!--                                                                <input type="number" class="form-control" v-model="formData.salePrice">-->
-<!--                                                                <span class="help-block">-->
-<!--                                                                    {{formDataError.salePrice.message}}-->
-<!--                                                                </span>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
+                                                        <div class="form-group" :class="formDataError.buyingPrice.status">
+                                                            <label class="col-sm-4 control-label">Buying Price</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="number" class="form-control" v-model="formData.buyingPrice">
+                                                                <span class="help-block">
+                                                                    {{formDataError.buyingPrice.message}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group" :class="formDataError.unitPrice.status">
                                                             <label class="col-sm-4 control-label">Price Per unit</label>
                                                             <div class="col-sm-8">
@@ -304,9 +304,10 @@
                     sku : '',
                     price : '',
                     salePrice : '',
+                    buyingPrice : '',
                     unitPrice : '',
                     measurementUnitId : '',
-                    taxClassId : '',
+                    taxClassId : '1',
                     published : '',
                     storageLocation : '',
                     sellAs : 'FULL',
@@ -356,6 +357,10 @@
                         status : '',
                         message : '',
                     },
+                    buyingPrice : {
+                        status : '',
+                        message : '',
+                    },
                     measurementUnitId : {
                         status : '',
                         message : '',
@@ -399,6 +404,7 @@
                     sku : 'optional',
                     price : 'required',
                     unitPrice : 'required',
+                    buyingPrice : 'required',
                     salePrice : 'optional',
                     measurementUnitId : 'required',
                     taxClassId : 'required',
