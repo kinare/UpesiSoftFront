@@ -18,6 +18,7 @@
                             <p>Name : {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</p>
                             <p>Phone : {{salesDocument.customerPhoneNumber}}</p>
                             <p>Email : {{salesDocument.customerEmail}}</p>
+                            <p>PIN : {{salesDocument.kraPin || 'N/A'}}</p>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="pos-receipt-content">
@@ -127,7 +128,7 @@
                     <td>
                         QTY
                     </td>
-                    <td>
+                    <td class="print-hide">
                         Unit Price
                     </td>
                     <td>
@@ -139,7 +140,7 @@
                     <td>{{index + 1}}</td>
                     <td>{{item.productName}}</td>
                     <td>{{item.qty || 1}}</td>
-                    <td>{{item.productDefaultPrice | currency}}</td>
+                    <td class="print-hide">{{item.productDefaultPrice | currency}}</td>
                     <td>{{item.price | currency}}</td>
                 </tr>
 
