@@ -8,13 +8,15 @@ class Pos {
 
         switch (type) {
             case 'QTY':
-                sale.price = sale.qty * sale.unitPrice
+                sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
                 break;
             case 'UNIT':
-                sale.price = sale.soldMeasurement * sale.unitPrice
-                sale.measurementAfter = sale.measurementBefore - sale.soldMeasurement
+                sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
+                sale.measurementAfter = sale.measurementBefore - sale.soldMeasurement;
                 break;
-            case 'PRICE':
+            case 'UNIT_PRICE':
+                sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
+                sale.measurementAfter = sale.measurementBefore - sale.soldMeasurement;
                 break;
         }
         return sale;

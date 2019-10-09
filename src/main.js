@@ -45,8 +45,9 @@ Vue.use(VueHtmlToPaper, {
         'scrollbars=yes'
     ],
     styles: [
-        'http://localhost:8080/css/bootstrap.min.css',
-        'http://localhost:8080/css/style.css',
+        'https://app.focusaluminium.com/css/bootstrap.min.css',
+        'https://app.focusaluminium.com/css/style.css',
+        'https://app.focusaluminium.com/css/print.css',
     ]
 });
 window.auth = new Auth;

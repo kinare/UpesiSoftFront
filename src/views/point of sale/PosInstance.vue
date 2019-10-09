@@ -13,9 +13,10 @@
                                 <tr>
                                     <th class="text-left pos-product-name">Item</th>
                                     <th class="text-left">Qty</th>
-                                    <th class="text-left">Measure</th>
-                                    <th class="text-right">Price</th>
-                                    <th class="text-right"></th>
+                                    <th class="text-left">Uom</th>
+                                    <th class="text-left">Unit Price</th>
+                                    <th class="text-left">Price</th>
+                                    <th class="text-right"><i class="fa fa-trash"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -32,6 +33,7 @@
                                                type="number" min="1"
                                                class="form-control input-sm"
                                                v-model="item.qty"
+                                               style="width: 20px;"
                                         >
                                         <span v-else>{{item.qty}}</span>
                                     </td>
@@ -47,6 +49,7 @@
                                                     :max="item.maxUnit"
                                                     class="form-control input-sm"
                                                     v-model="item.soldMeasurement"
+                                                    style="width: 20px;"
                                             >
                                             <span class="input-group-addon"
                                                   id="basic-addon2">
@@ -56,16 +59,31 @@
                                         <span v-else><span v-if="item.soldMeasurement !== '' && item.soldMeasurement !== null">{{item.soldMeasurement | number }}</span>  {{item.measurementAbbreviation}}</span>
                                     </td>
 
-<!--                                    price-->
-                                    <td class="text-right">
-                                        <input v-if="selected === index"
+<!--                                    unit price-->
+                                    <td class="text-left">
+                                        <input v-on:change="fieldUpdate(index, 'UNIT_PRICE')"
+                                               v-if="selected === index"
                                                type="number" min="1"
                                                class="form-control input-sm"
-                                               v-model="item.price"
+                                               v-model="item.unitPrice"
+                                               style="width: 20px;"
                                         >
-                                        <span v-else>{{item.price | currency}}</span>
+                                        <span v-else>{{item.unitPrice | currency}}</span>
                                     </td>
-                                    <td v-if="selected === index" ><span class="badge badge-white" @click="removeItemByIndex(index)"><i class="fa fa-times text-danger"></i> </span></td>
+
+                                    <!-- price-->
+                                    <td class="text-left">
+<!--                                        <input v-if="selected === index"-->
+<!--                                               type="number" min="1"-->
+<!--                                               class="form-control input-sm"-->
+<!--                                               v-model="item.price"-->
+<!--                                        >-->
+                                        <span>{{item.price | currency}}</span>
+                                    </td>
+                                    <td class="text-right" v-if="selected === index">
+                                        <span class="badge badge-white" @click="removeItemByIndex(index)">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -395,7 +413,7 @@
                     prod.productId = product.subproduct ? this.subProduct.id  : prod.id;
                     product.subproduct = product.subproduct ? true : false
                     // prod.subProductId =  prod.id;
-                    prod.measurement = prod.measurement === null ? '' : prod.measurement;
+                    prod.measurement = prod.measurement === null ? 1 : prod.measurement;
                     prod.soldMeasurement = prod.measurement; //1 as the default sold measurment
                     prod.categories = '';
                     prod.measurementBefore = prod.measurement;
@@ -414,7 +432,7 @@
                         prod.productId = product.subproduct ? this.subProduct.id  : prod.id;
                         product.subproduct = product.subproduct ? true : false
                         // prod.subProductId =  prod.id;
-                        prod.measurement = prod.measurement === null ? '' : prod.measurement;
+                        prod.measurement = prod.measurement === null ? 1 : prod.measurement;
                         prod.soldMeasurement = prod.measurement; //1 as the default sold measurment
                         prod.categories = '';
                         prod.measurementBefore = prod.measurement;
