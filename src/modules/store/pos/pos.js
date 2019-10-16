@@ -8,7 +8,11 @@ class Pos {
 
         switch (type) {
             case 'QTY':
-                sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
+                if (sale.sellAs === 'CUSTOM' && (parseFloat(sale.measurement) === parseFloat(sale.soldMeasurement))){
+                    sale.price =  sale.salePrice * sale.qty;
+                } else {
+                    sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
+                }
                 break;
             case 'UNIT':
                 sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;

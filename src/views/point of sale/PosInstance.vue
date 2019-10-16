@@ -102,8 +102,11 @@
                 <div class="ibox" style="margin-bottom: 0">
                     <div class="ibox-content pos-calc">
                         <div class="row">
-                            <div v-if="can('view', 'customers')" class="col-xs-8 col-md-12 p-sm">
+                            <div v-if="can('view', 'customers')" class="col-xs-8 col-md-8 p-sm">
                                 <router-link to="/pos/customers" class="btn btn-block btn-lg btn-white"><i class="fa fa-user-alt"></i> {{!validator.isEmptyObject(customer)? customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName : 'Select Customer'}}</router-link>
+                            </div>
+                            <div class="col-xs-4 col-md-4  p-sm">
+                                <button :disabled="items.length === 0" @click="preview = !preview" class="btn btn-block btn-default btn-lg">Preview</button>
                             </div>
                             <div class="col-xs-4 col-md-12 visible-xs p-sm">
                                 <button class="btn btn-success btn-lg pull-right visible-xs">Add</button>
@@ -315,6 +318,109 @@
             </div>
         </div>
 
+        <!--        preview modal-->
+        <div  v-if="preview" class="modal fadeIn in modal-active"  :id="id" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="preview = false"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Sale preview</h4>
+                        <small class="font-bold">{{items.length}} Items</small>
+                    </div>
+                    <div class="modal-body style-1" style="height: 460px; overflow-y: scroll">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table small table-condensed table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-left pos-product-name">Item</th>
+                                        <th class="text-left">Qty</th>
+                                        <th class="text-left">Uom</th>
+                                        <th class="text-left">Unit Price</th>
+                                        <th class="text-left">Price</th>
+                                        <th class="text-right"><i class="fa fa-trash"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(item , index) in items" :key="index"  @click="select(index)" :class="selected === index ? 'success' : ''">
+                                        <td class="text-left pos-product-name"><strong>{{item.productName}}</strong><br>
+                                            <small>{{item.productShortDescription}}</small>
+                                        </td>
+
+                                        <!--                                    QTY-->
+                                        <td class="text-left">
+                                            <input v-if="selected === index && !item.subproduct"
+                                                   :disabled="item.subproduct"
+                                                   v-on:change="fieldUpdate(index, 'QTY')"
+                                                   type="number" min="1"
+                                                   class="form-control input-sm"
+                                                   v-model="item.qty"
+                                                   style="width: 20px;"
+                                            >
+                                            <span v-else>{{item.qty}}</span>
+                                        </td>
+
+                                        <!--                                    unit of measure-->
+                                        <td class="text-left">
+                                            <div v-if="selected === index && item.sellAs !== 'FULL'" class="input-group">
+                                                <input  v-on:change="fieldUpdate(index, 'UNIT')"
+                                                        :disabled="item.sellAs === 'FULL'"
+                                                        aria-describedby="basic-addon2"
+                                                        type="number"
+                                                        :min="item.minUnit"
+                                                        :max="item.maxUnit"
+                                                        class="form-control input-sm"
+                                                        v-model="item.soldMeasurement"
+                                                        style="width: 20px;"
+                                                >
+                                                <span class="input-group-addon">
+                                                {{item.measurementAbbreviation}}
+                                            </span>
+                                            </div>
+                                            <span v-else><span v-if="item.soldMeasurement !== '' && item.soldMeasurement !== null">{{item.soldMeasurement | number }}</span>  {{item.measurementAbbreviation}}</span>
+                                        </td>
+
+                                        <!--                                    unit price-->
+                                        <td class="text-left">
+                                            <input v-on:change="fieldUpdate(index, 'UNIT_PRICE')"
+                                                   v-if="selected === index"
+                                                   type="number" min="1"
+                                                   class="form-control input-sm"
+                                                   v-model="item.unitPrice"
+                                                   style="width: 20px;"
+                                            >
+                                            <span v-else>{{item.unitPrice | currency}}</span>
+                                        </td>
+
+                                        <!-- price-->
+                                        <td class="text-left">
+                                            <!--                                        <input v-if="selected === index"-->
+                                            <!--                                               type="number" min="1"-->
+                                            <!--                                               class="form-control input-sm"-->
+                                            <!--                                               v-model="item.price"-->
+                                            <!--                                        >-->
+                                            <span>{{item.price | currency}}</span>
+                                        </td>
+                                        <td class="text-right" v-if="selected === index">
+                                            <span class="badge badge-white" @click="removeItemByIndex(index)">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" @click="preview = false">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 </template>
 
@@ -331,6 +437,7 @@
         mixins : [permissions, sanitizer],
         data : function(){
             return {
+                preview : false,
                 scope : 'customers',
                 selectedSubProducts : [],
                 selectedAllSubProducts : [],
@@ -447,10 +554,10 @@
             },
             addSubProducts : function(){
                 this.selectedSubProducts.forEach(product => {
-                    product.subproduct = true
-                    product.subProductId = product.id
-                    product.productShortDescription = this.subProduct.productShortDescription
-                    product.sellAs = 'CUSTOM'
+                    product.subproduct = true;
+                    product.subProductId = product.id;
+                    product.productShortDescription = this.subProduct.productShortDescription;
+                    product.sellAs = 'CUSTOM';
                     this.addItem(product);
                     this.showModal = false
                 });
@@ -458,8 +565,12 @@
                 $('#subProducts').modal('hide');
             },
             getSubProducts : function(product){
-                this.subProduct = product
-                this.$store.dispatch('inventory/getSubProducts', product.id);
+                this.subProduct = product;
+                this.$store.commit('inventory/SET_SUB_PRODUCTS', []);
+
+                if(product.pieces !== 0)
+                    this.$store.dispatch('inventory/getSubProducts', product.id);
+
                 this.showModal = true
                 // eslint-disable-next-line no-undef
                 $('#subProducts').modal('show');
@@ -570,6 +681,11 @@
     }
 </script>
 <style scoped>
+    @media (min-width: 992px){
+        .modal-lg {
+            width: 1200px;
+        }
+    }
 
     .prod-image{
         padding: 50px 0;

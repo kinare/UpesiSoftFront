@@ -22,28 +22,28 @@
                                             <div class="panel-body">
                                                 <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
-                                                        <div class="form-group" :class="formDataError.productName.status">
+                                                        <div v-popover:tooltip.top="'name of the product'" class="form-group" :class="formDataError.productName.status">
                                                             <label class="col-sm-4 control-label">Name</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.productName">
+                                                                <input  type="text" class="form-control" v-model="formData.productName">
                                                                 <span class="help-block">
                                                                     {{formDataError.productName.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.productShortDescription.status">
+                                                        <div v-popover:tooltip.top="'A short description of the product'" class="form-group" :class="formDataError.productShortDescription.status">
                                                             <label class="col-sm-4 control-label">Short Desc</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.productShortDescription">
+                                                                <input type="text"  class="form-control" v-model="formData.productShortDescription">
                                                                 <span class="help-block">
                                                                     {{formDataError.productShortDescription.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.productDescription.status">
+                                                        <div v-popover:tooltip.top="'Long description of the product'" class="form-group" :class="formDataError.productDescription.status">
                                                             <label class="col-sm-4 control-label">Description</label>
                                                             <div class="col-sm-8">
-                                                                <textarea class="form-control" v-model="formData.productDescription"></textarea>
+                                                                <textarea  class="form-control" v-model="formData.productDescription"></textarea>
                                                                 <span class="help-block">
                                                                     {{formDataError.productDescription.message}}
                                                                 </span>
@@ -57,29 +57,29 @@
                                             <div class="panel-body">
                                                 <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
-                                                        <div class="form-group" :class="formDataError.sku.status">
+                                                        <div v-popover:tooltip.top="'Stock keeping unit, uniqe number for every product type'" class="form-group" :class="formDataError.sku.status">
                                                             <label class="col-sm-4 control-label">SKU</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.sku">
+                                                                <input  type="number" class="form-control" v-model="formData.sku">
                                                                 <span class="help-block">
                                                                     {{formDataError.sku.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.qty.status">
+                                                        <div v-popover:tooltip.top="'Count of the products'" class="form-group" :class="formDataError.qty.status">
                                                             <label class="col-sm-4 control-label">Quantity</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.qty">
+                                                                <input  type="number" class="form-control" v-model="formData.qty">
                                                                 <span class="help-block">
                                                                     {{formDataError.qty.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" :class="formDataError.measurementUnitId.status">
+                                                        <div v-popover:tooltip.top="'Unit of measure for the product'" class="form-group" :class="formDataError.measurementUnitId.status">
                                                             <label class="col-sm-4 control-label">Unit of Measure</label>
                                                             <div class="col-sm-8">
-                                                                <select class="form-control" v-model="formData.measurementUnitId">
+                                                                <select  class="form-control" v-model="formData.measurementUnitId">
                                                                     <option v-for="(unit, index) in units"  :value="unit.id" :key="index">{{unit.measurementName}} ({{unit.measurementAbbreviation}})</option>
                                                                 </select>
                                                                 <span class="help-block">
@@ -88,20 +88,20 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" :class="formDataError.measurement.status">
+                                                        <div v-popover:tooltip.top="'Measurment of the product i.e length, weight etc'" class="form-group" :class="formDataError.measurement.status">
                                                             <label class="col-sm-4 control-label">Default Measure</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.measurement">
+                                                                <input  type="number" class="form-control" v-model="formData.measurement">
                                                                 <span class="help-block">
                                                                     {{formDataError.measurement.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" :class="formDataError.storageLocation.status">
+                                                        <div v-popover:tooltip.top="'Physical location of the product in store'" class="form-group" :class="formDataError.storageLocation.status">
                                                             <label class="col-sm-4 control-label">Location</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.storageLocation">
+                                                                <input  type="text" class="form-control" v-model="formData.storageLocation">
                                                                 <span class="help-block">
                                                                     {{formDataError.storageLocation.message}}
                                                                 </span>
@@ -109,11 +109,11 @@
                                                         </div>
 
 
-                                                        <div class="form-group" :class="formDataError.published.status">
+                                                        <div v-popover:tooltip.top="'Indicates whether the product is available foor sale'" class="form-group" :class="formDataError.published.status">
                                                             <label class="col-sm-4 control-label">Publish</label>
                                                             <div class="col-sm-8">
                                                                 <label class="checkbox-inline">
-                                                                    <input type="checkbox" v-model="formData.published"> Publish
+                                                                    <input   type="checkbox" v-model="formData.published"> Publish
                                                                 </label>
                                                                 <span class="help-block">
                                                                     {{formDataError.published.message}}
@@ -123,11 +123,11 @@
                                                         <div class="form-group" :class="formDataError.sellAs.status">
                                                             <label class="col-sm-4 control-label">Sell As</label>
                                                             <div class="col-sm-8">
-                                                                <label class="checkbox-inline">
-                                                                    <input type="radio" value="FULL" v-model="formData.sellAs"> Full
+                                                                <label v-popover:tooltip.top="'The product is sold as full item'" class="checkbox-inline">
+                                                                    <input  type="radio" value="FULL" v-model="formData.sellAs"> Full
                                                                 </label>
-                                                                <label class="checkbox-inline">
-                                                                    <input type="radio" value="CUSTOM" v-model="formData.sellAs" > Custom
+                                                                <label v-popover:tooltip.top="'The product can be sold in pieces'" class="checkbox-inline">
+                                                                    <input  type="radio" value="CUSTOM" v-model="formData.sellAs" > Custom
                                                                 </label>
                                                                 <span class="help-block">
                                                                     {{formDataError.sellAs.message}}
@@ -135,10 +135,10 @@
                                                             </div>
                                                         </div>
 
-                                                        <div v-if="formData.sellAs === 'CUSTOM'" class="form-group" :class="formDataError.customSaleUnit.status">
+                                                        <div v-popover:tooltip.top="'The minimum measurment the product can be sold'" v-if="formData.sellAs === 'CUSTOM'" class="form-group" :class="formDataError.customSaleUnit.status">
                                                             <label class="col-sm-4 control-label">Sale Unit</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" class="form-control" v-model="formData.customSaleUnit">
+                                                                <input  type="text" class="form-control" v-model="formData.customSaleUnit">
                                                                 <span class="help-block">
                                                                     {{formDataError.customSaleUnit.message}}
                                                                 </span>
@@ -152,37 +152,37 @@
                                             <div class="panel-body">
                                                 <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
-                                                        <div class="form-group" :class="formDataError.price.status">
+                                                        <div v-popover:tooltip.top="'The selling price for the product'" class="form-group" :class="formDataError.price.status">
                                                             <label class="col-sm-4 control-label">Price</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.price">
+                                                                <input   type="number" class="form-control" v-model="formData.price">
                                                                 <span class="help-block">
                                                                     {{formDataError.price.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.buyingPrice.status">
+                                                        <div v-popover:tooltip.top="'The price the product was bought'" class="form-group" :class="formDataError.buyingPrice.status">
                                                             <label class="col-sm-4 control-label">Buying Price</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.buyingPrice">
+                                                                <input  type="number" class="form-control" v-model="formData.buyingPrice">
                                                                 <span class="help-block">
                                                                     {{formDataError.buyingPrice.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.unitPrice.status">
+                                                        <div v-popover:tooltip.top="'The price of the least measurment of the product'" class="form-group" :class="formDataError.unitPrice.status">
                                                             <label class="col-sm-4 control-label">Price Per unit</label>
                                                             <div class="col-sm-8">
-                                                                <input type="number" class="form-control" v-model="formData.unitPrice">
+                                                                <input  type="number" class="form-control" v-model="formData.unitPrice">
                                                                 <span class="help-block">
                                                                     {{formDataError.unitPrice.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" :class="formDataError.taxClassId.status">
+                                                        <div v-popover:tooltip.top="'The tax class for the product'" class="form-group" :class="formDataError.taxClassId.status">
                                                             <label class="col-sm-4 control-label">Tax class</label>
                                                             <div class="col-sm-8">
-                                                                <select class="form-control" v-model="formData.taxClassId">
+                                                                <select  class="form-control" v-model="formData.taxClassId">
                                                                     <option value="2">VAT 0</option>
                                                                     <option value="1">VAT 16</option>
                                                                 </select>
@@ -200,20 +200,20 @@
                                             <div class="panel-body">
                                                 <div class="col-xs-12 tab-body">
                                                     <form method="get" class="form-horizontal">
-                                                        <div class="form-group" :class="formDataError.availableFrom.status">
+                                                        <div v-popover:tooltip.top="'The date the product will be available in store'" class="form-group" :class="formDataError.availableFrom.status">
                                                             <label class="col-sm-4 control-label">Available From</label>
                                                             <div class="col-sm-8">
-                                                                <DatePicker v-model="formData.availableFrom" lang="en" input-class="form-control"></DatePicker>
+                                                                <DatePicker  v-model="formData.availableFrom" lang="en" input-class="form-control"></DatePicker>
                                                                 <span class="help-block">
                                                                     {{formDataError.availableFrom.message}}
                                                                 </span>
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" :class="formDataError.availableTo.status">
+                                                        <div v-popover:tooltip.top="'The date the product will be unavailable in store'" class="form-group" :class="formDataError.availableTo.status">
                                                             <label class="col-sm-4 control-label">Available to</label>
                                                             <div class="col-sm-8">
-                                                                <DatePicker v-model="formData.availableTo"  lang="en" input-class="form-control"></DatePicker>
+                                                                <DatePicker  v-model="formData.availableTo"  lang="en" input-class="form-control"></DatePicker>
                                                                 <span class="help-block">
                                                                     {{formDataError.availableTo.message}}
                                                                 </span>
@@ -232,7 +232,7 @@
                                 <!--categories-->
                                 <div class="col-xs-12">
                                     <h4 class="tag-title">Categories</h4>
-                                    <div class="form-group" :class="formDataError.productCategoryId.status">
+                                    <div v-popover:tooltip.top="'The category which the product belongs'" class="form-group" :class="formDataError.productCategoryId.status">
                                         <select class="form-control" v-model="formData.productCategoryId">
                                             <option v-for="(category, index) in categories" :value="category.id" :key="index">{{category.productCategoryName}}</option>
                                         </select>
@@ -254,7 +254,7 @@
                                 </div>
 
                                 <!-- images-->
-                                <div class="col-xs-12 m-t-lg">
+                                <div v-popover:tooltip.top="'The image for the product'" class="col-xs-12 m-t-lg">
                                     <h4>Product Image</h4>
                                     <label class="btn btn-block btn-white">
                                         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>

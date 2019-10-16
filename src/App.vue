@@ -5,6 +5,7 @@
 
 <!--      global components-->
       <confirmation-modal/>
+      <tooltip/>
     </div>
   </div>
 </template>
