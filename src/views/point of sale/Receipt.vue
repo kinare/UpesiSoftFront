@@ -73,12 +73,12 @@
         beforeRouteEnter(to, from, next){
           next(v =>{
               v.namespace = to.params.namespace;
-              v.orderId = to.params.orderId
+              v.orderId = to.params.orderId;
               let data = {
                   type : 'ORDER',
                   id : v.orderId,
                   status : 'PAID',
-              }
+              };
 
               // v.email = v.receipt.customerEmail;
               v.$store.dispatch(`pos/${v.namespace}/getDocument`, data);
@@ -96,6 +96,7 @@
         },
         watch : {
             receipt : {
+                // eslint-disable-next-line no-unused-vars
                 handler : function (n,o) {
                     this.email = n.customerEmail
                 }

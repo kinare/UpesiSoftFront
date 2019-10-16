@@ -27,6 +27,7 @@ import Toasted from 'vue-toasted';
 import Confirmation from './modules/plugins/Confirmation';
 import SalesDocument from './modules/plugins/SalesDocument';
 import Vue2Editor from "vue2-editor";
+import Popover  from 'vue-js-popover'
 
 Vue.use(Vue2Editor);
 
@@ -36,14 +37,15 @@ Vue.use(PrettyCheckbox);
 Vue.use(Toasted);
 Vue.use(Confirmation);
 Vue.use(SalesDocument);
+Vue.use(Popover, { tooltip: true })
 
 Vue.use(VueHtmlToPaper, {
-    name: '_blank',
     specs: [
         'fullscreen=yes',
         'titlebar=yes',
         'scrollbars=yes'
     ],
+    name: '_blank',
     styles: [
         'https://app.focusaluminium.com/css/bootstrap.min.css',
         'https://app.focusaluminium.com/css/style.css',

@@ -10,13 +10,14 @@
                             <h2 class="text-center">
                                 <strong>{{business.businessName}}</strong><br>
                                 <small><i>{{business.businessTagline}}</i></small><br>
+                                <small>{{business.businessKraPin}}</small><br>
                             </h2>
                             <h5 class="text-center">
                                 Receipt No: {{salesDocument.id}}<br>
                                 Date : {{salesDocument.createdAt}}
                             </h5>
                             <p>Name : {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</p>
-                            <p>Phone : {{salesDocument.customerPhoneNumber}}</p>
+                            <p>Phone : {{salesDocument.customerCountryCode || 0}} {{salesDocument.customerPhoneNumber}}</p>
                             <p>Email : {{salesDocument.customerEmail}}</p>
                             <p>PIN : {{salesDocument.kraPin || 'N/A'}}</p>
                         </div>
@@ -106,7 +107,8 @@
                                     <strong>{{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</strong><br>
                                     +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
                                     {{salesDocument.customerEmail}}<br>
-                                    {{salesDocument.customerPostalAddress}}
+                                    {{salesDocument.customerPostalAddress}}<br>
+                                    PIN : {{salesDocument.kraPin || 'N/A'}}
                                 </td>
                             </tr>
                             <tr>
