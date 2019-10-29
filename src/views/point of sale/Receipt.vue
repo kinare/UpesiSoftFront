@@ -11,7 +11,7 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="row">
-                <div class="col-xs-7 border-right">
+                <div class="col-xs-9 border-right">
                     <div class="row" id="receipt">
                         <div class="col-xs-10 col-xs-push-1" >
                             <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; width : 340px " >
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-5 ">
+                <div class="col-xs-3 ">
                     <div class="ibox-content" style="border: none">
                         <div class="row">
                             <div class="col-xs-12">

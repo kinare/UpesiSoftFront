@@ -9,9 +9,9 @@ class Pos {
         switch (type) {
             case 'QTY':
                 if (sale.sellAs === 'CUSTOM' && (parseFloat(sale.measurement) === parseFloat(sale.soldMeasurement))){
-                    sale.price =  sale.salePrice * sale.qty;
+                    sale.price =  (sale.salePrice * sale.qty) + (sale.discount * sale.qty) ;
                 } else {
-                    sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
+                    sale.price = ((sale.soldMeasurement * sale.unitPrice) * sale.qty) +  (sale.discount * sale.qty) ;
                 }
                 break;
             case 'UNIT':
@@ -21,6 +21,14 @@ class Pos {
             case 'UNIT_PRICE':
                 sale.price = (sale.soldMeasurement * sale.unitPrice) * sale.qty;
                 sale.measurementAfter = sale.measurementBefore - sale.soldMeasurement;
+                break;
+
+            case 'DISCOUNT':
+                if (sale.sellAs === 'CUSTOM' && (parseFloat(sale.measurement) === parseFloat(sale.soldMeasurement))){
+                    sale.price =  (sale.salePrice * sale.qty) + (sale.discount * sale.qty) ;
+                } else {
+                    sale.price = ((sale.soldMeasurement * sale.unitPrice) * sale.qty) +  (sale.discount * sale.qty) ;
+                }
                 break;
         }
         return sale;

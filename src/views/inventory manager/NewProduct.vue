@@ -179,6 +179,24 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <div v-popover:tooltip.top="'Maximum Price for product'" class="form-group" :class="formDataError.maxPrice.status">
+                                                            <label class="col-sm-4 control-label">Price Per unit</label>
+                                                            <div class="col-sm-8">
+                                                                <input  type="number" class="form-control" v-model="formData.maxPrice">
+                                                                <span class="help-block">
+                                                                    {{formDataError.maxPrice.message}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div v-popover:tooltip.top="'Mimimum Price for the product'" class="form-group" :class="formDataError.minPrice.status">
+                                                            <label class="col-sm-4 control-label">Price Per unit</label>
+                                                            <div class="col-sm-8">
+                                                                <input  type="number" class="form-control" v-model="formData.minPrice">
+                                                                <span class="help-block">
+                                                                    {{formDataError.minPrice.message}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                         <div v-popover:tooltip.top="'The tax class for the product'" class="form-group" :class="formDataError.taxClassId.status">
                                                             <label class="col-sm-4 control-label">Tax class</label>
                                                             <div class="col-sm-8">
@@ -302,6 +320,8 @@
                     availableFrom : '',
                     availableTo : '',
                     sku : '',
+                    minPrice : '',
+                    maxPrice : '',
                     price : '',
                     salePrice : '',
                     buyingPrice : '',
@@ -361,6 +381,14 @@
                         status : '',
                         message : '',
                     },
+                    minPrice : {
+                        status : '',
+                        message : '',
+                    },
+                    maxPrice : {
+                        status : '',
+                        message : '',
+                    },
                     measurementUnitId : {
                         status : '',
                         message : '',
@@ -414,6 +442,8 @@
                     customSaleUnit : 'optional',
                     measurement : 'optional',
                     qty : 'required',
+                    minPrice : 'required',
+                    maxPrice : 'optional',
                 }
             }
         },

@@ -15,6 +15,7 @@
                                     <th class="text-left">Qty</th>
                                     <th class="text-left">Uom</th>
                                     <th class="text-left">Unit Price</th>
+                                    <th class="text-left">Discount</th>
                                     <th class="text-left">Price</th>
                                     <th class="text-right"><i class="fa fa-trash"></i></th>
                                 </tr>
@@ -69,6 +70,18 @@
                                                style="width: 20px;"
                                         >
                                         <span v-else>{{item.unitPrice | currency}}</span>
+                                    </td>
+
+<!--                                    price adjustment-->
+                                    <td class="text-left">
+                                        <input v-on:change="fieldUpdate(index, 'DISCOUNT')"
+                                               v-if="selected === index"
+                                               type="number" min="1"
+                                               class="form-control input-sm"
+                                               v-model="item.discount"
+                                               style="width: 20px;"
+                                        >
+                                        <span v-else>{{item.discount | currency}}</span>
                                     </td>
 
                                     <!-- price-->
@@ -529,6 +542,7 @@
                     prod.maxUnit = prod.measurement;
                     prod.minUnit = prod.customSaleUnit ? prod.customSaleUnit : 1;
                     prod.itemPrice = prod.price;
+                    prod.discount = 0;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }else {
                     if (item[0].sellAs === "FULL"){
@@ -548,6 +562,7 @@
                         prod.maxUnit = prod.measurement;
                         prod.minUnit = prod.customSaleUnit ? prod.customSaleUnit : 1;
                         prod.itemPrice = prod.price;
+                        prod.discount = 0;
                         this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                     }
                 }

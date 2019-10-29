@@ -3,73 +3,183 @@
 
 <!--        receipt view-->
         <div v-if="salesDocument.orderType === 'ORDER'" class="row" id="receipt">
-            <div class="col-xs-12" >
+            <div class="col-xs-12">
+
+<!--                header-->
                 <div class="row">
-                    <div class="pos-receipt" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
-                        <div class="pos-receipt-header">
-                            <h2 class="text-center">
-                                <strong>{{business.businessName}}</strong><br>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <img :src="business.businessLogoImage" style="width:100%; max-width:150px;"><br>
+                            </div>
+                            <div class="col-xs-12">
                                 <small><i>{{business.businessTagline}}</i></small><br>
-                                <small>{{business.businessKraPin}}</small><br>
-                            </h2>
-                            <h5 class="text-center">
-                                Receipt No: {{salesDocument.id}}<br>
-                                Date : {{salesDocument.createdAt}}
-                            </h5>
-                            <p>Name : {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</p>
-                            <p>Phone : {{salesDocument.customerCountryCode || 0}} {{salesDocument.customerPhoneNumber}}</p>
-                            <p>Email : {{salesDocument.customerEmail}}</p>
-                            <p>PIN : {{salesDocument.kraPin || 'N/A'}}</p>
+                            </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="pos-receipt-content">
-                            <table class="table small table-condensed">
-                                <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>QTY</th>
-                                    <th>Price</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(item, index) in salesDocument.orderItems" :key="index" >
-                                    <td class="no-borders">
-                                        {{item.productName}}
-                                    </td>
-                                    <td class="no-borders">
-                                        {{item.qty || 1}}
-                                    </td>
-                                    <td class="no-borders">
-                                        {{item.price | currency}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="no-borders"><strong>Total</strong></td>
-                                    <td class="no-borders"><strong>{{salesDocument.total | currency}}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="no-borders"><strong>Cash</strong></td>
-                                    <td class="no-borders"><strong>{{salesDocument.tenderedAmount | currency}}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="no-borders"><strong>Change</strong></td>
-                                    <td class="no-borders"><strong>{{salesDocument.changeAmount | currency}}</strong></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="pos-receipt-footer">
-                            <p class="text-center"> <strong>Served by</strong> : {{salesDocument.cashierFirstName + ' ' + salesDocument.cashierLastName}} </p>
-                            <h3 class="text-center">Thank You</h3>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <strong>{{salesDocument.orderType}}</strong>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="content pull-right text-left">
+                            <strong style="font-size: larger">{{business.businessName}}</strong><br>
+                            {{business.businessPostalAddress}},{{business.businessPhysicalAddress}}, {{business.businessCountry}}<br>
+                            {{business.businessPhoneNumber}}<br>
                         </div>
                     </div>
                 </div>
+
+<!--                address info-->
+                <div class="row m-t-md">
+                    <div class="col-xs-5" style="border: solid 1px ">
+                        {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}<br>
+                        +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
+                        {{salesDocument.customerEmail}}<br>
+                        PIN : {{salesDocument.kraPin || 'N/A'}}
+                    </div>
+                    <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-5" style="border: solid 1px ">
+                        {{salesDocument.orderType | capitalize}} #: {{salesDocument.id}}<br>
+                        Date: {{salesDocument.createdAt}}<br>
+                        KRA : {{business.businessKraPin}}<br>
+                        VAT No. : {{business.businessVatNumber}}
+                    </div>
+                </div>
+
+<!--                title-->
+                <div class="row">
+                    <div class="text-center m-t-md">
+                        <strong><u>CUSTOMER COPY</u></strong>
+                    </div>
+                </div>
+
+<!--                item list-->
+                <div class="row m-t-md">
+                    <div class="col-xs-12">
+                        <table class="table table-bordered invoice-table">
+                            <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>QTY</th>
+                                <th>Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item, index) in salesDocument.orderItems" :key="index" >
+                                <td> {{item.productName}}</td>
+                                <td>{{item.qty || 1}}</td>
+                                <td> {{item.price | currency}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table invoice-total">
+                            <tbody>
+                            <tr>
+                                <td><strong>Total :</strong></td>
+                                <td><strong>{{salesDocument.total | currency}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cash :</strong></td>
+                                <td>{{salesDocument.tenderedAmount | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Change :</strong></td>
+                                <td>{{salesDocument.changeAmount | currency}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+<!--                terms and conditions-->
+                <div class="row m-t-md">
+                    <div class="col-xs-12">
+                        <div class="well m-t-lg">
+                            <strong>Terms & Conditions</strong>
+                            <div :v-html="business.businessTerms"></div>
+                        </div>
+                    </div>
+                </div>
+
+<!--                footer-->
+                <div class="row m-t-md">
+                    <div class="col-xs-12">
+                        Serve by : <u>{{salesDocument.cashierFirstName + ' ' +salesDocument.cashierLastName}}</u>
+                    </div>
+                </div>
+
             </div>
+
         </div>
 
 <!--        invoice view-->
         <div v-else class="invoice-box">
+            <div class="pos-receipt" style="border:  1px solid #e7eaec;padding: 10px 20px;font-family:  monospace, sans-serif;line-height: 1;">
+                <div class="pos-receipt-header">
+                    <h2 class="text-center">
+                        <strong>{{business.businessName}}</strong><br>
+                        <small><i>{{business.businessTagline}}</i></small><br>
+                        <small>{{business.businessKraPin}}</small><br>
+                    </h2>
+                    <h5 class="text-center">
+                        Receipt No: {{salesDocument.id}}<br>
+                        Date : {{salesDocument.createdAt}}
+                    </h5>
+                    <p>Name : {{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</p>
+                    <p>Phone : {{salesDocument.customerCountryCode || 0}} {{salesDocument.customerPhoneNumber}}</p>
+                    <p>Email : {{salesDocument.customerEmail}}</p>
+                    <p>PIN : {{salesDocument.kraPin || 'N/A'}}</p>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="pos-receipt-content">
+                    <table class="table small table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>QTY</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item, index) in salesDocument.orderItems" :key="index" >
+                            <td class="no-borders">
+                                {{item.productName}}
+                            </td>
+                            <td class="no-borders">
+                                {{item.qty || 1}}
+                            </td>
+                            <td class="no-borders">
+                                {{item.price | currency}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="no-borders"><strong>Total</strong></td>
+                            <td class="no-borders"><strong>{{salesDocument.total | currency}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="no-borders"><strong>Cash</strong></td>
+                            <td class="no-borders"><strong>{{salesDocument.tenderedAmount | currency}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="no-borders"><strong>Change</strong></td>
+                            <td class="no-borders"><strong>{{salesDocument.changeAmount | currency}}</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="pos-receipt-footer">
+                    <p class="text-center"> <strong>Served by</strong> : {{salesDocument.cashierFirstName + ' ' + salesDocument.cashierLastName}} </p>
+                    <h3 class="text-center">Thank You</h3>
+                </div>
+            </div>
+
+
+
+
             <table cellpadding="0" cellspacing="0">
                 <tr class="top">
                     <td colspan="5">
