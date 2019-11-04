@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid p-sm">
-        <div class="col-lg-10 col-lg-push-1 col-xs-12">
+        <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-3">
                     <router-link to="/pos" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </router-link>
@@ -11,17 +11,17 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="row">
-                <div class="col-xs-9 border-right">
+                <div class="col-xs-8 border-right">
                     <div class="row" id="receipt">
-                        <div class="col-xs-10 col-xs-push-1" >
-                            <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none; width : 340px " >
+                        <div class="col-xs-12" >
+                            <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="border: none;" >
                                 <spinner v-if="loading"/>
                                 <sales-document  :document="receipt" v-if="!validator.isEmptyObject(receipt)"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-3 ">
+                <div class="col-xs-4">
                     <div class="ibox-content" style="border: none">
                         <div class="row">
                             <div class="col-xs-12">
