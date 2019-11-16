@@ -572,9 +572,11 @@
                 }
             },
             addItemAsCustom : function(product){
-                alert('isCustom true');
                 let prod= {...product};
-                prod.isCustomFull = true;
+                prod.unitPrice = product.price;
+                prod.sellAs = 'FULL';
+                prod.measurement = 1;
+                // prod.isCustomFull = true;
                 this.addItem(prod)
             },
             addSubProducts : function(){
