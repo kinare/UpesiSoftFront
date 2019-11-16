@@ -87,6 +87,17 @@
                             </div>
                         </div>
 
+                        <!--customer-->
+                        <div class="col-lg-3" v-if="can('view', 'customers')">
+                            <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/customer-management')">
+                                <div class="m-b-md">
+                                    <i class="fa fa-user-alt fa-4x" style="color: #42b993"></i>
+                                    <h3 class="p-xs">Customers</h3>
+                                    <small class="tile-subtext">Manage and create Customers</small>
+                                </div>
+                            </div>
+                        </div>
+
                         <!--user-->
                         <div v-if="can('view', 'users')"  class="col-lg-3"><!-- -->
                             <div class="widget white-bg user-tile p-lg text-center" @click="$router.push('/dashboard/user-management')">

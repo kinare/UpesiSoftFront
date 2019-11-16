@@ -1,5 +1,5 @@
 <template>
-    <div class="col-xs-10 col-xs-push-1 m-b-md m-t-md">
+    <div class="col-xs-12 m-b-md m-t-md">
         <div class="row">
             <div class="col-xs-3">
                 <a @click="$router.push('/pos')" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
@@ -10,13 +10,13 @@
         </div>
         <div class="hr-line-dashed"></div>
         <div class="row">
-            <div class="col-xs-8" >
-                <div class="ibox-content p-xl pos-invoice style-1" :class="loading ? 'sk-loading' : ''" style="height: 80vh; overflow-y: scroll" id="invoice">
+            <div class="col-xs-9" >
+                <div class="ibox-content p-xl pos-invoice style-1" :class="loading ? 'sk-loading' : ''" style="height: 80vh; overflow-y: scroll; border: none" id="invoice">
                     <spinner v-if="loading"/>
                     <sales-document  :document="invoice" v-if="!validator.isEmptyObject(invoice)"/>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="row">
                     <div class="row">
                         <div class="col-xs-12">

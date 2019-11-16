@@ -231,6 +231,28 @@ const  router = new Router({
                         ]
                     },
                     {
+                        path : 'customer-management',
+                        components : {
+                            side : () => import('./views/customer manager/CustomerMgtSide'),
+                            content : () => import('./views/customer manager/CustomerManager'),
+                        },
+                        meta : { breadcrumb : 'accounting'},
+                        children : [
+                            {
+                                path : '',
+                                redirect : '/dashboard/customer-management/customer'
+                            },
+                            {
+                                path : 'customer',
+                                components : {
+                                    view : () => import('./views/customer manager/Customer')
+                                },
+
+                                meta : { breadcrumb : 'Customer'},
+                            }
+                        ]
+                    },
+                    {
                         path : 'integration-management',
                         components : {
                             side : () => import('./views/integration manager/IntegrationMgtSide'),

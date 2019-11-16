@@ -26,7 +26,7 @@
                                         <small>{{item.productShortDescription}}</small>
                                     </td>
 
-<!--                                    QTY-->
+                                    <!--                                    QTY-->
                                     <td class="text-left">
                                         <input v-if="selected === index && !item.subproduct"
                                                :disabled="item.subproduct"
@@ -39,7 +39,7 @@
                                         <span v-else>{{item.qty}}</span>
                                     </td>
 
-<!--                                    unit of measure-->
+                                    <!--                                    unit of measure-->
                                     <td class="text-left">
                                         <div v-if="selected === index && item.sellAs !== 'FULL'" class="input-group">
                                             <input  v-on:change="fieldUpdate(index, 'UNIT')"
@@ -60,7 +60,7 @@
                                         <span v-else><span v-if="item.soldMeasurement !== '' && item.soldMeasurement !== null">{{item.soldMeasurement | number }}</span>  {{item.measurementAbbreviation}}</span>
                                     </td>
 
-<!--                                    unit price-->
+                                    <!--                                    unit price-->
                                     <td class="text-left">
                                         <input v-on:change="fieldUpdate(index, 'UNIT_PRICE')"
                                                v-if="selected === index"
@@ -69,7 +69,7 @@
                                                v-model="item.unitPrice"
                                                style="width: 20px;"
                                         >
-                                        <span v-else>{{item.unitPrice | currency}}</span>
+                                        <span v-else>{{item.primaryProductId}}{{item.unitPrice | currency}}</span>
                                     </td>
 
 <!--                                    price adjustment-->
