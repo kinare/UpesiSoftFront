@@ -41,7 +41,7 @@
 
                                     <!--                                    unit of measure-->
                                     <td class="text-left">
-                                        <div v-if="selected === index && item.sellAs !== 'FULL'" class="input-group">
+                                        <div v-if="selected === index && item.sellAs !== 'FULL' && !item.isCustomFull" class="input-group">
                                             <input  v-on:change="fieldUpdate(index, 'UNIT')"
                                                     :disabled="item.sellAs === 'FULL'"
                                                     aria-describedby="basic-addon2"
@@ -63,13 +63,15 @@
                                     <!--                                    unit price-->
                                     <td class="text-left">
                                         <input v-on:change="fieldUpdate(index, 'UNIT_PRICE')"
-                                               v-if="selected === index"
+                                               v-if="selected === index && !item.isCustomFull"
                                                type="number" min="1"
                                                class="form-control input-sm"
                                                v-model="item.unitPrice"
                                                style="width: 20px;"
+                                               :disabled="item.isCustomFull"
                                         >
-                                        <span v-else>{{item.primaryProductId}}{{item.unitPrice | currency}}</span>
+
+                                        <span v-else>{{item.isCustomFull ? item.price : item.unitPrice | currency}}</span>
                                     </td>
 
 <!--                                    price adjustment-->
@@ -277,49 +279,50 @@
                         <h4 class="modal-title">{{subProduct.productName}} &nbsp; <span class="badge badge-primary">Full : {{subProduct.qty}}</span> &nbsp; <span class="badge badge-primary">Pieces : {{subProduct.pieces}}</span> </h4>
                         <small class="font-bold">{{subProduct.productDescription}}</small>
                     </div>
-                    <div class="modal-body style-1" style="height: 400px; overflow-y: scroll">
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="row">
-                                    <form>
-                                        <div class="input-group-sm">
-                                            <input type="text" placeholder="Search Item" v-model="subterm" class="form-control">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <button @click="addItem(subProduct); showModal = false"  class="btn btn-primary btn-lg btn-block">Select {{subProduct.productName + '(Full)'}}</button>
+                                <form>
+                                    <div class="input-group-lg">
+                                        <input type="text" placeholder="Search Item" v-model="subterm" class="form-control">
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="ibox-content" :class="loading ? 'sk-loading' : ''" style="background-color: #FAFBFB; border: none;">
-                                    <Spinner v-if="loading"/>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <td><input type="checkbox" value="All" v-model="selectedAllSubProducts" class="check-control"></td>
-                                                    <th>Name</th>
-                                                    <th>Units</th>
-                                                    <th>Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(product, index) in filteredSubProducts" v-bind:key="index">
-                                                    <td><input type="checkbox" :value="product" v-model="selectedSubProducts" class="check-control"></td>
-                                                    <td>{{product.productName}}</td>
-                                                    <td>{{product.measurement | number}} {{product.measurementAbbreviation}}</td>
-                                                    <td>{{product.price | currency}}</td>
-                                                </tr>
-                                            <tr>
-                                                <td colspan="4" v-if="validator.isEmptyObject(subProducts)" class="text-center">No Sub-products Found</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button @click="addItemAsCustom(subProduct)"  class="btn btn-primary btn-outline btn-lg btn-block">Select {{subProduct.productName + '(Full)'}}</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button @click="addItem(subProduct)"  class="btn btn-primary btn-outline btn-lg btn-block">Select {{subProduct.productName + '(Custom)'}}</button>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox-content style-1" :class="loading ? 'sk-loading' : ''" style="height: 200px; overflow-y: scroll; background-color: #FAFBFB; border: none;">
+                            <Spinner v-if="loading"/>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <td><input type="checkbox" value="All" v-model="selectedAllSubProducts" class="check-control"></td>
+                                        <th>Name</th>
+                                        <th>Units</th>
+                                        <th>Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(product, index) in filteredSubProducts" v-bind:key="index">
+                                        <td><input type="checkbox" :value="product" v-model="selectedSubProducts" class="check-control"></td>
+                                        <td>{{product.productName}}</td>
+                                        <td>{{product.measurement | number}} {{product.measurementAbbreviation}}</td>
+                                        <td>{{product.price | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" v-if="validator.isEmptyObject(subProducts)" class="text-center">No Sub-products Found</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -524,6 +527,7 @@
         },
         methods : {
             addItem : function (product) {
+                this.showModal = false
 
                 // check for item in sale
                 let item = this.items.filter(item => item.id === product.id)
@@ -566,6 +570,12 @@
                         this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                     }
                 }
+            },
+            addItemAsCustom : function(product){
+                alert('isCustom true');
+                let prod= {...product};
+                prod.isCustomFull = true;
+                this.addItem(prod)
             },
             addSubProducts : function(){
                 this.selectedSubProducts.forEach(product => {

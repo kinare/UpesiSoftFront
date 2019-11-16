@@ -1,17 +1,8 @@
 <template>
-    <div class="col-xs-10 col-xs-push-1 m-b-md m-t-md">
-        <div class="row">
-            <div class="col-xs-3">
-                <a @click="$router.go(-1)" class="btn btn-white btn-lg pull-left"><i class="fa fa-arrow-left"></i> Back </a>
-            </div>
-            <div class="col-xs-6">
-                <h2 class="text-center" style="margin-top: 10px">Customers</h2>
-            </div>
-        </div>
-        <div class="hr-line-dashed"></div>
+    <div class="col-xs-12 m-b-md m-t-md">
         <div class="ibox-content" style="border : none;" :class="loading ? 'sk-loading' : ''">
             <spinner v-if="loading"/>
-<!--            add customer-->
+            <!--            add customer-->
             <div v-else class="row">
                 <div class="col-md-4">
                     <div class="ibox">
@@ -61,7 +52,7 @@
                                 </div>
                             </div>
 
-<!--                            last Name-->
+                            <!--                            last Name-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerLastName.status">
                                     <label class="control-label">Last Name</label>
@@ -71,7 +62,7 @@
                             </div>
                         </div>
 
-<!--                        Email-->
+                        <!--                        Email-->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerEmail.status">
@@ -106,7 +97,7 @@
 
                         <div class="row">
 
-<!--                            KRA-->
+                            <!--                            KRA-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.kraPin.status">
                                     <label class="control-label">KRA PIN</label>
@@ -115,7 +106,7 @@
                                 </div>
                             </div>
 
-<!--                            Postal Address-->
+                            <!--                            Postal Address-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerPostalAddress.status">
                                     <label class="control-label">Postal Address</label>
@@ -127,7 +118,7 @@
 
                         <div class="row">
 
-<!--                            Physical Address-->
+                            <!--                            Physical Address-->
                             <div class="col-md-6">
                                 <div class="form-group" :class="formDataError.customerAddress.status">
                                     <label class="control-label">Physical Address</label>
@@ -370,8 +361,8 @@
 
                         <div class="row">
                             <div class="form-group">
-                                <a v-if="mode === 'edit'" class="btn btn-lg btn-primary btn-block" @click.prevent="updateCustomer"><i class="fa fa-user-plus"></i> Add Customer</a>
-                                <a v-else class="btn btn-lg btn-primary btn-block" @click.prevent="addCustomer"><i class="fa fa-user-plus"></i> Add Customer</a>
+                                <a v-if="mode === 'edit'" class="btn btn-lg btn-primary btn-block" @click.prevent="updateCustomer"><i class="fa fa-save"></i> Save</a>
+                                <a v-else class="btn btn-lg btn-primary btn-block" @click.prevent="addCustomer"><i class="fa fa-user-plus"></i> Add</a>
                             </div>
                         </div>
                     </form>
@@ -384,8 +375,9 @@
 <script>
     import { mapState, mapGetters } from 'vuex'
     import Spinner from "../../components/Spinner";
+
     export default {
-        name: "CustomerCard",
+        name: "Card",
         components: {Spinner},
         data : function () {
             return {
@@ -464,35 +456,35 @@
             }
         },
         beforeRouteEnter(to, from, next){
-          next(v => {
-              if (to.params.id){
-                  v.formData = v.getCustomer(to.params.id)
-                  v.customer = {}
-                  v.mode = 'edit'
-              }
-          })
+            next(v => {
+                if (to.params.id){
+                    v.formData = v.getCustomer(to.params.id)
+                    v.customer = {}
+                    v.mode = 'edit'
+                }
+            })
         },
         computed : {
-          ...mapState('pos',{
-              message : state => state.message,
-              loading : state => state.loading,
-              status : state => state.status,
-              customers : state => state.customers
-          }),
-            ...mapGetters('pos',[
+            ...mapState('customer',{
+                message : state => state.message,
+                loading : state => state.loading,
+                status : state => state.status,
+                customers : state => state.customers
+            }),
+            ...mapGetters('customer',[
                 'getCustomer'
             ])
         },
         methods : {
-          addCustomer : function () {
-              // validate data
-              let res = window.validator.fields(this.formData, this.rules, this.formDataError)
-              if (res.hasErrors){
-                  this.formDataError = res.errors;
-              } else {
-                  this.$store.dispatch('pos/newCustomer', window.helper.prepareFormData(this.formData))
-              }
-          },
+            addCustomer : function () {
+                // validate data
+                let res = window.validator.fields(this.formData, this.rules, this.formDataError)
+                if (res.hasErrors){
+                    this.formDataError = res.errors;
+                } else {
+                    this.$store.dispatch('pos/newCustomer', window.helper.prepareFormData(this.formData))
+                }
+            },
             handleFileUpload(){
                 this.formData.customerProfilePicture = this.$refs.file.files[0];
                 this.url = URL.createObjectURL(this.formData.customerProfilePicture);
@@ -500,12 +492,10 @@
             updateCustomer : function () {
                 //todo update customer endpoint
             }
-        },
+        }
     }
 </script>
 
 <style scoped>
-    input[type="file"] {
-        display: none;
-    }
+
 </style>

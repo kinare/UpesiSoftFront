@@ -117,101 +117,77 @@
         </div>
 
 <!--        invoice view-->
-        <div v-else class="invoice-box">
-            <table cellpadding="0" cellspacing="0">
-                <tr class="top">
-                    <td colspan="5">
-                        <table>
-                            <tr>
-                                <td class="title">
-                                    <img :src="business.businessLogoImage" style="width:100%; max-width:150px;">
-                                </td>
+        <div v-else class="ibox-content p-xl">
+            <div class="row m-b-md">
+                <div class="col-xs-6">
+                    <img :src="business.businessLogoImage"  width="200">
+                </div>
+                <div class="col-xs-6">
+                    <div class="content pull-right text-left">
+                        {{salesDocument.orderType | capitalize}} #: {{salesDocument.id}}<br>
+                        Date: {{salesDocument.createdAt}}
+                    </div>
+                </div>
+            </div>
 
-                                <td>
-                                    {{salesDocument.orderType | capitalize}} #: {{salesDocument.id}}<br>
-                                    Date: {{salesDocument.createdAt}}<br>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="margin-bottom: 0"><strong>{{business.businessName}}</strong></h2><br>
+                    <small><i>{{business.businessTagline}}</i></small><br>
+                    {{business.businessPostalAddress}}, {{business.businessCountry}}<br>
+                    {{business.businessPhysicalAddress}},<br>
+                    {{business.businessPhoneNumber}}<br>
+                    KRA : {{business.businessKraPin}}<br>
+                </div>
 
-                <tr class="information">
-                    <td colspan="5">
-                        <table>
-                            <tr>
-                                <td>
-                                    <h2 style="margin-bottom: 0"><strong>{{business.businessName}}</strong></h2><br>
-                                    <small><i>{{business.businessTagline}}</i></small><br>
-                                    {{business.businessPostalAddress}}, {{business.businessCountry}}<br>
-                                    {{business.businessPhysicalAddress}},<br>
-                                    {{business.businessPhoneNumber}}<br>
-                                    KRA : {{business.businessKraPin}}<br>
-                                </td>
+                <div class="col-sm-6 text-right">
+                    <strong>To</strong><br>
+                    <strong>{{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</strong><br>
+                    +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
+                    {{salesDocument.customerEmail}}<br>
+                    {{salesDocument.customerPostalAddress}}<br>
+                    PIN : {{salesDocument.kraPin || 'N/A'}}
+                </div>
+            </div>
 
-                                <td>
-                                    <strong>To</strong><br>
-                                    <strong>{{salesDocument.customerIsBusiness ? salesDocument.customerBusinessName : salesDocument.customerFirstName + ' ' + salesDocument.customerLastName}}</strong><br>
-                                    +{{salesDocument.customerCountryCode + salesDocument.customerPhoneNumber}}<br>
-                                    {{salesDocument.customerEmail}}<br>
-                                    {{salesDocument.customerPostalAddress}}<br>
-                                    PIN : {{salesDocument.kraPin || 'N/A'}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h2 style="text-align: center"><strong>{{salesDocument.orderType}}</strong></h2>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+            <div class="table-responsive m-t">
+                <table class="table invoice-table">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Item</th>
+                        <th>QTY</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="item" v-for="(item, index) in salesDocument.orderItems" :key="index">
+                            <td>{{index + 1}}</td>
+                            <td>{{item.productName}}</td>
+                            <td>{{item.qty || 1}}</td>
+                            <td>{{item.productDefaultPrice | currency}}</td>
+                            <td>{{item.price | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><!-- /table-responsive -->
 
-                <tr class="heading">
-                    <td>
-                        No.
-                    </td>
-                    <td>
-                        Item
-                    </td>
-                    <td>
-                        QTY
-                    </td>
-                    <td class="print-hide">
-                        Unit Price
-                    </td>
-                    <td>
-                        Total
-                    </td>
-                </tr>
-
-                <tr class="item" v-for="(item, index) in salesDocument.orderItems" :key="index">
-                    <td>{{index + 1}}</td>
-                    <td>{{item.productName}}</td>
-                    <td>{{item.qty || 1}}</td>
-                    <td>{{item.productDefaultPrice | currency}}</td>
-                    <td>{{item.price | currency}}</td>
-                </tr>
-
-                <tr class="total">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        Total: {{salesDocument.total | currency}}
-                    </td>
-                </tr>
+            <table class="table invoice-total">
+                <tbody>
                 <tr>
-                    <td style="text-align: left" colspan="4">
-                        Prepared by : <u>{{salesDocument.cashierFirstName + ' ' +salesDocument.cashierLastName}}</u>
-                    </td>
+                    <td><strong>Total :</strong></td>
+                    <td>{{salesDocument.total | currency}}</td>
                 </tr>
+                </tbody>
             </table>
-            <div class="well m-t-lg">
+            <div>
+                Prepared by : <u>{{salesDocument.cashierFirstName + ' ' +salesDocument.cashierLastName}}</u>
+            </div>
+
+            <div class="well m-t">
                 <strong>Terms & Conditions</strong>
                 <div :v-html="business.businessTerms"></div>
-
             </div>
         </div>
     </div>
@@ -219,7 +195,6 @@
 
 <script>
     import SalesDoc from '../modules/plugins/SalesDocument'
-
     export default {
         name: "SalesDocument",
         props : ['document'],

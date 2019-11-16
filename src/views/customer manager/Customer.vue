@@ -40,14 +40,14 @@
                             </thead>
                             <tbody>
                             <tr v-for="(customer, index) in filteredCustomers" :key="index"  style="cursor: pointer" title="Click to select customer">
-                                <td>{{index + 1}}</td>
-                                <td>{{customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName + ' ' + customer.customerLastName}}</td>
-                                <td>+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
-                                <td>{{customer.customerEmail}}</td>
-                                <td><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
+                                <td @click="selectCustomer(customer)" >{{index + 1}}</td>
+                                <td @click="selectCustomer(customer)" >{{customer.isBusiness ? customer.customerBusinessName : customer.customerFirstName + ' ' + customer.customerLastName}}</td>
+                                <td @click="selectCustomer(customer)" >+{{customer.customerCountryCode + ' ' + customer.customerPhoneNumber}}</td>
+                                <td @click="selectCustomer(customer)" >{{customer.customerEmail}}</td>
+                                <td @click="selectCustomer(customer)" ><span class="badge" :class="customer.isBusiness ? 'badge-primary' : 'badge-info' ">{{customer.isBusiness ? 'Business' : 'individual'}}</span> </td>
                                 <td >
                                     <a v-if="canView" @click="selectedCustomer = customer" class="btn btn-xs btn-white"  data-toggle="modal" data-target="#customerCard"><i class="fa fa-eye text-success"></i> &nbsp; view</a>
-<!--                                    <a v-if="canDelete" @click="removeCustomer(customer.id)" class="btn btn-xs btn-white" ><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>-->
+                                    <a v-if="canDelete" @click="removeCustomer(customer.id)" class="btn btn-xs btn-white" ><i class="fa fa-trash text-danger"></i> &nbsp; remove</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -68,7 +68,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 text-right">
-<!--                                <router-link data-dismiss="modal" :to="'/pos/customer/card/' + selectedCustomer.id" class="btn btn-white" ><i class="fa fa-edit"></i> Edit</router-link>-->
+                                <router-link data-dismiss="modal" :to="'/dashboard/customer-management/customer/card/' + selectedCustomer.id" class="btn btn-white" ><i class="fa fa-edit"></i> Edit</router-link>
                             </div>
                         </div>
                         <div class="row">
@@ -154,7 +154,7 @@
         },
         methods : {
             selectCustomer : function (customer) {
-                this.selectedCustomer = customer;
+                this.$router.push(`/dashboard/customer-management/customer/card/${customer.id}`);
             },
 
             removeCustomer : function (id) {

@@ -245,10 +245,17 @@ const  router = new Router({
                             {
                                 path : 'customer',
                                 components : {
-                                    view : () => import('./views/customer manager/Customer')
+                                    view : () => import('./views/customer manager/Customer'),
+                                    action : () => import('./views/customer manager/Menu'),
                                 },
-
                                 meta : { breadcrumb : 'Customer'},
+                            },
+                            {
+                                path : 'customer/card/:id?',
+                                components : {
+                                    view : () => import('./views/customer manager/Card')
+                                },
+                                meta : { breadcrumb : 'Card'},
                             }
                         ]
                     },

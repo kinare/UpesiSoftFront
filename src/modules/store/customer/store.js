@@ -23,7 +23,15 @@ export default {
             state.customers = customers
         }
     },
-    getters : {},
+    getters : {
+        getCustomer : (state) =>{
+            return (id) =>{
+                return state.customers.filter(cust => {
+                    return cust.id === parseInt(id);
+                })[0]
+            }
+        }
+    },
     actions: {
         getCustomers : (context) => {
             context.commit('SET_LOADING', true);

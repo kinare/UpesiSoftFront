@@ -62,7 +62,8 @@
         data : function(){
             return {
                 today : new Date(),
-                options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+                options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+                validate : window.validator
             }
         },
         beforeCreate() {
@@ -70,18 +71,20 @@
         },
         computed : {
             crumbs : function() {
-                let pathArray = this.$route.path.split("/")
-                pathArray.shift()
+                let pathArray = this.$route.path.split("/");
+                if (!this.validate.isEmptyObject(this.$route.params)){
+                    pathArray.pop();
+                }
+                pathArray.shift();
                 let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
                     breadcrumbArray.push({
-                        path: path,
-                        to: this.$route.matched[idx + 1].path,
-                        text: this.$route.matched[idx + 1].meta.breadcrumb || path,
+                        path: path ? path : '/',
+                        to: this.$route.matched[idx + 1] ? this.$route.matched[idx + 1].path : '',
+                        text: this.$route.matched[idx + 1] ? this.$route.matched[idx + 1].meta.breadcrumb || path : '',
                     });
                     return breadcrumbArray;
-                }, [])
-
-                breadcrumbs.splice(0, 1)
+                }, []);
+                breadcrumbs.splice(0, 1);
                 return breadcrumbs;
             }
         },

@@ -180,7 +180,7 @@
                                                             </div>
                                                         </div>
                                                         <div v-popover:tooltip.top="'Maximum Price for product'" class="form-group" :class="formDataError.maxPrice.status">
-                                                            <label class="col-sm-4 control-label">Price Per unit</label>
+                                                            <label class="col-sm-4 control-label">Maximum Price</label>
                                                             <div class="col-sm-8">
                                                                 <input  type="number" class="form-control" v-model="formData.maxPrice">
                                                                 <span class="help-block">
@@ -189,7 +189,7 @@
                                                             </div>
                                                         </div>
                                                         <div v-popover:tooltip.top="'Mimimum Price for the product'" class="form-group" :class="formDataError.minPrice.status">
-                                                            <label class="col-sm-4 control-label">Price Per unit</label>
+                                                            <label class="col-sm-4 control-label">Minimum Price</label>
                                                             <div class="col-sm-8">
                                                                 <input  type="number" class="form-control" v-model="formData.minPrice">
                                                                 <span class="help-block">
