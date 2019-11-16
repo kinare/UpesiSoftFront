@@ -24,6 +24,9 @@ const listener = {
         Event.$on('customerAdded', () => {
             this.$router.push('/pos/customers')
         });
+        Event.$on('customerAdded2', () => {
+            this.$router.push('/dashboard/customer-management/customer')
+        });
 
         Event.$on('ApiError', (status, messsage) => {
             let toastObject = {

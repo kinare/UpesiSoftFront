@@ -482,7 +482,7 @@
                 if (res.hasErrors){
                     this.formDataError = res.errors;
                 } else {
-                    this.$store.dispatch('pos/newCustomer', window.helper.prepareFormData(this.formData))
+                    this.$store.dispatch('customer/newCustomer', window.helper.prepareFormData(this.formData))
                 }
             },
             handleFileUpload(){

@@ -47,7 +47,7 @@ export default {
             commit('SET_LOADING', true);
             window.api.call('post', endpoint.insertCustomer, data).then(() =>{
                 dispatch('getCustomers');
-                Event.$emit('customerAdded');
+                Event.$emit('customerAdded2');
             }).catch(error => {
                 commit('SET_MESSAGE', {  message : error.response.data.message, status : 'alert-warning'});
                 commit('SET_LOADING', false);
