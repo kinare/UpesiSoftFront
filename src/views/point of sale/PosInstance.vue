@@ -594,7 +594,6 @@
             getSubProducts : function(product){
                 this.subProduct = product;
                 this.$store.commit('inventory/SET_SUB_PRODUCTS', []);
-
                 if(product.pieces !== 0)
                     this.$store.dispatch('inventory/getSubProducts', product.id);
 

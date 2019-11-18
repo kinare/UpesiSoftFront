@@ -68,7 +68,7 @@
                             <tr v-for="(item, index) in salesDocument.orderItems" :key="index" >
                                 <td> {{item.productName}}</td>
                                 <td>{{item.qty || 1}}</td>
-                                <td>{{item.productDefaultPrice | currency}}</td>
+                                <td>{{item.unitPrice | currency}}</td>
                                 <td> {{item.price | currency}}</td>
                             </tr>
                             </tbody>
@@ -166,7 +166,7 @@
                             <td>{{index + 1}}</td>
                             <td>{{item.productName}}</td>
                             <td>{{item.qty || 1}}</td>
-                            <td>{{item.productDefaultPrice | currency}}</td>
+                            <td>{{item.unitPrice | currency}}</td>
                             <td>{{item.price | currency}}</td>
                         </tr>
                     </tbody>
