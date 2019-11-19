@@ -61,6 +61,7 @@
                                 <th>Item</th>
                                 <th>QTY</th>
                                 <th>Unit Price</th>
+                                <th>Discount</th>
                                 <th>Price</th>
                             </tr>
                             </thead>
@@ -69,6 +70,7 @@
                                 <td> {{item.productName}}</td>
                                 <td>{{item.qty || 1}}</td>
                                 <td>{{item.unitPrice | currency}}</td>
+                                <td>{{item.discount | currency}}</td>
                                 <td> {{item.price | currency}}</td>
                             </tr>
                             </tbody>
@@ -155,18 +157,20 @@
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Item</th>
+                        <th class="text-left">Item</th>
                         <th>QTY</th>
                         <th>Unit Price</th>
+                        <th class="text-right">Discount</th>
                         <th>Total</th>
                     </tr>
                     </thead>
                     <tbody>
                         <tr class="item" v-for="(item, index) in salesDocument.orderItems" :key="index">
                             <td>{{index + 1}}</td>
-                            <td>{{item.productName}}</td>
+                            <td class="text-left">{{item.productName}}</td>
                             <td>{{item.qty || 1}}</td>
                             <td>{{item.unitPrice | currency}}</td>
+                            <td class="text-right">{{item.discount | currency}}</td>
                             <td>{{item.price | currency}}</td>
                         </tr>
                     </tbody>
