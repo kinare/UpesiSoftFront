@@ -4675,7 +4675,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
 }
 .invoice-table thead > tr > th:last-child,
 .invoice-table thead > tr > th:nth-child(4),
-.invoice-table thead > tr > th:nth-child(3), {
+.invoice-table thead > tr > th:nth-child(3) {
     text-align: right;
 }
 .invoice-table thead > tr > th:nth-child(2),

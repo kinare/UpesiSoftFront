@@ -527,8 +527,7 @@
         },
         methods : {
             addItem : function (product) {
-                this.showModal = false
-
+                this.showModal = false;
                 // check for item in sale
                 let item = this.items.filter(item => item.id === product.id)
 
@@ -549,10 +548,6 @@
                     prod.discount = 0;
                     this.$store.commit(this.namespace + '/SET_ITEMS', prod)
                 }else {
-                    if (item[0].sellAs === "FULL"){
-                        item[0].qty++ ; // get item
-                        item[0].price = item[0].qty * item[0].unitPrice ; // get item
-                    } else {
                         let prod = {...product};
                         prod.productId = product.subproduct ? this.subProduct.id  : prod.id;
                         product.subproduct = product.subproduct ? true : false
@@ -568,7 +563,6 @@
                         prod.itemPrice = prod.price;
                         prod.discount = 0;
                         this.$store.commit(this.namespace + '/SET_ITEMS', prod)
-                    }
                 }
             },
             addItemAsCustom : function(product){
@@ -576,6 +570,7 @@
                 prod.unitPrice = product.price;
                 prod.sellAs = 'FULL';
                 prod.measurement = 1;
+                prod.isfullCustom = true;
                 // prod.isCustomFull = true;
                 this.addItem(prod)
             },
